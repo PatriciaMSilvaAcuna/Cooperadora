@@ -2,8 +2,8 @@
 $conexion=mysqli_connect("localhost","root","","cooperadora") or
     die("Problemas con la conexión");
 
-$registros=mysqli_query($conexion,"select *,id_Empleado,
-                        usuario, contrasena, id_Tipo_de_usuario from empleado where usuario ='$_REQUEST[usuario]' and contrasena = '$_REQUEST[contrasena]'") or
+$registros=mysqli_query($conexion,"select *,id_usuario,
+                        Usuario, Contrasena, Id_tipodeusuario from usuario where Usuario ='$_REQUEST[usuario]' and Contrasena = '$_REQUEST[contrasena]'") or
   die ("problemas en el select:".mysqli_error($conexion));
 session_start();
 if ($reg=mysqli_fetch_array($registros))
@@ -11,15 +11,15 @@ if ($reg=mysqli_fetch_array($registros))
 
     if ($reg ['estado'] == 1){
          $_SESSION['usuario'] = $reg['usuario'];
-         $_SESSION['id_Tipo_de_usuario'] = $reg ['id_Tipo_de_usuario'];
-          $_SESSION['id_Empleado'] = $reg ['id_Empleado']; // Almaceno id_Empleado
-            if ($reg['id_Tipo_de_usuario']==1){
+         $_SESSION['Id_tipodeusuario'] = $reg ['Id_tipodeusuario'];
+          $_SESSION['id_usuario'] = $reg ['id_usurio']; // Almaceno id_usuario
+            if ($reg['Id_tipodeusuario']==1){
                 $_SESSION['usuario'];
-                    header('location: ..\Modelo\accesoAceptadoAdmin.php');
+                    header('location: ..\Vista\accesoAceptadoAdmin.html');
                 }
                 else {
                     $_SESSION['usuario'];
-                    header('location: ..\Modelo\accesoAceptadoVendedor.php');
+                    header('location: ..\Vista\accesoAceptadoVendedor.html');
                 }
     }
     else {
