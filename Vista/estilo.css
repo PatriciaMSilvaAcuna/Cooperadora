@@ -5,3 +5,26 @@
 }
 
 #button {background-color: #008CBA;}
+.container-contact100 {
+  width: 100%; /*ancho*/ 
+  min-height: 100vh;/*altura minima, se refiere a la altura del bloque contenedor*/
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;/*se adacta a los diferentes dispositivos*/
+  flex-wrap: wrap;
+  justify-content: center;/*alinea items en el centro*/
+  align-items: center;
+  padding: 15px;/*relleno del cuadro*/
+  background: #e6e6e6;/*color gris muy claro color de fondo del formulario */
+  
+}
+/*estilo para colocarle el tamaño del formulario*/
+.wrap-contact100 {
+  width: 920px;/*ancho del formulario*/
+  background: #fff;/*color blanco de formulario*/
+  border-radius: 50px;/*redondear las esquinas del formulario*/
+  overflow: hidden;
+  padding: 62px 55px 90px 55px;/*crea el espacio o àrea alrededor del contenido de un elemento*/
+}

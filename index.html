@@ -9,18 +9,24 @@
     <title>Cooperadora</title>
 </head>
 <body >
+
 <div class="container-fluid">
-    <div class="row">
+    <div class="row justify-content-center align-items-center">
         <div class="col-md-6 d-flex justify-content-center align-items-center">
             <img src="logo.jpg" class="img-fluid" alt="Logo Institucional">
         </div>
         <div class="col-md-6 d-flex justify-content-center align-items-center">
-            <form action="http://localhost/Cooperadora/Modelo/ingreso.php" method="post" id="ingreso" class="text-center">
-                <h2>Iniciar sesión</h2>
-                <input type="text" name="usuario" placeholder="Nombre de usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required><br><br>
-                <input type="password" name="contrasena" placeholder="Contraseña" pattern="[a-zA-Z0-9$@.-]{7,100}" maxlength="100" required><br><br>
-                <input type="submit" class="btn  btn-custom" id="button" value="Iniciar sesión">
-            </form>
+            <div class="card container p-5 my-5 bg-light text-info">
+                <div class="card-body">
+                    <form action="http://localhost/Cooperadora/Modelo/ingreso.php" method="post" id="ingreso" class="text-center">
+                        <h1 class="card-title">Iniciar sesión</h1>
+                        <br>
+                        <input type="text" class="form-control form-control-lg"name="usuario" placeholder="Nombre de usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required><br><br>
+                        <input type="password" class="form-control form-control-lg"name="contrasena" placeholder="Contraseña" pattern="[a-zA-Z0-9$@.-]{7,100}" maxlength="100" required><br><br>
+                        <input type="submit" class="btn  btn-lg" id="button" value="Iniciar sesión">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
