@@ -1,36 +1,19 @@
 <?php
-$conexion=mysqli_connect("localhost","root","","cooperadora") or
-    die("Problemas con la conexión");
+require_once('conexion.php'); // Nombre del archivo donde conecta a la base de datos
 
-$registros=mysqli_query($conexion,"select id_usuario,
-                        Usuario,contrasenia,Id_tipodeusuario,estado from usuario where Usuario ='$_REQUEST[usuario]' and contrasenia = '$_REQUEST[contrasena]'") or
-  die ("problemas en el select:".mysqli_error($conexion));
-session_start();
-if ($reg=mysqli_fetch_array($registros))
-{
+    $usuario = $_POST['usuario'];
+    $contrasena = $_POST['contrasena'];
+    $conexion = conexion();
 
-    if ($reg ['estado'] == 1){
-         $_SESSION['usuario'] = $reg['usuario'];
-         $_SESSION['Id_tipodeusuario'] = $reg ['Id_tipodeusuario'];
-          $_SESSION['id_usuario'] = $reg ['id_usuario']; // Almaceno id_usuario
-            if ($reg['Id_tipodeusuario']==1){
-                $_SESSION['usuario'];
-                    header('location: ..\Vista\accesoAceptadoAdmin.html');
-                }
-                else {
-                    $_SESSION['usuario'];
-                    header('location: ..\Vista\accesoAceptadoVendedor.html');
-                }
-    }
-    else {
-        echo "No tiene permiso de acceso";
-    }
-    
-  }
+    $query = "SELECT * from usuario WHERE Usuario = '$usuario' AND contrasenia = '$contrasena' AND estado = 1";
+    $result = $conexion -> query($query);
+    if ($result -> num_rows > 0) {
+            session_start();
+            header("Location: ../Vista/accesoAceptadoAdmin.html");
+        } else {
+            header("Location: ../Vista/accesoAceptadoOperador.html");
+    } 
 
-else
-{
-  echo "No existe usuario.";
-}
-mysqli_close($conexion);
+   // mysqli_close($mysqli);
+
 ?>

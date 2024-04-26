@@ -19,10 +19,11 @@
             <div class="card container p-5 my-5 bg-light text-info">
                 <div class="card-body">
                     <form action="http://localhost/Cooperadora/Modelo/ingreso.php" method="post" id="ingreso" class="text-center">
-                        <h1 class="card-title">Iniciar sesión</h1>
+                        <h1 class="card-title">Bienvenido</h1>
                         <br>
-                        <input type="text" class="form-control form-control-lg"name="usuario" placeholder="Nombre de usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required><br><br>
-                        <input type="password" class="form-control form-control-lg"name="contrasena" placeholder="Contraseña" pattern="[a-zA-Z0-9$@.-]{7,100}" maxlength="100" required><br><br>
+                        <input type="text" class="form-control form-control-lg"name="usuario" id="usuario"placeholder="Nombre de usuario" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required><br><br>
+                        <input type="password" class="form-control form-control-lg"name="contrasena" id="contrasena"placeholder="Contraseña" pattern="[a-zA-Z0-9$@.-]{7,100}" maxlength="100" required><br><br>
+                        <a href = "#" class= link> Olvidé mi contraseña</a><br><br>
                         <input type="submit" class="btn  btn-lg" id="button" value="Iniciar sesión">
                     </form>
                 </div>
@@ -32,5 +33,6 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+<script src = "../controlador/loguin.js"></script>
 </body>
 </html>
