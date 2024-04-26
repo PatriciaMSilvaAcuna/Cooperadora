@@ -5,7 +5,7 @@ require_once('conexion.php'); // Nombre del archivo donde conecta a la base de d
     $contrasena = $_POST['contrasena'];
     $conexion = conexion();
 
-    $query = "SELECT * from usuario WHERE Usuario = '$usuario' AND contrasenia = '$contrasena' AND estado = 1";
+    $query = "SELECT * from usuario WHERE Usuario = '$usuario' AND contrasenia = '$contrasena' AND estado = 1 AND Id_tipodeusuario =1";
     $result = $conexion -> query($query);
     if ($result -> num_rows > 0) {
             session_start();
