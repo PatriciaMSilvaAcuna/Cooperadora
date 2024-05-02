@@ -1,6 +1,15 @@
+#button {
+    background-color: #0A16D8;
+    color: #ffffff; /* Color del texto */
+}
 #button:hover {
-    background-color: #008CBA !important; /* Cambia el color del boton */
-    color: #ffffff;
-
+    background-color: blue;
+    color: black; /* Color del texto al pasar el mouse */
 }
 
+.card-title {
+    color: #0000FF; /* Azul */
+}
+#body {
+    background-color: #0A16D8; /* Cambia este valor al color que prefieras */
+}
