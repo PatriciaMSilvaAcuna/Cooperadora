@@ -1,42 +1,32 @@
 <?php
-// buscar_usuario.php
+include_once('conexion.php'); // Nombre del archivo donde conecta a la base de datos
 
-// Verifica si se envió el formulario
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtén el DNI ingresado por el usuario
-    $dni = $_POST['dni'];
+// Verificar la conexión
+//if ($conn->connect_error) {
+    die("Error de conexión: " . $conn->connect_error);
+//}
 
-    // Realiza la búsqueda en la base de datos (debes configurar tus propios datos de conexión)
-    $servername = "localhost";
-    $username = "tu_usuario";
-    $password = "tu_contraseña";
-    $dbname = "nombre_de_la_base_de_datos";
+// Obtener el DNI ingresado por el usuario
+$dni = $_POST['dni'];
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+// Consulta SQL para buscar usuarios por DNI
+$sql = "SELECT * FROM usuarios WHERE dni = '$dni'";
+$result = $conn->query($sql);
 
-    if ($conn->connect_error) {
-        die("Error de conexión: " . $conn->connect_error);
+if ($result->num_rows > 0) {
+    // Mostrar los resultados
+    while ($row = $result->fetch_assoc()) {
+        echo "Nombre: " . $row['nombre'] . "<br>";
+        echo "Apellido: " . $row['apellido'] . "<br>";
+        // Agrega más campos según tu estructura de tabla
+
+        // Botón para seleccionar este usuario
+        echo '<a href="editar_usuario.php?id=' . $row['id'] . '">Seleccionar</a>';
+        echo "<hr>";
     }
-
-    // Consulta para buscar el usuario por DNI
-    $sql = "SELECT id, nombre, email FROM usuarios WHERE dni = '$dni'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        // El usuario fue encontrado
-        $row = $result->fetch_assoc();
-        $idUsuario = $row['id'];
-        $nombreUsuario = $row['nombre'];
-        $emailUsuario = $row['email'];
-
-        echo "Usuario encontrado:<br>";
-        echo "ID: $idUsuario<br>";
-        echo "Nombre: $nombreUsuario<br>";
-        echo "Email: $emailUsuario<br>";
-    } else {
-        echo "Usuario no encontrado.";
-    }
-
-    $conn->close();
+} else {
+    echo "No se encontraron usuarios con ese DNI.";
 }
+// Cerrar la conexión
+$conn->close();
 ?>
