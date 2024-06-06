@@ -6,16 +6,10 @@ x.ready(iniciar);/*ready es una funcion del jQuery permite la activacion del cod
 function iniciar()/*funcion para darle arranque al formulario*/
 {
     getTipoUsuario();/*llamamos a la funciones*/
-  
-        
     
-    
-    
-   
     $('#darAlta').on('click',saveNewUser);
     //$('#getUser').on('click',saveNewUser);
-    $('#update').on('click',updateUsuario);
-    //$('#deleteProduct').on('click',deleteProduct);
+   $('#eliminar').on('click',limpiarForm);
 }
 
 
@@ -73,19 +67,16 @@ function saveNewUser() {
     let data = $('#formulario').serialize();
     console.log("Respuesta del servidor:", data); // Imprime la respuesta en la consola
 
-    data += "&function=";
+    data += "&function=1";
 
     $.ajax({
         type: 'POST',
         url: '../Modelo/usuario.php',
         data: data,
         dataType: 'JSON',
-        success: function (data) {
-            if (data.status === 'success') {
-                alert("Usuario guardado con Éxito");
-            } else {
-                alert("Hubo un error al guardar el usuario. Por favor, inténtalo nuevamente.");
-            }
+        success: function(response) {
+          console.log("saveNewUser",response);
+
            // getUser();
             limpiarForm();
         }
@@ -125,13 +116,13 @@ function getUser(){
             $('#usuarios').html(tabla);
         }
 });
-
+ 
 }
 function limpiarForm(){/*limpia el formulario*/
+    console.log("Limpieza de form");
     $('#usuario').prop('value','');
     $('#contrasenia').prop('value','');
     $('#dni').prop('value','');
-    $('#tipoUsuario').prop('value','');
-    
+   
 }
 

@@ -10,7 +10,7 @@ $result = $conexion->query($query);
 
 if ($result->num_rows > 0) {
     $usuarioData = $result->fetch_assoc();
-    $idUsuario = $usuarioData['Id_usuario'];
+     $Id_tipoUsuario = $usuarioData['Id_tipoUsuario'];
     
     // Iniciar una nueva sesión o reanudar la existente
     session_start();
@@ -23,9 +23,9 @@ if ($result->num_rows > 0) {
     header("Pragma: no-cache");
 
     // Redirigir al usuario a la página correspondiente
-    if ($idUsuario == 1) {
+    if ($Id_tipoUsuario == 1) {
         header("Location: ../Vista/accesoAceptadoAdmin.html");
-    } elseif ($idUsuario == 2) {
+    } elseif ($Id_tipoUsuario == 2) {
         header("Location: ../Vista/accesoAceptadoOperador.html");
     } else {
         // Redirigir a una página de error o manejar otro caso
