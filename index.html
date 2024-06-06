@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="Vista/estilo.css">
-    <link rel="icon" href="logo.jpg" type="image/x-icon">
+    <link rel="icon" href="logo.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -21,7 +21,7 @@
         <div class="col-md-6 d-flex justify-content-center align-items-center">
             <div class="card container p-5 my-5 bg-light text-primary" id="card" style="width: 500px;">
                 <div class="card-body">
-                    <form action="http://localhost/Cooperadora/Modelo/ingreso.php" method="post" id="ingreso" class="text-center">
+                    <form action="Modelo/ingreso.php" method="post" id="ingreso" class="text-center">
                         <h1 class="card-title">Bienvenido</h1>
                         <br>
                         <div class="input-group mb-3">
@@ -40,7 +40,7 @@
                         <br>
                         <a href="Vista/recuperacion.html" class="link">Olvidé mi contraseña</a>
                         <br><br>
-                        <input type="submit" class="btn btn-lg btn-primary" id="button" value="Iniciar sesión">
+                        <input type="submit" class="btn btn-lg btn-secondary" id="button" value="Iniciar sesión">
                     </form>
                 </div>
             </div>
@@ -49,6 +49,5 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="../controlador/loguin.js"></script>
 </body>
 </html>

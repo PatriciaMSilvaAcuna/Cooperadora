@@ -3,7 +3,7 @@
     color: #ffffff; /* Color del texto */
 }
 #button:hover {
-    background-color: blue;
+    background-color: #40e0d0;
     color: black; /* Color del texto al pasar el mouse */
 }
 
@@ -11,5 +11,8 @@
     color: #0000FF; /* Azul */
 }
 #body {
-    background-color: #0A16D8; /* Cambia este valor al color que prefieras */
+    background-color: #0A16D8; 
+}
+.main-content {
+            min-height: 80vh; 
 }

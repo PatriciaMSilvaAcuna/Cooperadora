@@ -1,17 +1,18 @@
 <?php
 include_once('conexion.php'); // Nombre del archivo donde conecta a la base de datos
 
+$mysqli = conexion();
 // Verificar la conexión
-//if ($conn->connect_error) {
+if ($mysqli ->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
-//}
+}
 
 // Obtener el DNI ingresado por el usuario
 $dni = $_POST['dni'];
 
 // Consulta SQL para buscar usuarios por DNI
 $sql = "SELECT * FROM usuarios WHERE dni = '$dni'";
-$result = $conn->query($sql);
+$result = $mysqli->query($sql);
 
 if ($result->num_rows > 0) {
     // Mostrar los resultados
@@ -28,5 +29,5 @@ if ($result->num_rows > 0) {
     echo "No se encontraron usuarios con ese DNI.";
 }
 // Cerrar la conexión
-$conn->close();
+$mysqli->close();
 ?>
