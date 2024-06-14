@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar DNI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="formulario">
+    <form id="buscarForm" method="POST">
+        <h3>Buscar Usuario</h3>
+        <input class="formu-input" type="hidden" id="id" name="id" >
+        
+        <input class="formu-input" type="hidden" id="usuario" name="usuario" required><br>
+
+        <input class="formu-input" type="hidden" id="contrasenia" name="contrasenia" required ><br>
+
+        <label for="Dni_usuario">Ingrese el DNI:</label>
+        <div ><input class="formu-input" type="text" id="Dni_usuario" name="Dni_usuario" placeholder="ej.12345678"></div>
+    
+            <button class="botom"  type="submit">Buscar</button>
+        <button class="botom" id="returnButton">Volver</button>
+    </form>
+        
+    <p id="mensaje"></p>
+    <script src="../Controlador/buscar.js" defer></script>
+</body>
+
+</html>
