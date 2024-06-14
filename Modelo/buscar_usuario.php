@@ -1,33 +1,52 @@
 <?php
-include_once('conexion.php'); // Nombre del archivo donde conecta a la base de datos
+// buscar_usuario.php
 
-$mysqli = conexion();
-// Verificar la conexión
-if ($mysqli ->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
-}
+include_once('conexion.php');
 
-// Obtener el DNI ingresado por el usuario
-$dni = $_POST['dni'];
+header('Content-Type: application/json');
 
-// Consulta SQL para buscar usuarios por DNI
-$sql = "SELECT * FROM usuarios WHERE dni = '$dni'";
-$result = $mysqli->query($sql);
+echo buscarUsuario();
 
-if ($result->num_rows > 0) {
-    // Mostrar los resultados
-    while ($row = $result->fetch_assoc()) {
-        echo "Nombre: " . $row['nombre'] . "<br>";
-        echo "Apellido: " . $row['apellido'] . "<br>";
-        // Agrega más campos según tu estructura de tabla
+function buscarUsuario(){
+    $mysqli = conexion(); // Conexión a la base de datos desde el archivo conexion.php
+    
+    $response = [];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        error_log("Datos POST recibidos: " . print_r($_POST, true));
+    // Aseguramos que el Dni_usuario está establecido y se escapa para prevenir inyección SQL
+        if(isset($_POST['Dni_usuario'])) {
+            $Dni_usuario = $mysqli->real_escape_string($_POST['Dni_usuario']);
+            error_log("DNI recibido: " . $Dni_usuario);
+            
+        $query = "SELECT Id_usuario, Usuario, Contrasenia, Dni_usuario FROM usuario WHERE Dni_usuario = ?";
+        $stmt = $mysqli->prepare($query);
+        if (!$stmt) {
+            $response = ['estado' => 'ER', 'msg' => 'Error al preparar la consulta: ' . $mysqli->error];
+            echo json_encode($response);
+            return;
+        }
 
-        // Botón para seleccionar este usuario
-        echo '<a href="editar_usuario.php?id=' . $row['id'] . '">Seleccionar</a>';
-        echo "<hr>";
+        $stmt->bind_param("s", $Dni_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $row['estado'] = 'OK';
+            $response = $row;
+        } else {
+            $response = ['estado' => 'ER', 'msg' => 'DNI no encontrado'];
+        }
+
+        $stmt->close();
+    } else {
+        $response = ['estado' => 'ER', 'msg' => 'DNI no proporcionado'];
     }
 } else {
-    echo "No se encontraron usuarios con ese DNI.";
+    $response = ['success' => false, 'message' => 'Solicitud inválida.'];
 }
-// Cerrar la conexión
+
 $mysqli->close();
+echo json_encode($response);
+}
 ?>
