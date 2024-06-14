@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>actualizar datos Usuario</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+    <body>
+        
+        <div class="formulario">
+
+            <form  method="POST" id="actualizarForm">
+                <h3>Actualizar Datos del Usuario</h3>
+                <input class="formu-input" type="hidden" id="id" name="id" >
+                <label for="usuario">Usuario:</label>
+                <input class="formu-input" type="text" id="usuario" name="usuario" required><br>
+
+                <label for="contrasenia">Contraseña:</label>
+                <input class="formu-input" type="password" id="contrasenia" name="contrasenia" required ><br>
+
+        <input class="formu-input" type="hidden" id="Dni_usuario" name="Dni_usuario"><br>
+
+        <div class="forcheck">
+            <input class="formu-checkbox" type="checkbox" id="usuario_activo" name="usuario_activo" value="1">
+            <label class="formu-checkbox" for="usuario_activo"data-checked-text="Usuario activo" data-unchecked-text="Usuario Inactivo"></label>
+        </div>
+
+        <button class="botom" type="submit" id="update">Actualizar</button>
+        <button class="botom" type="button"  id="returnButton">Volver</button>
+    </form>
+    
+    <p  id="mensaje"></p>
+
+    <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src = "../Controlador/usuario.js" defer></script>
+</body>
+</html>
+
+
