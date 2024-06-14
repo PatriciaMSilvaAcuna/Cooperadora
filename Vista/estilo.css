@@ -3,8 +3,8 @@
     color: #ffffff; /* Color del texto */
 }
 #button:hover {
-    background-color: #40e0d0;
-    color: black; /* Color del texto al pasar el mouse */
+    background-color: #3A445A;
+    color: white; /* Color del texto al pasar el mouse */
 }
 
 .card-title {
