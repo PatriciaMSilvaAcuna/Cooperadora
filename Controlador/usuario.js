@@ -5,6 +5,7 @@ x.ready(iniciar);/*ready es una funcion del jQuery permite la activacion del cod
 
 function iniciar()/*funcion para darle arranque al formulario*/
 {
+  
     getTipoUsuario();/*llamamos a la funciones*/
     
     $('#darAlta').on('click',saveNewUser);
@@ -27,11 +28,11 @@ function getTipoUsuario()
 
             for(let i = 0; i < data.length; i++)
             {
-                let Id_tipoUsuario  = data[i].Id_tipoUsuario;
-                let Tipo_usuario   = data[i].Tipo_usuario;
+                let id_tipodeusuario  = data[i].id_tipodeusuario;
+                let tipoUsuario   = data[i].tipoUsuario;
                 
 
-                options += "<option value = '"+Id_tipoUsuario+"'>"+Tipo_usuario+"</option>";
+                options += "<option value = '"+id_tipodeusuario+"'>"+tipoUsuario+"</option>";
             }
             $('#tipoUsuario').html(options);
             // Escucha el evento "change" y selecciona la opción
@@ -67,7 +68,7 @@ function saveNewUser() {
     let data = $('#formulario').serialize();
     console.log("Respuesta del servidor:", data); // Imprime la respuesta en la consola
 
-    data += "&function=1";
+    data += "&function=+1";
 
     $.ajax({
         type: 'POST',
@@ -76,9 +77,10 @@ function saveNewUser() {
         dataType: 'JSON',
         success: function(response) {
           console.log("saveNewUser",response);
-
+          alert("Usuario dado de alta");
+         // document.getElementById('mensaje').textContent = "Usuario dado de alta"; 
            // getUser();
-            limpiarForm();
+         limpiarForm();
         }
     })
 }
@@ -89,11 +91,11 @@ function getUser(){
 
    // console.log(data);
      console.log("Respuesta del servidor:", data); // Imprime la respuesta en la consola
-
+let dniIngresado = $('#dni').val(); // Obtener el DNI ingresado
     $.ajax({
         type: 'POST',
-        url : '../Modelo/usuario.php',
-        data:data,
+        url : '../Modelo/getUsuario.php',
+       data: { dni: dniIngresado },
         dataType:'JSON',
         success : function(data){
 
@@ -113,7 +115,7 @@ function getUser(){
                                "<td>"+"<input type = 'radio' name = 'id' value = '"+id+"'>"+"</td>"+
                           "</tr>";
             }
-            $('#usuarios').html(tabla);
+            $('#usuario').html(tabla);
         }
 });
  

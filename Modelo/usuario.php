@@ -18,14 +18,15 @@ function saveNewUser()/*Creamos  la funcion que va a guardar nuevos datos a la t
     $dni = $_POST['dni'];
     $tipoUsuario=$_POST['tipoUsuario'];
 
-    $query  = "INSERT INTO usuario (Usuario,Contrasenia,Dni_Usuario, Id_tipoUsuario, Usuario_activo) values('$usuario','$contrasenia',$dni,$tipoUsuario,1)";
-
-    if(!$mysqli->query($query)){
-        return json_encode("Hubo un fallo al dar de alta el usuario");
-    }else{
+   // Llamada al procedimiento almacenado
+    $stmt = $mysqli->prepare("CALL sp_InsertarUsuario(?, ?, ?, ?)");
+    $stmt->bind_param("ssii", $usuario, $contrasenia, $dni, $tipoUsuario);
+    
+    if ($stmt->execute()) {
         return json_encode("El usuario fue dado de alta correctamente");
+    } else {
+        return json_encode("Hubo un fallo al dar de alta el usuario");
     }
-
 }
 
 function getUser(){/*funcion que va a solicitar al servidor una informacion*/

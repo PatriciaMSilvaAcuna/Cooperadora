@@ -16,3 +16,19 @@
 .main-content {
             min-height: 80vh; 
 }
+.Card {
+            background-color:#2759B7; /* Color de fondo */
+            
+            
+        }
+.row{
+  
+
+   padding: 10px;
+  padding-bottom: 50px;
+
+}        
+.cuerpo{
+        height: 100%;
+        margin: 0;
+        padding: 0;}

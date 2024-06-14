@@ -4,6 +4,8 @@ $(document).ready(function() {
 
 function iniciar() {
     $('#getDatosAlumnos').on('click', getAlumno);
+
+
 }
 
 function getAlumno() {

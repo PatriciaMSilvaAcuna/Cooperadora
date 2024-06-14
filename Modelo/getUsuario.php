@@ -10,7 +10,7 @@ function getUsuario()/*Creamos  la funcion getUsuario que va a solicitar los dat
     $mysqli = conexion();/*conexion a la base de datos. desde el archivo conexion, que esta adentro de la carpeta modelo*/
 
 
-    $query = "SELECT * FROM tipo_usuario";/*Pedimos los datos de la tabla categoria de la base de datos*/
+    $query = "SELECT * FROM tipo_de_usuario";/*Pedimos los datos de la tabla categoria de la base de datos*/
 
     $result = $mysqli->query($query);/*Guarda la matriz resultado en base de la que pedimos*/
 

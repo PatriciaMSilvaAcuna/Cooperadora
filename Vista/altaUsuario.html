@@ -1,6 +1,4 @@
-<?php
-require 'verificar_sesion.php';
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,13 +17,13 @@ require 'verificar_sesion.php';
          <div class="d-flex justify-content-sm-center bg-light">
             <div class="p-2  flex-fill"><img src="../logo.jpg" alt="ISFT182"width="4%" class="float-start">
 
-            <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="cerrarSesion()">
+            <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="window.location.href='confirmarCerrarSesion.php'">
             <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
             </div>
          </div> 
        </div>       
 </header>   
-<body>
+<body class="cuerpo">
     <div class="container-fluid vh-60">
         <div class="row">
             <div class="col-md-6 main-content">
