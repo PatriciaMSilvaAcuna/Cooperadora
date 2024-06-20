@@ -9,7 +9,7 @@ function iniciar()/*funcion para darle arranque al formulario*/
     getTipoUsuario();/*llamamos a la funciones*/
     
     $('#darAlta').on('click',saveNewUser);
-    //$('#getUser').on('click',saveNewUser);
+    $('#getUser').on('click',getUser);
    $('#eliminar').on('click',limpiarForm);
 }
 
@@ -20,7 +20,7 @@ function getTipoUsuario()
     $.ajax
     ({
         type : 'POST',/*El tipo de peticion va a ser post*/
-        url  : '../Modelo/getUsuario.php',/* peticion al archivo getUsuario.php que esta en la carpeta modelo */
+        url  : '../Modelo/getTipoUsuario.php',/* peticion al archivo getUsuario.php que esta en la carpeta modelo */
         dataType : 'JSON',/*El tipo de informacion que se espera de respuesta es JSON*/
         success : function(data)
         {/*Guardamos los datos a la tabla que se va a ver por pantalla*/
@@ -117,7 +117,7 @@ let dniIngresado = $('#dni').val(); // Obtener el DNI ingresado
             }
             $('#usuario').html(tabla);
         }
-});
+})
  
 }
 function limpiarForm(){/*limpia el formulario*/

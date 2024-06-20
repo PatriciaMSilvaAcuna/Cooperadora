@@ -22,28 +22,27 @@
 
 </header>
 <body>
-    <div class="container ">
-        <div class="row">
-            <div class="col-md-6">
-                <form id="formulario">
-                    <fieldset>
-                        <b><legend class="text-primary">Ingrese DNI del Usuario</legend></b>
-                        <div class="mb-3">
-                            <label for="usuario" class="form-label">DNI:</label>
-                            <input type="text" class="form-control border-2" id="DNI" name="DNI">
-                        </div>
-                        
-
-                        
-                    
-                    <button type="button" class="btn btn-primary" id="buscar">Buscar</button>
+   <div class="container-fluid text-center h-100">
+        <div class="card custom-card">
+            <br>
+            <h1 style="color: skyblue;"> Baja de Usuario</h1>
+            <br>
+            <input type="text" class="form-control form-control-lg" name="dni" id="dni" placeholder="DNI del Usuario" maxlength="20" required>
+            <br>
+            <button class="btn btn-lg btn-primary" type="button" id="getDatosUsuario">Comprobar Usuario</button>
+            <table id="Usuario"></table>
+            <br>
+            
                     
                 </form>
+
             </div>
         </div>
     </div>
-
+    <br>
+    <button type="button" class="btn btn-outline-secondary btn-lg ms-3" onclick="window.location.href='configuracionUsuario.html'">Volver</button>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src = "../Controlador/usuario.js">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <footer class="text-center bg-dark text-white py-3 fixed-bottom">
        <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
