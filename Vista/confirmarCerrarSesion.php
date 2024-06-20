@@ -42,8 +42,9 @@ require 'verificar_sesion.php';
       <br>
       <br>
        <div class="d-flex justify-content-between">
-   <button type="button" class="btn btn-outline-primary btn-lg m-3" onclick="cerrarSesion()">Cerrar Sesión</button>
-            <a href="accesoAceptadoAdmin.html" class="btn btn-primary btn-lg m-3">Cancelar</a>
+        <a href="accesoAceptadoAdmin.html" class="btn btn-outline-secondary btn-lg ms-3">Cancelar</a>
+   <button type="button" class="btn btn-outline-primary btn-lg ms-3" onclick="cerrarSesion()">Cerrar Sesión</button>
+            
     </div>
   </div>    
 </div>
