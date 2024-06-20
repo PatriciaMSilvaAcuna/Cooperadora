@@ -29,8 +29,11 @@
             <br>
             <input type="text" class="form-control form-control-lg" name="dni" id="dni" placeholder="DNI del Usuario" maxlength="20" required>
             <br>
-            <button class="btn btn-lg btn-primary" type="button" id="getDatosUsuario">Comprobar Usuario</button>
-            <table id="Usuario"></table>
+            <button class="btn btn-lg btn-primary" type="button" id="getUser">Comprobar Usuario</button>
+            <table id="usuario"></table>
+            <td>
+    <button class="btn btn-danger btn-sm" type="button "onclick="bajaUsuario(this)">Dar de baja</button>
+</td>
             <br>
             
                     
@@ -41,12 +44,13 @@
     </div>
     <br>
     <button type="button" class="btn btn-outline-secondary btn-lg ms-3" onclick="window.location.href='configuracionUsuario.html'">Volver</button>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src = "../Controlador/usuario.js">
+    <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <footer class="text-center bg-dark text-white py-3 fixed-bottom">
        <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
 </footer>   
-
+<script src = "../Controlador/usuario.js"></script>
 </body>
 </html>

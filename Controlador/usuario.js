@@ -2,7 +2,7 @@
 var x = $(document);
 
 x.ready(iniciar);/*ready es una funcion del jQuery permite la activacion del codigo  javaScript*/
-
+//let userId;
 function iniciar()/*funcion para darle arranque al formulario*/
 {
   
@@ -11,6 +11,7 @@ function iniciar()/*funcion para darle arranque al formulario*/
     $('#darAlta').on('click',saveNewUser);
     $('#getUser').on('click',getUser);
    $('#eliminar').on('click',limpiarForm);
+   $('#btnDarDeBaja').on('click',bajaUsuario);
 }
 
 
@@ -87,39 +88,117 @@ function saveNewUser() {
 
 function getUser(){
 
-    let data = 'function='+2;
+   let data = 'function='+2;
 
    // console.log(data);
-     console.log("Respuesta del servidor:", data); // Imprime la respuesta en la consola
-let dniIngresado = $('#dni').val(); // Obtener el DNI ingresado
+    console.log("Respuesta del servidor:", data); // Imprime la respuesta en la consola
+let dni = $('#dni').val(); // Obtener el DNI ingresado
+    if (dni) {
     $.ajax({
         type: 'POST',
         url : '../Modelo/getUsuario.php',
-       data: { dni: dniIngresado },
+       data: { dni: dni },
         dataType:'JSON',
         success : function(data){
 
-            let tabla = "<tr><th>Usuario</th><th>Dni</th><th>contrasenia</th><th></th></tr>";
+            let tabla = "<tr><th>Id_Usuario</th><th>Usuario</th><th>Contraseña</th><th>DNI</th><th>Estado</th><th>Seleccionar</th></tr>";
 
-            console.log(data);
+          //  console.log(data);
             for(let i = 0; i < data.length; i++)
-            {
-                let usuario          = data[i].usuario;
-                let contrasenia    = data[i].contrasenia;
-                let dni      = data[i].dni;
+            {   let id = data[i].Id_Usuario;
+                let usuario= data[i].Usuario;
+                let contrasenia= data[i].Contrasenia;
+                let dni= data[i].Dni_Usuario;
+                let estado= data[i].Usuario_activo;
                 
                 tabla += "<tr>"+
-                               "<td id='usuario"+id+"'    value = "+usuario+">"+usuario+"</td>"+
-                               "<td id='contrasenia"+id+"'    value = "+contrasenia+">"+contrasenia+"</td>"+
-                               "<td id='dni"+id+"' value = "+dni+">"+dni+"</td>"+
-                               "<td>"+"<input type = 'radio' name = 'id' value = '"+id+"'>"+"</td>"+
-                          "</tr>";
+                            "<td>" + id + "</td>" +
+                            "<td>" + usuario + "</td>" +
+                            "<td>" + contrasenia + "</td>" +
+                            "<td>" + dni + "</td>" +
+                            "<td>" + estado + "</td>" +
+                            "<td><input type='checkbox' class='user-checkbox' data-id='" + id + "'></td>" + // columna con checkbox
+                            "</tr>";
+                    
             }
             $('#usuario').html(tabla);
-        }
-})
- 
+        },
+        error: function(xhr, status, error) {
+                    console.error('Error al obtener los datos del usuario:', error); //Mostrar mensaje de error
+                }
+});
+}else{
+        alert('Por favor ingrese un DNI');
 }
+ $(document).ready(function() {
+    $(document).on('change', '.user-checkbox', function() {
+        $('.user-checkbox').not(this).prop('checked', false);
+
+        /*// Obtener el ID del usuario seleccionado
+        const userId = $(this).data('id');
+        console.log('Usuario seleccionado:', userId);
+        // Llamar a la función para procesar el usuario
+       procesarUsuario(userId);
+*/
+ });
+});
+}
+/*// Función para procesar el ID del usuario
+function procesarUsuario(userId) {
+    console.log('Procesando usuario con ID:', userId);
+    $.ajax({
+        type: 'POST',
+        url: '../Modelo/bajaUsuario.php',
+        data: { userId: userId }, // Envía el ID del usuario
+        dataType: 'json',
+        success: function(response) {
+            console.log('Respuesta del servidor:', response);
+
+            // Mostrar la respuesta al usuario (puedes adaptar esto según tus necesidades)
+            if (response && response.message) {
+                alert('Respuesta del servidor: ' + response.message);
+            } else {
+                alert('Respuesta inesperada del servidor.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al procesar el usuario:', error);
+            console.log('Respuesta completa del servidor:', xhr.responseText);
+
+            // Mostrar un mensaje de error al usuario
+            alert('Error al procesar el usuario. Por favor, inténtalo nuevamente más tarde.');
+        }
+    });
+}
+*/
+// Función para procesar la baja del usuario
+function bajaUsuario(button) {
+    const userId = $('.user-checkbox:checked').data('id');
+    if (userId) {
+        // Realizar la operación de baja con el ID del usuario
+        console.log('Baja del usuario con ID:', userId);
+        $.ajax({
+            type: 'POST',
+            url: '../Modelo/bajaUsuario.php',
+            data: { userId: userId },
+            dataType: 'json',
+            success: function(response) {
+                console.log('Respuesta del servidor:', response);
+                limpiarForm();
+                alert("Usuario dado de baja correctamente");
+                 $('#usuario').remove();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al dar de baja al usuario:', error);
+            }
+        });
+    } else {
+        alert('Por favor, selecciona un usuario para dar de baja.');
+    }
+}
+
+
+
 function limpiarForm(){/*limpia el formulario*/
     console.log("Limpieza de form");
     $('#usuario').prop('value','');
@@ -127,4 +206,5 @@ function limpiarForm(){/*limpia el formulario*/
     $('#dni').prop('value','');
    
 }
+
 
