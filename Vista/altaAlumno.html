@@ -1,0 +1,90 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta Alumno</title>
+    <link rel="icon" href="../logo.jpg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./estilo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+
+<body>
+    <header>
+        <div class="Card">
+            <div class="d-flex justify-content-sm-center bg-light">
+                <div class="p-2  flex-fill">
+                    <img src="../logo.jpg" alt="ISFT182" width="4%" class="float-start">
+                    <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end"
+                        onclick="window.location.href='confirmarCerrarSesion.php'">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid text-center h-100">
+        <div class="card custom-card">
+            <br>
+            <h1 style="color: skyblue;">Alta de Alumno</h1>
+            <br>
+
+            <form id="formulario">
+                <fieldset>
+                    <b>
+                        <legend class="text-primary">Datos del Alumno</legend>
+                    </b>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido:</label>
+                        <input type="text" class="form-control" id="apellido" name="apellido">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="dni" class="form-label">DNI:</label>
+                        <input type="text" class="form-control" id="dni" name="dni">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="deuda" class="form-label">Deuda:</label>
+                        <input type="text" class="form-control" id="deuda" name="deuda" />
+                    </div>
+                </fieldset>
+                <br>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary btn-lg ms-3"
+                        onclick="window.location.href='configuracionUsuario.html'">Volver</button>
+
+                    <button type="button" class="btn btn-primary btn-lg" id="darAlta">Dar de Alta</button>
+                </div>
+            </form>
+        </div>
+
+        <br>
+        <br>
+        <br>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="../Controlador/altaAlumno.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+
+    <footer class="text-center bg-dark text-white py-3 position-fixed fixed-bottom">
+        <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+
+</html>
