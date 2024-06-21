@@ -66,6 +66,32 @@ function updateUsuario()/*funcion que va a modificar los datos que
     })
 }
 function saveNewUser() {
+    
+        // Verifica si algún campo requerido está vacío
+    let usuario = $('#usuario').val().trim();
+    let contrasenia = $('#contrasenia').val().trim();
+    let dni = $('#dni').val().trim();
+     // Verifica si algún campo requerido está vacío
+    if (usuario === '' || contrasenia === '' || dni === '') {
+        alert('Por favor, completa todos los campos obligatorios.');
+        return; // Detén el envío si algún campo está vacío
+    }
+    // Validación de longitud y tipología para el campo de usuario
+    if (!/^[a-zA-Z]{4,20}$/.test(usuario)) {
+        alert('El nombre de usuario debe contener entre 4 y 20 letras.');
+        return;
+    }
+    // Validación de longitud para el campo de contraseña
+    if (contrasenia.length < 4) {
+        alert('La contraseña debe tener al menos 6 caracteres.');
+        return;
+    }
+    if (!/^\d{7,8}$/.test(dni)) {
+    alert('El DNI debe contener entre 7 y 8 dígitos numéricos.');
+    return
+
+}
+
     let data = $('#formulario').serialize();
     console.log("Respuesta del servidor:", data); // Imprime la respuesta en la consola
 
