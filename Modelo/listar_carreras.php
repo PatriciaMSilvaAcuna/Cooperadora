@@ -65,6 +65,9 @@ if ($conexion) {
     <title>Lista de Carreras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
         .card {
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -74,6 +77,22 @@ if ($conexion) {
         }
         .table th, .table td {
             vertical-align: middle;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .form-container {
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        .alert {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -117,37 +136,33 @@ if ($conexion) {
         <div class="row mt-5">
             <!-- Formulario para alta de carrera -->
             <div class="col-md-6">
-                <div class="card bg-light mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Alta de Carrera</h5>
-                        <form action="listar_carreras.php" method="post">
-                            <div class="form-group">
-                                <label for="nueva_carrera">Nueva Carrera:</label>
-                                <input type="text" class="form-control" id="nueva_carrera" name="nueva_carrera" required>
-                            </div>
-                            <button type="submit" class="btn btn-success btn-custom mt-3" name="alta">
-                                <i class="fas fa-plus"></i> Alta
-                            </button>
-                        </form>
-                    </div>
+                <div class="form-container">
+                    <h5 class="text-center">Alta de Carrera</h5>
+                    <form action="listar_carreras.php" method="post">
+                        <div class="form-group">
+                            <label for="nueva_carrera">Nueva Carrera:</label>
+                            <input type="text" class="form-control" id="nueva_carrera" name="nueva_carrera" required>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-custom mt-3 w-100" name="alta">
+                            <i class="fas fa-plus"></i> Alta
+                        </button>
+                    </form>
                 </div>
             </div>
 
             <!-- Formulario para baja de carrera -->
             <div class="col-md-6">
-                <div class="card bg-light mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Baja de Carrera</h5>
-                        <form action="listar_carreras.php" method="post">
-                            <div class="form-group">
-                                <label for="id_carrera">ID de Carrera a eliminar:</label>
-                                <input type="number" class="form-control" id="id_carrera" name="id_carrera" required>
-                            </div>
-                            <button type="submit" class="btn btn-danger btn-custom mt-3" name="baja">
-                                <i class="fas fa-trash-alt"></i> Baja
-                            </button>
-                        </form>
-                    </div>
+                <div class="form-container">
+                    <h5 class="text-center">Baja de Carrera</h5>
+                    <form action="listar_carreras.php" method="post">
+                        <div class="form-group">
+                            <label for="id_carrera">ID de Carrera a eliminar:</label>
+                            <input type="number" class="form-control" id="id_carrera" name="id_carrera" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-custom mt-3 w-100" name="baja">
+                            <i class="fas fa-trash-alt"></i> Baja
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
