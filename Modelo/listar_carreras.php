@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('conexion.php');
 
 $conexion = conexion();
@@ -14,6 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("s", $nueva_carrera);
                 $stmt->execute();
                 $stmt->close();
+                $_SESSION['message'] = "Carrera agregada exitosamente.";
+                $_SESSION['message_type'] = "success";
+            } else {
+                $_SESSION['message'] = "Error al agregar la carrera.";
+                $_SESSION['message_type'] = "danger";
             }
         }
     } elseif (isset($_POST['baja'])) {
@@ -25,9 +31,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("i", $id_carrera);
                 $stmt->execute();
                 $stmt->close();
+                $_SESSION['message'] = "Carrera eliminada exitosamente.";
+                $_SESSION['message_type'] = "success";
+            } else {
+                $_SESSION['message'] = "Error al eliminar la carrera.";
+                $_SESSION['message_type'] = "danger";
             }
         }
     }
+    header("Location: listar_carreras.php");
+    exit();
 }
 
 // Obtener la lista de carreras
@@ -51,14 +64,35 @@ if ($conexion) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Carreras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <style>
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-custom {
+            border-radius: 20px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center">Lista de Carreras Disponibles</h2>
+        <h2 class="text-center mb-4">Lista de Carreras Disponibles</h2>
+
+        <?php if (isset($_SESSION['message'])): ?>
+            <div class="alert alert-<?php echo $_SESSION['message_type']; ?> alert-dismissible fade show" role="alert">
+                <?php echo $_SESSION['message']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['message']); ?>
+        <?php endif; ?>
+
         <?php if (count($carreras) > 0): ?>
-            <div class="table-responsive mt-4">
-                <table class="table table-bordered">
-                    <thead>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
                         <tr>
                             <th>ID Carrera</th>
                             <th>Carrera</th>
@@ -75,7 +109,7 @@ if ($conexion) {
                 </table>
             </div>
         <?php else: ?>
-            <div class="mt-4 alert alert-warning text-center">
+            <div class="alert alert-warning text-center">
                 <h4>No se encontraron carreras.</h4>
             </div>
         <?php endif; ?>
@@ -83,7 +117,7 @@ if ($conexion) {
         <div class="row mt-5">
             <!-- Formulario para alta de carrera -->
             <div class="col-md-6">
-                <div class="card">
+                <div class="card bg-light mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Alta de Carrera</h5>
                         <form action="listar_carreras.php" method="post">
@@ -91,7 +125,9 @@ if ($conexion) {
                                 <label for="nueva_carrera">Nueva Carrera:</label>
                                 <input type="text" class="form-control" id="nueva_carrera" name="nueva_carrera" required>
                             </div>
-                            <button type="submit" class="btn btn-success mt-3" name="alta">Alta</button>
+                            <button type="submit" class="btn btn-success btn-custom mt-3" name="alta">
+                                <i class="fas fa-plus"></i> Alta
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -99,7 +135,7 @@ if ($conexion) {
 
             <!-- Formulario para baja de carrera -->
             <div class="col-md-6">
-                <div class="card">
+                <div class="card bg-light mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Baja de Carrera</h5>
                         <form action="listar_carreras.php" method="post">
@@ -107,7 +143,9 @@ if ($conexion) {
                                 <label for="id_carrera">ID de Carrera a eliminar:</label>
                                 <input type="number" class="form-control" id="id_carrera" name="id_carrera" required>
                             </div>
-                            <button type="submit" class="btn btn-danger mt-3" name="baja">Baja</button>
+                            <button type="submit" class="btn btn-danger btn-custom mt-3" name="baja">
+                                <i class="fas fa-trash-alt"></i> Baja
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -116,13 +154,16 @@ if ($conexion) {
 
         <!-- Botón para volver al índice -->
         <div class="text-center mt-4">
-            <a href="../Vista/consultas.html" class="btn btn-primary">Volver al índice</a>
+            <a href="../Vista/consultas.html" class="btn btn-primary btn-custom">
+                <i class="fas fa-arrow-left"></i> Volver al índice
+            </a>
         </div>
     </div>
 
-    <!-- Incluir scripts de Bootstrap -->
+    <!-- Incluir scripts de Bootstrap y Font Awesome -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
