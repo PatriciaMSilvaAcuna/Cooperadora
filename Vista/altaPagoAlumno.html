@@ -46,10 +46,13 @@
             <br>
             <input type="text" class="form-control form-control-lg" name="valorAbonado" id="valorAbonado" placeholder="Valor abonado" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required>
             <br>
-            <input type="submit" class="btn btn-lg btn-primary" id="altaPago" value="Realizar pago">
-            <br><br>
+            <div class="d-flex justify-content-between">
+                           <button type="button" class="btn btn-outline-dark  btn-lg mi-boton" onclick="window.location.href='gestionarAlumno.html'">Volver</button>
+            <input type="submit" class="btn btn-lg btn-outline-primary btn-lg mi-boton" id="altaPago" value="Realizar pago">
+            
         </div>
     </div>
+    <br><br>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="../Controlador/alumno.js"></script>
