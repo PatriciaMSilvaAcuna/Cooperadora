@@ -1,8 +1,7 @@
 // altaAlumno.js
 $(document).ready(function () {
     // Escuchamos el click del botón "Dar de Alta"
-
-    $("#darAlta").click(function () });
+    $("#darAlta").click(function ()
     $("#eliminar").on('click',limpiarForm){
 
     let nombre = $('#nombre ').val().trim();
@@ -43,9 +42,6 @@ $(document).ready(function () {
 
 }
 
-
-    $("#darAlta").click(function () {
-
         // Serializamos los datos del formulario
         var formData = $("#formulario").serialize();
 
@@ -63,7 +59,17 @@ $(document).ready(function () {
             error: function (xhr, status, error) {
                 // Manejo de errores
                 alert("Error: " + error);
+                limpiarForm();
             }
+
         });
     });
-};
+});
+
+function limpiarForm(){/*limpia el formulario*/
+    console.log("Limpieza de form");
+    $('#nombre').prop('value','');
+    $('#apellido').prop('value','');
+    $('#dni').prop('value','');
+    $('#deuda').prop('value','');
+}
