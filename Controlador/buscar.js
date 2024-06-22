@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         returnButton.addEventListener('click', (event) => {
             event.preventDefault(); // Prevenir cualquier acción predeterminada
 
-            window.location.href = '../Vista/configuracionUsuario.html'; // Redirigir a gestionUsuario.html
+            window.location.href = '../Vista/gestionarUsuario.html'; // Redirigir a gestionUsuario.html
         });
     }
 });

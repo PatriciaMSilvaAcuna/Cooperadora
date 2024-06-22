@@ -14,6 +14,7 @@
     <meta http-equiv="Expires" content="0">
 
 </head>
+<body>
 <header>
          <div class="Card">
          <div class="d-flex justify-content-sm-center bg-light">
@@ -26,7 +27,7 @@
          </div> 
        </div>        
 </header>
-<body>
+
     <div class="container-fluid text-center h-100">
         <div class="card custom-card">
             <br>
@@ -36,21 +37,23 @@
     <div id="formulario">
     <form id="buscarForm" method="POST">
         <h3>Buscar Usuario</h3>
-        <input class="formu-input" type="hidden" id="id" name="id" >
+        <input class="formu-input form-control form-control-lg" type="hidden" id="id" name="id" >
         
         <input class="formu-input" type="hidden" id="usuario" name="usuario" required><br>
 
         <input class="formu-input" type="hidden" id="contrasenia" name="contrasenia" required ><br>
 
         <label for="Dni_usuario "class="text-primary fw-bold fs-4">Ingrese el DNI:</label>
-        <div ><input class="form-control-lg" type="text" id="Dni_usuario" name="Dni_usuario" placeholder="ej.12345678"></div> 
-        
-        <br>   
-        <button class="btn btn-secondary btn-lg" id="returnButton">Volver</button>
-         <button class="btn btn-primary btn-lg"  type="submit">Buscar</button>
+        <div ><input class="form-control form-control-lg" type="text" id="Dni_usuario" name="Dni_usuario" placeholder="ej.12345678"></div> 
+        <br>
+        <br>
+         <p id="mensaje" class="bg-danger text-white font-weight-bold border rounded"></p>
+         <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-outline-dark  btn-lg mi-boton" onclick="window.location.href='gestionarUsuario.html'">Volver</button>
+           <button class="btn btn-outline-primary btn-lg mi-boton"  type="submit">Buscar</button>
     </form>
         
-    <p id="mensaje"></p>
+    
     <script src="../Controlador/buscar.js" defer></script>
 </div>
 </div>    
