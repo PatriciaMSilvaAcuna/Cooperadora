@@ -91,7 +91,7 @@
 
   <!-- Botón para volver a la página de búsqueda -->
   <div class="mt-3">
-    <a href="consultas.html" class="btn btn-primary">Volver a la búsqueda</a>
+    <a href="../Vista/consultas.html" class="btn btn-primary">Volver a la búsqueda</a>
   </div>
 
   <!-- Incluir scripts de Bootstrap -->
