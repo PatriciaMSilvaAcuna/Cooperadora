@@ -1,7 +1,7 @@
 // altaAlumno.js
 $(document).ready(function () {
     // Escuchamos el click del botón "Dar de Alta"
-    $("#darAlta").click(function ()
+    $("#darAlta").click(function () });
     $("#eliminar").on('click',limpiarForm){
 
     let nombre = $('#nombre ').val().trim();

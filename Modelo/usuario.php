@@ -31,6 +31,19 @@ function saveNewUser()/*Creamos  la funcion que va a guardar nuevos datos a la t
 
 function getUser(){/*funcion que va a solicitar al servidor una informacion*/
     $mysqli = conexion();/*conexion a la base de datos. desde el archivo conexion, que esta adentro de la carpeta modelo*/
+    // Consulta para verificar si el usuario ya está inactivo
+    $consultaUsuario = "SELECT Usuario_activo FROM usuario WHERE Dni_Usuario = $dni";
+    $stmtConsulta = $mysqli->prepare($consultaUsuario);
+    $stmtConsulta->bind_param("s", $usuario);
+    $stmtConsulta->execute();
+    $stmtConsulta->bind_result($usuarioActivo);
+    $stmtConsulta->fetch();
+    $stmtConsulta->close();
+    if ($usuarioActivo === "0") {
+        return json_encode("El usuario ya está dado de baja.");
+    }
+
+
 
     $query = "SELECT p.id as id, p.Usuario as usuario, p.Contrasenia as contrasenia, p.Dni_Usuario as dni, c.id as idcategoria, c.Id_tipoUsuario as tipoUsuario FROM usuario p INNER JOIN tipoUsuario c ON p.Id_tipoUsuario = c.id";/*Me trae el id de producto,el nombre de producto, el precio .el id de categoria,el nombre de la categoria*/
 
