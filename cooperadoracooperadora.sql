@@ -501,6 +501,21 @@ USE `phpmyadmin`;
 --
 -- Metadatos para la base de datos cooperadora
 --
+
+SET FOREIGN_KEY_CHECKS = 0; -- Desactiva las restricciones
+TRUNCATE TABLE usuario; -- Trunca la tabla
+SET FOREIGN_KEY_CHECKS = 1; --
+
+ALTER TABLE usuario
+ADD CONSTRAINT UC_DNI UNIQUE (Dni_usuario);
+
+SET FOREIGN_KEY_CHECKS = 0; -- Desactiva las restricciones
+TRUNCATE TABLE alumno; -- Trunca la tabla
+SET FOREIGN_KEY_CHECKS = 1; --
+
+ALTER TABLE alumno
+ADD CONSTRAINT UC_DNI UNIQUE (dni);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
