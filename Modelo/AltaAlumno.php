@@ -12,16 +12,16 @@ function insertAlumno()
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $dni = $_POST['dni'];
-    $deuda = $_POST['deuda'];
+    //$deuda = $_POST['deuda'];
 
     // Preparamos la consulta SQL (usando statement preparados para evitar SQL injection)
-    $query = "INSERT INTO alumno (nombre, apellido, dni, deuda) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO alumno (nombre, apellido, dni) VALUES (?, ?, ?)";
     
     // Preparamos la consulta
     $stmt = $mysqli->prepare($query);
     
     // Asignamos los parámetros y ejecutamos la consulta
-    $stmt->bind_param("ssss", $nombre, $apellido, $dni, $deuda);
+    $stmt->bind_param("sss", $nombre, $apellido, $dni);
     $stmt->execute();
     
     // Verificamos si se ejecutó correctamente
