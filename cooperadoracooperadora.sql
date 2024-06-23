@@ -516,6 +516,20 @@ SET FOREIGN_KEY_CHECKS = 1; --
 ALTER TABLE alumno
 ADD CONSTRAINT UC_DNI UNIQUE (dni);
 
+-- Modificacion por Bel
+-- SE MODIFICA TABLA INSCRIPCION
+-- SE ELIMINA Y SE GENERA DE NUEVO
+
+drop table inscripcion;
+
+CREATE TABLE `inscripcion` (
+ `id_inscripcion` int(11) NOT NULL auto_increment,
+  `fecha_anual` int(11) NOT NULL,
+  `id_alumno` int(11) NOT NULL,
+  `id_carrera` int(11) NOT NULL,
+  primary KEY (`id_inscripcion`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
