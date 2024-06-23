@@ -452,7 +452,42 @@ ALTER TABLE `registros`
 ALTER TABLE `usuario`
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_tipodeusuario`) REFERENCES `tipo_de_usuario` (`id_tipodeusuario`);
 
+-- Modificacion por Patry
 
+SET FOREIGN_KEY_CHECKS = 0; -- Desactiva las restricciones
+TRUNCATE TABLE usuario; -- Trunca la tabla
+SET FOREIGN_KEY_CHECKS = 1; --
+
+ALTER TABLE usuario
+ADD CONSTRAINT UC_DNI UNIQUE (Dni_usuario);
+
+SET FOREIGN_KEY_CHECKS = 0; -- Desactiva las restricciones
+TRUNCATE TABLE alumno; -- Trunca la tabla
+SET FOREIGN_KEY_CHECKS = 1; --
+
+ALTER TABLE alumno
+ADD CONSTRAINT UC_DNI UNIQUE (dni);
+
+
+-- Modificacion por Bel
+drop table inscripcion;
+
+CREATE TABLE `inscripcion` (
+ `id_inscripcion` int(11) NOT NULL auto_increment,
+  `fecha_anual` int(11) NOT NULL,
+  `id_alumno` int(11) NOT NULL,
+  `id_carrera` int(11) NOT NULL,
+  primary KEY (`id_inscripcion`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `inscripcion`
+  -- ADD PRIMARY KEY (`id_inscripcion`),
+  ADD KEY `id_alumno` (`id_alumno`),
+  ADD KEY `id_carrera` (`id_carrera`);
+
+ALTER TABLE `inscripcion`
+  ADD CONSTRAINT `inscripcion_ibfk_1` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`id_alumno`),
+  ADD CONSTRAINT `inscripcion_ibfk_2` FOREIGN KEY (`id_carrera`) REFERENCES `carrera` (`id_carrera`);
 --
 -- Metadatos
 --
@@ -501,34 +536,6 @@ USE `phpmyadmin`;
 --
 -- Metadatos para la base de datos cooperadora
 --
-
-SET FOREIGN_KEY_CHECKS = 0; -- Desactiva las restricciones
-TRUNCATE TABLE usuario; -- Trunca la tabla
-SET FOREIGN_KEY_CHECKS = 1; --
-
-ALTER TABLE usuario
-ADD CONSTRAINT UC_DNI UNIQUE (Dni_usuario);
-
-SET FOREIGN_KEY_CHECKS = 0; -- Desactiva las restricciones
-TRUNCATE TABLE alumno; -- Trunca la tabla
-SET FOREIGN_KEY_CHECKS = 1; --
-
-ALTER TABLE alumno
-ADD CONSTRAINT UC_DNI UNIQUE (dni);
-
--- Modificacion por Bel
--- SE MODIFICA TABLA INSCRIPCION
--- SE ELIMINA Y SE GENERA DE NUEVO
-
-drop table inscripcion;
-
-CREATE TABLE `inscripcion` (
- `id_inscripcion` int(11) NOT NULL auto_increment,
-  `fecha_anual` int(11) NOT NULL,
-  `id_alumno` int(11) NOT NULL,
-  `id_carrera` int(11) NOT NULL,
-  primary KEY (`id_inscripcion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 COMMIT;
 
