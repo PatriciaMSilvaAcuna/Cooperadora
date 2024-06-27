@@ -35,15 +35,15 @@ require 'verificar_sesion.php';
    <div class="Card col-md-6">
    
    
-     <div class="card border-primary mb-3">
+     <div class="card border-primary mb-3 mt-3" id="cierre">
     
     <div class="card-body text-primary">
       <h5 class="card-title text-center">¿CONFIRMA CIERRE DE SESIÓN?</h5>
       <br>
       <br>
        <div class="d-flex justify-content-between">
-        <a href="accesoAceptadoAdmin.html" class="btn btn-outline-secondary btn-lg ms-3">Cancelar</a>
-   <button type="button" class="btn btn-outline-primary btn-lg ms-3" onclick="cerrarSesion()">Cerrar Sesión</button>
+        <a href="accesoAceptadoAdmin.html" class="btn btn-outline-dark btn-lg mi-boton">Cancelar</a>
+   <button type="button" class="btn btn-outline-primary btn-lg mi-boton" onclick="cerrarSesion()">Cerrar Sesión</button>
             
     </div>
   </div>    
