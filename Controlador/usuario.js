@@ -83,7 +83,7 @@ function saveNewUser() {
     }
     // Validación de longitud para el campo de contraseña
     if (contrasenia.length < 4) {
-        alert('La contraseña debe tener al menos 6 caracteres.');
+        alert('La contraseña debe tener al menos 4 caracteres.');
         return;
     }
     if (!/^\d{7,8}$/.test(dni)) {
