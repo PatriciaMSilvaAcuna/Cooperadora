@@ -1,11 +1,11 @@
 <?php
 require_once('conexion.php'); // Nombre del archivo donde conecta a la base de datos
 
-$usuario = $_POST['usuario'];
+$documento = $_POST['documento'];
 $contrasena = $_POST['contrasena'];
 $conexion = conexion();
 
-$query = "SELECT * FROM usuario WHERE Usuario = '$usuario' AND Contrasenia = '$contrasena' AND Usuario_activo = 1";
+$query = "SELECT * FROM usuario WHERE Dni_usuario = '$documento' AND Contrasenia = '$contrasena' AND Usuario_activo = 1";
 $result = $conexion->query($query);
 
 
@@ -17,7 +17,7 @@ if ($result->num_rows > 0) {
     session_start();
 
     // Agregar variables a la sesión
-    $_SESSION['usuario'] = $usuario;
+    $_SESSION['documento'] = $documento;
     $_SESSION['Id_Usuario'] = $idUsuario;
 
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
