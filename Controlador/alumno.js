@@ -4,6 +4,7 @@ $(document).ready(function() {
      // Función para iniciar el formulario
     function iniciar() {
         getMetodosPago(); // Llama a la función getMetodosPago
+        getConceptoPago(); // Llama a la función getConceptoPago
         $('#getDatosAlumnos').on('click', getDatosAlumnos); // Asocia el evento click al botón getDatosAlumnos
          $('#altaPago').on('click', setPago); // Asocia el evento click al botón altaPago
     }
@@ -17,9 +18,27 @@ $(document).ready(function() {
             success: function(data) {
                 let options = '<option value="" disabled selected>Método de pago</option>'; // Opción predeterminada
                 for (let i = 0; i < data.length; i++) {
-                    options += '<option value="' + data[i].id_metodoDePago + '">' + data[i].tipo_de_Pago + '</option>';
+                    options += '<option value="' + data[i].idmetodopago + '">' + data[i].metodopago + '</option>';
                 }
                 $('#metodoPago').html(options); // Llena el select con las opciones
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al obtener los métodos de pago:', error); //Mostrar mensaje de error
+            }
+        });
+    }
+    // Función para obtener los conceptos de pago y llenar el select
+    function getConceptoPago() {
+        $.ajax({
+            type: 'POST',
+            url: '../Modelo/getConceptoPago.php', 
+            dataType: 'json', 
+            success: function(data) {
+                let options = '<option value="" disabled selected>Concepto de pago</option>'; // Opción predeterminada
+                for (let i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i].idconcepto + '">' + data[i].concepto + '</option>';
+                }
+                $('#concepto').html(options); // Llena el select con las opciones
             },
             error: function(xhr, status, error) {
                 console.error('Error al obtener los métodos de pago:', error); //Mostrar mensaje de error
@@ -39,7 +58,7 @@ $(document).ready(function() {
                 success: function(data) {
                     let tabla = "<tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>DNI</th><th>Deuda</th></tr>";
                     for (let i = 0; i < data.length; i++) {
-                        let id = data[i].id_alumno;
+                        let id = data[i].idalumno;
                         let nombre = data[i].nombre;
                         let apellido = data[i].apellido;
                         let dni = data[i].dni;
@@ -69,17 +88,18 @@ $(document).ready(function() {
         let fecha = $('#fecha').val();
         let metodoPago = $('#metodoPago').val();
         let dni = $('#dni').val();
+        let concepto = $('#concepto').val();
 
-        if (valorAbonado && fecha && metodoPago && dni) {
-            // Obtener id_alumno basado en el dni ingresado
+        if (valorAbonado && fecha && metodoPago && dni && concepto) {
+            // Obtener idalumno basado en el dni ingresado
             $.ajax({
                 type: 'POST',
                 url: '../Modelo/getAlumnoId.php',
                 data: { dni: dni },
                 dataType: 'json',
-                success: function(id_alumno) {
-                    if (id_alumno) {
-                        // Si se obtiene el id_alumno, realizar la inserción del pago
+                success: function(idalumno) {
+                    if (idalumno) {
+                        // Si se obtiene el idalumno, realizar la inserción del pago
                         $.ajax({
                             type: 'POST',
                             url: '../Modelo/setPago.php',
@@ -87,7 +107,8 @@ $(document).ready(function() {
                                 valorAbonado: valorAbonado,
                                 fecha: fecha,
                                 metodoPago: metodoPago,
-                                id_alumno: id_alumno
+                                concepto: concepto,
+                                idalumno: idalumno
                             },
                             dataType: 'json',
                             success: function(response) {

@@ -1,9 +1,10 @@
 <?php
-include_once('conexion.php'); // Asegúrate de que la ruta sea correcta
+include_once('conexion.php'); // Genero la conexion
 
 $mysqli = conexion();
 
-$query = "SELECT id_metodoDePago, tipo_de_Pago FROM metodo_de_pago"; // Ajusta según tu estructura de tabla
+$query = "SELECT idmetodopago, metodopago FROM metodopago"; 
+// Consulta a la BBDD 
 $result = $mysqli->query($query);
 
 $metodos = array();

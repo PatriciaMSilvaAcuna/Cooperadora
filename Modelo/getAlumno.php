@@ -9,7 +9,7 @@ echo getAlumno($dni);
 function getAlumno($dni) {
     $mysqli = conexion();
 
-    $query = "SELECT id_alumno, nombre, apellido, dni, deuda FROM alumno WHERE dni = ?";
+    $query = "SELECT idalumno, nombre, apellido, dni, deuda FROM alumno WHERE dni = ?";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param("s", $dni);
     $stmt->execute();

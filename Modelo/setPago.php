@@ -5,15 +5,16 @@ $mysqli = conexion();
 
 $valorAbonado = $_POST['valorAbonado'];
 $fecha = $_POST['fecha'];
-$id_usuario = 2; // Puedes ajustar este valor según sea necesario
+$idUsuario = $_SESSION['idusuario']; 
 $id_metodoDePago = $_POST['metodoPago'];
-$id_alumno = $_POST['id_alumno'];
+$concepto = $_POST['concepto'];
+$id_alumno = $_POST['idalumno'];
 
-$query = "INSERT INTO carga_pago (valorAbonado, fecha, id_usuario, id_metodoDePago, id_alumno) VALUES (?, ?, ?, ?, ?)";
+$query = "INSERT INTO cargapago (valorabonado, fecha, idusuario, idmetodoDePago, idalumno,idconcepto) VALUES (?, ?, ?, ?, ?,?)";
 $stmt = $mysqli->prepare($query);
 
 if ($stmt) {
-    $stmt->bind_param('ssiii', $valorAbonado, $fecha, $id_usuario, $id_metodoDePago, $id_alumno);
+    $stmt->bind_param('ssiiii', $valorAbonado, $fecha, $id_usuario, $id_metodoDePago, $id_alumno, $concepto);
     if ($stmt->execute()) {
         echo json_encode("Pago registrado con éxito");
     } else {

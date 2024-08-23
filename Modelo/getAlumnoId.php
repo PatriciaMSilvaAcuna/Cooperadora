@@ -5,7 +5,7 @@ $mysqli = conexion();
 
 $dni = $_POST['dni'];
 
-$query = "SELECT id_alumno FROM alumno WHERE dni = ?";
+$query = "SELECT idalumno FROM alumno WHERE dni = ?";
 $stmt = $mysqli->prepare($query);
 
 if ($stmt) {

@@ -40,9 +40,18 @@
             
             <input class="form-control form-control-lg" type="date" name="fecha" id="fecha">
             <br>
-            <select class="form-control form-control-lg" name="metodoPago" id="metodoPago">
-                <option value="" disabled selected>Método de pago</option>
+            <div class="custom-select-wrapper">
+            <select class="form-control form-control-lg" name="concepto" id="concepto">
+            <option value="" disabled selected>Concepto de pago</option>
             </select>
+            </div>
+            <br>
+            <br>
+            <div class="custom-select-wrapper">
+            <select class="form-control form-control-lg" name="metodoPago" id="metodoPago">
+            <option value="" disabled selected>Método de pago</option>
+            </select>
+            </div>
             <br>
             <input type="text" class="form-control form-control-lg" name="valorAbonado" id="valorAbonado" placeholder="Valor abonado" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required>
             <br>
