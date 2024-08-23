@@ -47,3 +47,40 @@ background-color: skyblue;
 
 
 }
+/* Estilos generales del select */
+.form-control {
+    appearance: none; /* Elimina el estilo predeterminado del navegador */
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Estilos del contenedor del select para agregar la flecha */
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Agrega la flecha al select */
+.custom-select-wrapper::after {
+    content: '\f078'; /* Código Unicode para la flecha hacia abajo de Font Awesome */
+    font-family: 'Font Awesome 5 Free'; /* Fuente de Font Awesome */
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none; /* No bloquear el clic */
+    font-size: 16px; /* Ajusta el tamaño de la flecha si es necesario */
+    color: #0000ff; /* Cambia este valor para ajustar el color de la flecha */
+}
+
+/* Asegura que el select se alinee correctamente con la flecha */
+.form-control {
+    padding-right: 40px; /* Espacio para la flecha */
+}
