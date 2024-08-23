@@ -1,415 +1,305 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
+CREATE DATABASE  IF NOT EXISTS `cooperadora` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `cooperadora`;
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 22-06-2024 a las 19:19:07
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: 127.0.0.1    Database: cooperadorafinal
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.4.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Base de datos: `cooperadora`
+-- Table structure for table `administracion`
 --
 
-DELIMITER $$
---
--- Procedimientos
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_InsertarUsuario` (IN `p_usuario` VARCHAR(50), IN `p_contrasenia` VARCHAR(50), IN `p_dni` INT, IN `p_tipoUsuario` INT)   BEGIN
-    INSERT INTO usuario (Usuario, Contrasenia, Dni_usuario, id_tipodeusuario, Usuario_activo)
-    VALUES (p_usuario, p_contrasenia, p_dni, p_tipoUsuario, 1);
-END$$
-
-DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `administracion`
---
-
+DROP TABLE IF EXISTS `administracion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `administracion` (
-  `Id_administracion` int(11) NOT NULL,
-  `Valor_concepto` int(11) NOT NULL,
-  `Fecha_inicio` date NOT NULL,
-  `Fecha_fin` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `idadministracion` int(11) NOT NULL AUTO_INCREMENT,
+  `valorconcepto` int(11) NOT NULL,
+  `aniovigente` int(11) NOT NULL,
+  `idconcepto` int(11) NOT NULL,
+  PRIMARY KEY (`idadministracion`),
+  KEY `fk_concepto_administracion_idx` (`idconcepto`),
+  CONSTRAINT `fk_concepto_administracion` FOREIGN KEY (`idconcepto`) REFERENCES `concepto` (`idconcepto`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `administracion`
+-- Dumping data for table `administracion`
 --
 
-INSERT INTO `administracion` (`Id_administracion`, `Valor_concepto`, `Fecha_inicio`, `Fecha_fin`) VALUES
-(1, 1500, '2024-01-01', '2024-12-31'),
-(2, 5000, '2024-01-01', '2024-12-31'),
-(3, 15000, '2024-01-01', '2024-12-31'),
-(4, 100, '2024-01-01', '2024-12-31');
-
--- --------------------------------------------------------
+LOCK TABLES `administracion` WRITE;
+/*!40000 ALTER TABLE `administracion` DISABLE KEYS */;
+INSERT INTO `administracion` VALUES (1,1,2024,1),(2,15000,2024,2),(3,100,2024,3),(4,1500,2024,4);
+/*!40000 ALTER TABLE `administracion` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `alumno`
+-- Table structure for table `alumno`
 --
 
+DROP TABLE IF EXISTS `alumno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `alumno` (
-  `id_alumno` int(11) NOT NULL,
+  `idalumno` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(32) NOT NULL,
   `apellido` varchar(32) NOT NULL,
   `dni` int(11) NOT NULL,
-  `deuda` float NOT NULL
+  `deuda` float NOT NULL,
+  `mail` varchar(50) NOT NULL,
+  `idusuario` int(11) NOT NULL,
+  `fechaalta` date NOT NULL,
+  PRIMARY KEY (`idalumno`),
+  KEY `fk_usuario_alumno_idx` (`idusuario`),
+  CONSTRAINT `fk_usuario_alumno` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `alumno`
+-- Dumping data for table `alumno`
 --
 
-INSERT INTO `alumno` (`id_alumno`, `nombre`, `apellido`, `dni`, `deuda`) VALUES
-(1, 'Martin', 'Millan', 40333222, 16000),
-(2, 'Patricia', 'Silva', 30953341, 15000),
-(3, 'Julio', 'Aguilar', 32472142, 30000),
-(4, 'Belen', 'Gomez', 34438146, 20000),
-(5, 'Fernando', 'Guinazu', 42297919, 19000),
-(6, 'Soledad', 'Carballo', 38072126, 24000),
-(7, 'Esteban', 'Quito', 38456746, 50000),
-(8, 'Susana', 'Oria', 33789002, 45000),
-(9, 'Monica', 'Galindo', 30432765, 30000);
-
--- --------------------------------------------------------
+LOCK TABLES `alumno` WRITE;
+/*!40000 ALTER TABLE `alumno` DISABLE KEYS */;
+/*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `carga_pago`
+-- Table structure for table `cargapago`
 --
 
-CREATE TABLE `carga_pago` (
-  `id_cargaPago` int(11) NOT NULL,
-  `valorAbonado` int(11) NOT NULL,
+DROP TABLE IF EXISTS `cargapago`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cargapago` (
+  `idcargapago` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` date NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `id_metodoDePago` int(11) NOT NULL,
-  `id_alumno` int(11) NOT NULL
+  `valorabonado` int(11) NOT NULL,
+  `idusuario` int(11) NOT NULL,
+  `idmetodopago` int(11) NOT NULL,
+  `idalumno` int(11) NOT NULL,
+  `idconcepto` int(11) NOT NULL,
+  PRIMARY KEY (`idcargapago`),
+  KEY `fk_usuario_cargapago_idx` (`idusuario`),
+  KEY `fk_alumno_cargapago_idx` (`idalumno`),
+  KEY `fk_metodopago_cargapago_idx` (`idmetodopago`),
+  KEY `fk_concepto_cargapago_idx` (`idconcepto`),
+  CONSTRAINT `fk_alumno_cargapago` FOREIGN KEY (`idalumno`) REFERENCES `alumno` (`idalumno`),
+  CONSTRAINT `fk_concepto_cargapago` FOREIGN KEY (`idconcepto`) REFERENCES `concepto` (`idconcepto`),
+  CONSTRAINT `fk_metodopago_cargapago` FOREIGN KEY (`idmetodopago`) REFERENCES `metodopago` (`idmetodopago`),
+  CONSTRAINT `fk_usuario_cargapago` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `carga_pago`
+-- Dumping data for table `cargapago`
 --
 
-INSERT INTO `carga_pago` (`id_cargaPago`, `valorAbonado`, `fecha`, `id_usuario`, `id_metodoDePago`, `id_alumno`) VALUES
-(1, 2000, '2024-05-14', 2, 1, 4),
-(2, 3500, '2024-05-10', 2, 1, 2),
-(3, 1700, '2024-05-01', 2, 2, 8),
-(4, 4000, '2024-05-20', 2, 1, 9),
-(5, 2300, '2024-04-03', 2, 1, 3),
-(6, 1500, '2024-05-21', 2, 2, 5),
-(7, 4300, '2024-05-24', 2, 1, 6);
-
--- --------------------------------------------------------
+LOCK TABLES `cargapago` WRITE;
+/*!40000 ALTER TABLE `cargapago` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cargapago` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `carrera`
+-- Table structure for table `carrera`
 --
 
+DROP TABLE IF EXISTS `carrera`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `carrera` (
-  `id_carrera` int(11) NOT NULL,
-  `carrera` varchar(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `idcarrera` int(11) NOT NULL AUTO_INCREMENT,
+  `carrera` varchar(45) NOT NULL,
+  PRIMARY KEY (`idcarrera`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `carrera`
+-- Dumping data for table `carrera`
 --
 
-INSERT INTO `carrera` (`id_carrera`, `carrera`) VALUES
-(1, 'Enfermeria A 1er año'),
-(2, 'Enfermeria B 1er año'),
-(3, 'Enfermeria A 2do año'),
-(4, 'Enfermeria B 2do año'),
-(5, 'Enfermeria A y B 3er año'),
-(6, 'Higiene y Seguridad'),
-(7, 'Sistemas'),
-(8, 'RRHH'),
-(9, 'Instrumentación Quirurgica');
-
--- --------------------------------------------------------
+LOCK TABLES `carrera` WRITE;
+/*!40000 ALTER TABLE `carrera` DISABLE KEYS */;
+INSERT INTO `carrera` VALUES (1,'Enfermeria A 1er año'),(2,'Enfermeria B 1er año'),(3,'Enfermeria A 2do año'),(4,'Enfermeria B 2do año'),(5,'Enfermeria A y B 3er año'),(6,'Higiene y Seguridad'),(7,'Sistemas'),(8,'RRHH'),(9,'Instrumentación Quirurgica');
+/*!40000 ALTER TABLE `carrera` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `concepto`
+-- Table structure for table `concepto`
 --
 
+DROP TABLE IF EXISTS `concepto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `concepto` (
-  `Id_Concepto` int(11) NOT NULL,
-  `Nombre_Concepto` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `idconcepto` int(11) NOT NULL AUTO_INCREMENT,
+  `concepto` varchar(45) NOT NULL,
+  PRIMARY KEY (`idconcepto`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `concepto`
+-- Dumping data for table `concepto`
 --
 
-INSERT INTO `concepto` (`Id_Concepto`, `Nombre_Concepto`) VALUES
-(1, 'Libreta'),
-(3, 'Cuota'),
-(4, 'Formulario');
-
--- --------------------------------------------------------
+LOCK TABLES `concepto` WRITE;
+/*!40000 ALTER TABLE `concepto` DISABLE KEYS */;
+INSERT INTO `concepto` VALUES (1,'Donaciones'),(2,'Cuota social'),(3,'Formulario'),(4,'Libreta');
+/*!40000 ALTER TABLE `concepto` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `inscripcion`
+-- Table structure for table `inscripcion`
 --
 
+DROP TABLE IF EXISTS `inscripcion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `inscripcion` (
-  `año` int(11) NOT NULL,
-  `id_inscripcion` int(11) NOT NULL,
-  `id_alumno` int(11) NOT NULL,
-  `id_carrera` int(11) NOT NULL
+  `idinscripcion` int(11) NOT NULL AUTO_INCREMENT,
+  `fechaanual` int(11) NOT NULL,
+  `idalumno` int(11) NOT NULL,
+  `idcarrera` int(11) NOT NULL,
+  `idusuario` int(11) NOT NULL,
+  PRIMARY KEY (`idinscripcion`),
+  KEY `fk_carrera_inscripcion_idx` (`idcarrera`),
+  KEY `fk_usuario_inscripcion_idx` (`idusuario`),
+  KEY `fk_alumno_inscripcion_idx` (`idalumno`),
+  CONSTRAINT `fk_alumno_inscripcion` FOREIGN KEY (`idalumno`) REFERENCES `alumno` (`idalumno`),
+  CONSTRAINT `fk_carrera_inscripcion` FOREIGN KEY (`idcarrera`) REFERENCES `carrera` (`idcarrera`),
+  CONSTRAINT `fk_usuario_inscripcion` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `metodo_de_pago`
+-- Dumping data for table `inscripcion`
 --
 
-CREATE TABLE `metodo_de_pago` (
-  `id_metodoDePago` int(11) NOT NULL,
-  `tipo_de_Pago` varchar(32) NOT NULL
+LOCK TABLES `inscripcion` WRITE;
+/*!40000 ALTER TABLE `inscripcion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `inscripcion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `metodopago`
+--
+
+DROP TABLE IF EXISTS `metodopago`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `metodopago` (
+  `idmetodopago` int(11) NOT NULL AUTO_INCREMENT,
+  `metodopago` varchar(45) NOT NULL,
+  PRIMARY KEY (`idmetodopago`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `metodopago`
+--
+
+LOCK TABLES `metodopago` WRITE;
+/*!40000 ALTER TABLE `metodopago` DISABLE KEYS */;
+INSERT INTO `metodopago` VALUES (1,'Efectivo'),(2,'Transferencia');
+/*!40000 ALTER TABLE `metodopago` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `registro`
+--
+
+DROP TABLE IF EXISTS `registro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `registro` (
+  `idregistro` int(11) NOT NULL AUTO_INCREMENT,
+  `registro` varchar(200) NOT NULL,
+  PRIMARY KEY (`idregistro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `metodo_de_pago`
+-- Dumping data for table `registro`
 --
 
-INSERT INTO `metodo_de_pago` (`id_metodoDePago`, `tipo_de_Pago`) VALUES
-(1, 'Efectivo'),
-(2, 'Mercado Pago');
-
--- --------------------------------------------------------
+LOCK TABLES `registro` WRITE;
+/*!40000 ALTER TABLE `registro` DISABLE KEYS */;
+/*!40000 ALTER TABLE `registro` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `registros`
+-- Table structure for table `tipousuario`
 --
 
-CREATE TABLE `registros` (
-  `id_cargaPago` int(11) NOT NULL
+DROP TABLE IF EXISTS `tipousuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tipousuario` (
+  `idtipousuario` int(11) NOT NULL,
+  `tipousuario` varchar(15) NOT NULL,
+  PRIMARY KEY (`idtipousuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tipo_de_usuario`
---
-
-CREATE TABLE `tipo_de_usuario` (
-  `id_tipodeusuario` int(11) NOT NULL,
-  `tipoUsuario` varchar(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `tipo_de_usuario`
+-- Dumping data for table `tipousuario`
 --
 
-INSERT INTO `tipo_de_usuario` (`id_tipodeusuario`, `tipoUsuario`) VALUES
-(1, 'Administrador'),
-(2, 'Operador');
-
--- --------------------------------------------------------
+LOCK TABLES `tipousuario` WRITE;
+/*!40000 ALTER TABLE `tipousuario` DISABLE KEYS */;
+INSERT INTO `tipousuario` VALUES (0,'Administrador'),(1,'Operador');
+/*!40000 ALTER TABLE `tipousuario` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `usuario`
 --
 
+DROP TABLE IF EXISTS `usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuario` (
-  `Id_Usuario` int(11) NOT NULL,
-  `Usuario` varchar(32) NOT NULL,
-  `Contrasenia` varchar(32) NOT NULL,
-  `id_tipodeusuario` int(11) NOT NULL,
-  `Usuario_activo` tinyint(4) DEFAULT NULL,
-  `Dni_usuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `idusuario` int(11) NOT NULL AUTO_INCREMENT,
+  `dniusuario` int(11) NOT NULL,
+  `contrasenia` varchar(45) NOT NULL,
+  `mailusuario` varchar(45) NOT NULL,
+  `idtipousuario` int(11) NOT NULL,
+  `usuarioactivo` int(11) NOT NULL,
+  PRIMARY KEY (`idusuario`),
+  KEY `fk_tipousuario_usuario_idx` (`idtipousuario`),
+  CONSTRAINT `fk_tipousuario_usuario` FOREIGN KEY (`idtipousuario`) REFERENCES `tipousuario` (`idtipousuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`Id_Usuario`, `Usuario`, `Contrasenia`, `id_tipodeusuario`, `Usuario_activo`, `Dni_usuario`) VALUES
-(1, 'mmillan', '12345', 1, 1, 40333222),
-(2, 'admin', 'admin', 1, 1, 76543245);
+LOCK TABLES `usuario` WRITE;
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES (1,40333222,'1234','martin@gmail.com',0,1);
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `administracion`
---
-ALTER TABLE `administracion`
-  ADD PRIMARY KEY (`Id_administracion`);
-
---
--- Indices de la tabla `alumno`
---
-ALTER TABLE `alumno`
-  ADD PRIMARY KEY (`id_alumno`),
-  ADD UNIQUE KEY `UC_DNI` (`dni`);
-
---
--- Indices de la tabla `carga_pago`
---
-ALTER TABLE `carga_pago`
-  ADD PRIMARY KEY (`id_cargaPago`),
-  ADD KEY `id_usuario` (`id_usuario`),
-  ADD KEY `id_metodoDePago` (`id_metodoDePago`),
-  ADD KEY `id_alumno` (`id_alumno`);
-
---
--- Indices de la tabla `carrera`
---
-ALTER TABLE `carrera`
-  ADD PRIMARY KEY (`id_carrera`);
-
---
--- Indices de la tabla `concepto`
---
-ALTER TABLE `concepto`
-  ADD PRIMARY KEY (`Id_Concepto`);
-
---
--- Indices de la tabla `inscripcion`
---
-ALTER TABLE `inscripcion`
-  ADD PRIMARY KEY (`id_inscripcion`),
-  ADD KEY `id_alumno` (`id_alumno`),
-  ADD KEY `id_carrera` (`id_carrera`);
-
---
--- Indices de la tabla `metodo_de_pago`
---
-ALTER TABLE `metodo_de_pago`
-  ADD PRIMARY KEY (`id_metodoDePago`);
-
---
--- Indices de la tabla `registros`
---
-ALTER TABLE `registros`
-  ADD KEY `id_cargaPago` (`id_cargaPago`);
-
---
--- Indices de la tabla `tipo_de_usuario`
---
-ALTER TABLE `tipo_de_usuario`
-  ADD PRIMARY KEY (`id_tipodeusuario`);
-
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`Id_Usuario`),
-  ADD UNIQUE KEY `UC_DNI` (`Dni_usuario`),
-  ADD KEY `id_tipodeusuario` (`id_tipodeusuario`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `administracion`
---
-ALTER TABLE `administracion`
-  MODIFY `Id_administracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `alumno`
---
-ALTER TABLE `alumno`
-  MODIFY `id_alumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `carga_pago`
---
-ALTER TABLE `carga_pago`
-  MODIFY `id_cargaPago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT de la tabla `carrera`
---
-ALTER TABLE `carrera`
-  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `concepto`
---
-ALTER TABLE `concepto`
-  MODIFY `Id_Concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `inscripcion`
---
-ALTER TABLE `inscripcion`
-  MODIFY `id_inscripcion` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `metodo_de_pago`
---
-ALTER TABLE `metodo_de_pago`
-  MODIFY `id_metodoDePago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `tipo_de_usuario`
---
-ALTER TABLE `tipo_de_usuario`
-  MODIFY `id_tipodeusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  MODIFY `Id_Usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `carga_pago`
---
-ALTER TABLE `carga_pago`
-  ADD CONSTRAINT `carga_pago_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`Id_Usuario`),
-  ADD CONSTRAINT `carga_pago_ibfk_2` FOREIGN KEY (`id_metodoDePago`) REFERENCES `metodo_de_pago` (`id_metodoDePago`),
-  ADD CONSTRAINT `carga_pago_ibfk_4` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`id_alumno`);
-
---
--- Filtros para la tabla `concepto`
---
-ALTER TABLE `concepto`
-  ADD CONSTRAINT `fk_administracion_concepto` FOREIGN KEY (`Id_Concepto`) REFERENCES `administracion` (`Id_administracion`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `inscripcion`
---
-ALTER TABLE `inscripcion`
-  ADD CONSTRAINT `inscripcion_ibfk_1` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`id_alumno`),
-  ADD CONSTRAINT `inscripcion_ibfk_2` FOREIGN KEY (`id_carrera`) REFERENCES `carrera` (`id_carrera`);
-
---
--- Filtros para la tabla `registros`
---
-ALTER TABLE `registros`
-  ADD CONSTRAINT `registros_ibfk_1` FOREIGN KEY (`id_cargaPago`) REFERENCES `carga_pago` (`id_cargaPago`);
-
---
--- Filtros para la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_tipodeusuario`) REFERENCES `tipo_de_usuario` (`id_tipodeusuario`);
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-08-16 20:09:34

@@ -8,7 +8,7 @@ require 'verificar_sesion.php';
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
    <title>Cierre Sesion</title>
-   <link rel="icon" href="../logo.png" type="image/x-icon">
+   <link rel="icon" href="../oldlogo.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./estilo.css">
     
@@ -20,7 +20,7 @@ require 'verificar_sesion.php';
 <header>
      <div class="Card">
          <div class="d-flex justify-content-sm-center bg-light">
-            <div class="p-2  flex-fill"><img src="../logo.jpg" alt="ISFT182"width="4%" class="float-start">
+            <div class="p-2  flex-fill"><img src="../oldlogo.png" alt="ISFT182"width="4%" class="float-start">
 
             </div>
          </div> 
