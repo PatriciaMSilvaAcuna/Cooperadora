@@ -17,7 +17,7 @@ if ($result->num_rows > 0) {
     session_start();
 
     // Agregar variables a la sesión
-    $_SESSION['dniusuario'] = $documento;
+    $_SESSION['usuario'] = $documento;
     $_SESSION['idusuario'] = $idUsuario;
 
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
