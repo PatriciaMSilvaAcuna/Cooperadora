@@ -13,15 +13,17 @@ function saveNewUser()/*Creamos  la funcion que va a guardar nuevos datos a la t
 {
     $mysqli = conexion();/*conexion a la base de datos. desde el archivo conexion, que esta adentro de la carpeta modelo*/
 
-    $usuario = $_POST['usuario'];
-    $contrasenia = $_POST['contrasenia'];
     $dni = $_POST['dni'];
-    $tipoUsuario=$_POST['tipoUsuario'];
+    $contrasenia = $_POST['contrasenia'];
+    $mailusuario = $_POST['mailusuario'];
+    $tipoUsuario = $_POST['tipoUsuario'];
 
-   // Llamada al procedimiento almacenado
-    $stmt = $mysqli->prepare("CALL sp_InsertarUsuario(?, ?, ?, ?)");
-    $stmt->bind_param("ssii", $usuario, $contrasenia, $dni, $tipoUsuario);
-    
+    // Llamada al procedimiento almacenado
+    $stmt = $mysqli->prepare("CALL insertarUsuario(?, ?, ?, ?, ?)");
+    $usuarioactivo = 1; // Definir el valor como variable
+
+    $stmt->bind_param("issii", $dni, $contrasenia, $mailusuario, $tipoUsuario, $usuarioactivo);
+   
     if ($stmt->execute()) {
         return json_encode("El usuario fue dado de alta correctamente");
     } else {
@@ -32,7 +34,7 @@ function saveNewUser()/*Creamos  la funcion que va a guardar nuevos datos a la t
 function getUser(){/*funcion que va a solicitar al servidor una informacion*/
     $mysqli = conexion();/*conexion a la base de datos. desde el archivo conexion, que esta adentro de la carpeta modelo*/
     // Consulta para verificar si el usuario ya está inactivo
-    $consultaUsuario = "SELECT Usuario_activo FROM usuario WHERE Dni_Usuario = $dni";
+    $consultaUsuario = "SELECT usuarioactivo FROM usuario WHERE dniusuario = $dni";
     $stmtConsulta = $mysqli->prepare($consultaUsuario);
     $stmtConsulta->bind_param("s", $usuario);
     $stmtConsulta->execute();
@@ -45,14 +47,14 @@ function getUser(){/*funcion que va a solicitar al servidor una informacion*/
 
 
 
-    $query = "SELECT p.id as id, p.Usuario as usuario, p.Contrasenia as contrasenia, p.Dni_Usuario as dni, c.id as idcategoria, c.Id_tipoUsuario as tipoUsuario FROM usuario p INNER JOIN tipoUsuario c ON p.Id_tipoUsuario = c.id";/*Me trae el id de producto,el nombre de producto, el precio .el id de categoria,el nombre de la categoria*/
+    $query = "SELECT p.idusuario as id, p.mailusuario as usuario, p.contrasenia as contrasenia, p.dniusuario as dni, c.id as idcategoria, c.Id_tipoUsuario as tipoUsuario FROM usuario p INNER JOIN tipousuario c ON p.idtipousuario = c.idtipousuario";
 
     $usuarios = array();
 
     $result = $mysqli->query($query);
 
     while($row = $result->fetch_assoc())
-    {/*Recorre la matriz resultado de manera asociativa y se guarda en el array alumnos*/
+    {/*Recorre la matriz resultado de manera asociativa y se guarda en el array usuarios*/
         $usuarios[] = $row;
     }
 
@@ -67,7 +69,7 @@ function updateUsuario()/*funcion que va a modificar los datos que contiene actu
     $mysqli = conexion();/*conexion a la base de datos. desde el archivo conexion, que esta adentro de la carpeta modelo*/
     
     
-    $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';/*recibe una matriz de  tipo POST el cual va a mandar los datos al servidor*/
+    $mailusuario = isset($_POST['mailusuario']) ? $_POST['mailusuario'] : '';/*recibe una matriz de  tipo POST el cual va a mandar los datos al servidor*/
     var_dump($_POST);
     $contrasenia  =isset($_POST['contrasenia']) ? $_POST['contrasenia'] : '';
     
@@ -75,8 +77,8 @@ function updateUsuario()/*funcion que va a modificar los datos que contiene actu
 
     $dni_usuario= isset($_POST['dni_usuario']) ? $_POST['dni_usuario'] : '';
 
-    $query  = "UPDATE  usuario SET  usuario = '$usuario', contrasenia = '$contrasenia' , usuario_activo = '$usuario_activo',dni_usuario= '$dni_usuario'";
-    $query .= " WHERE dni_usuario = '$dni_usuario'";
+    $query  = "UPDATE  usuario SET  mailusuario = '$mailusuario', contrasenia = '$contrasenia' , usuarioactivo = '$usuario_activo',dniusuario= '$dni_usuario'";
+    $query .= " WHERE dniusuario = '$dni_usuario'";
     
 
     if(!$mysqli->query($query)){/*condicional que se fija si la sentencia falla o no*/

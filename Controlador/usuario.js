@@ -23,27 +23,28 @@ function getTipoUsuario()
         type : 'POST',/*El tipo de peticion va a ser post*/
         url  : '../Modelo/getTipoUsuario.php',/* peticion al archivo getUsuario.php que esta en la carpeta modelo */
         dataType : 'JSON',/*El tipo de informacion que se espera de respuesta es JSON*/
-        success : function(data)
-        {/*Guardamos los datos a la tabla que se va a ver por pantalla*/
+        success : function(data){/*Guardamos los datos a la tabla que se va a ver por pantalla*/
+            console.log(data); 
             let options = "";
 
             for(let i = 0; i < data.length; i++)
             {
-                let id_tipodeusuario  = data[i].id_tipodeusuario;
-                let tipoUsuario   = data[i].tipoUsuario;
-                
+                let id_tipousuario  = data[i].idtipousuario;  
+                let tipoUsuario   = data[i].tipousuario;  
 
-                options += "<option value = '"+id_tipodeusuario+"'>"+tipoUsuario+"</option>";
+                options += "<option value = '"+id_tipousuario+"'>"+tipoUsuario+"</option>";
             }
             $('#tipoUsuario').html(options);
+
             // Escucha el evento "change" y selecciona la opción
             $('#tipoUsuario').on('change', function () {
                 var selectedValue = $(this).val();
                 console.log("Valor seleccionado:", selectedValue);
             });
         }
-    })
+    });
 }
+
 function updateUsuario()/*funcion que va a modificar los datos que
  contiene actualmente la tabla*/
 {
@@ -67,20 +68,22 @@ function updateUsuario()/*funcion que va a modificar los datos que
 }
 function saveNewUser() {
     
-        // Verifica si algún campo requerido está vacío
-    let usuario = $('#usuario').val().trim();
+        
+    let mailusuario = $('#mailusuario').val().trim();
     let contrasenia = $('#contrasenia').val().trim();
     let dni = $('#dni').val().trim();
+    let tipoUsuario = $('#tipoUsuario').val();
+
      // Verifica si algún campo requerido está vacío
-    if (usuario === '' || contrasenia === '' || dni === '') {
+    if (mailusuario === '' || contrasenia === '' || dni === '') {
         alert('Por favor, completa todos los campos obligatorios.');
         return; // Detén el envío si algún campo está vacío
     }
-    // Validación de longitud y tipología para el campo de usuario
-    if (!/^[a-zA-Z]{4,20}$/.test(usuario)) {
-        alert('El nombre de usuario debe contener entre 4 y 20 letras.');
-        return;
-    }
+    // Validación de formato de correo electrónico
+     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mailusuario)) {
+     alert('Formato no válido para correo electrónico.');
+     return;
+}
     // Validación de longitud para el campo de contraseña
     if (contrasenia.length < 4) {
         alert('La contraseña debe tener al menos 4 caracteres.');
@@ -137,14 +140,14 @@ function getUser() {
 
             for (let i = 0; i < data.length; i++) {
                 let id = data[i].Id_Usuario;
-                let usuario = data[i].Usuario;
+                let emailusuario = data[i].mailUsuario;
                 let contrasenia = data[i].Contrasenia;
                 let dni = data[i].Dni_Usuario;
                 let estado = data[i].Usuario_activo;
 
                 tabla += "<tr>" +
                     "<td>" + id + "</td>" +
-                    "<td>" + usuario + "</td>" +
+                    "<td>" + emailusuario + "</td>" +
                     "<td>" + contrasenia + "</td>" +
                     "<td>" + dni + "</td>" +
                     "<td>" + estado + "</td>";
@@ -190,7 +193,7 @@ function bajaUsuario(button) {
                 console.log('Respuesta del servidor:', response);
                  alert("Usuario dado de baja correctamente");
                 limpiarForm();
-                  $('#usuario').remove();
+                  $('#mailusuario').remove();
 
             
 
@@ -208,7 +211,7 @@ function bajaUsuario(button) {
 
 function limpiarForm(){/*limpia el formulario*/
     console.log("Limpieza de form");
-    $('#usuario').prop('value','');
+    $('#mailusuario').prop('value','');
     $('#contrasenia').prop('value','');
     $('#dni').prop('value','');
    
