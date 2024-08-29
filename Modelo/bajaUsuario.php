@@ -6,7 +6,7 @@ function bajaUsuario($userId)
     $mysqli = conexion(); // Establece la conexión a la base de datos
     $userId = $mysqli->real_escape_string($userId); // Evita la inyección SQL
 
-    $query = "UPDATE usuario SET Usuario_activo = 0 WHERE Id_Usuario = '$userId'";
+    $query = "UPDATE usuario SET usuarioactivo = 0 WHERE idusuario = '$userId'";
     $resultado = $mysqli->query($query); // Ejecuta la consulta
 
     if ($resultado) {

@@ -3,6 +3,7 @@
 include_once('conexion.php');/*Nombre del archivo donde conecta a la base de datos*/
 
 $dni = isset($_POST['dni']) ? $_POST['dni'] : '';
+
 echo getUsuario($dni);/*Llamamos a la funcion getUsuario*/
 
 
@@ -11,7 +12,8 @@ function getUsuario($dni)/*Creamos  la funcion getUsuario que va a solicitar los
     $mysqli = conexion();/*conexion a la base de datos. desde el archivo conexion, que esta adentro de la carpeta modelo*/
 
 
-    $query = "SELECT Id_Usuario, Usuario, Contrasenia, Dni_Usuario, Usuario_activo FROM usuario WHERE Dni_Usuario = ?";/*Pedimos los datos de la tabla usuario de la base de datos*/
+    $query = "SELECT idusuario, dniusuario, contrasenia, mailusuario, usuarioactivo FROM usuario WHERE dniusuario = ?";
+    /*Pedimos los datos de la tabla usuario de la base de datos*/
     
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param("s", $dni);

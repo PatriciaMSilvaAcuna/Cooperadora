@@ -136,26 +136,30 @@ function getUser() {
                 return; // Salir de la función si no hay datos
             }
 
-            let tabla = "<tr><th>Id_Usuario</th><th>Usuario</th><th>Contraseña</th><th>DNI</th><th>Estado</th><th>Seleccionar</th></tr>";
+            let tabla = "<tr><th>Id_Usuario</th><th>DNI</th><th>Contraseña</th><th>Correo</th><th>Estado</th><th>Seleccionar</th></tr>";
 
             for (let i = 0; i < data.length; i++) {
-                let id = data[i].Id_Usuario;
-                let emailusuario = data[i].mailUsuario;
-                let contrasenia = data[i].Contrasenia;
-                let dni = data[i].Dni_Usuario;
-                let estado = data[i].Usuario_activo;
+                let id = data[i].idusuario;
+                let dni = data[i].dniusuario;
+                let contrasenia = data[i].contrasenia;
+                let mailusuario = data[i].mailusuario;
+                let estado = data[i].usuarioactivo;
+                
+                // Convertir el estado a texto
+                let estadoTexto = (estado === 1) ? "Activo" : "Inactivo";
 
                 tabla += "<tr>" +
                     "<td>" + id + "</td>" +
-                    "<td>" + emailusuario + "</td>" +
-                    "<td>" + contrasenia + "</td>" +
                     "<td>" + dni + "</td>" +
-                    "<td>" + estado + "</td>";
+                    "<td>" + contrasenia + "</td>" +
+                    "<td>" + mailusuario + "</td>"+
+                    "<td>" + estadoTexto + "</td>";
 
                 // Validación del estado del usuario
                 if (estado === 0) {
                     tabla += "<td><input type='checkbox' class='user-checkbox' data-id='" + id + "' disabled></td>";
                     alert('Este usuario ya está dado de baja.');
+                    limpiarForm();
                 } else {
                     tabla += "<td><input type='checkbox' class='user-checkbox' data-id='" + id + "'></td>";
                 }
@@ -214,6 +218,8 @@ function limpiarForm(){/*limpia el formulario*/
     $('#mailusuario').prop('value','');
     $('#contrasenia').prop('value','');
     $('#dni').prop('value','');
+     // Vaciar el contenido de la tabla de usuarios
+    $('#usuario').html('');
    
 }
 
