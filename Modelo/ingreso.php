@@ -19,6 +19,7 @@ if ($result->num_rows > 0) {
     // Agregar variables a la sesión
     $_SESSION['usuario'] = $documento;
     $_SESSION['idusuario'] = $idUsuario;
+    $_SESSION['idtipousuario'] = $Id_tipoUsuario;
 
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
     header("Pragma: no-cache");
@@ -30,12 +31,12 @@ if ($result->num_rows > 0) {
         header("Location: ../Vista/accesoAceptadoOperador.html");
     } else {
         // Redirigir a una página de error o manejar otro caso
-        // Por ejemplo:
+       
          header("Location: ../Vista/error.html");
     }
 } else {
     // Redirigir a una página de error o manejar otro caso
-    // Por ejemplo:
+    
     header("Location: ../Vista/error.html");
 }
 
