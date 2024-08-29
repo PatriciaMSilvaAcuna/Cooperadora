@@ -1,8 +1,18 @@
 $(document).ready(function () {
-    $("#dni").click(function (event) {
-        event.preventDefault(); // Evitar que el formulario se envíe automáticamente
-        var dni = $("#dniInput").val(); // Obtener el valor del campo DNI
-        obtenerMovimientos(dni); // Llamar a la función obtenerMovimientos con el DNI
+    $("#dni").click(function (event) { 
+        event.preventDefault();
+        
+        var dni = $("#dniInput").val(); 
+        
+        
+        console.log("DNI ingresado:", dni);
+
+        
+        if (dni) {
+            obtenerMovimientos(dni);
+        } else {
+            alert("Por favor, ingrese un DNI.");
+        }
     });
 });
 
@@ -19,6 +29,7 @@ function obtenerMovimientos(dni) {
         data: { dni: dni }, // Enviar el DNI al servidor PHP
         dataType: "json",
         success: function (data) {
+
             console.log("Respuesta del servidor:", data);
             $("#alumno").empty(); // Limpiar la tabla antes de agregar nuevas filas
 
@@ -41,9 +52,9 @@ function obtenerMovimientos(dni) {
                     var row = '<tr>' +
                         '<td>' + alumno.nombre + '</td>' +
                         '<td>' + alumno.apellido + '</td>' +
-                        '<td>' + alumno.valorAbonado + '</td>' +
+                        '<td>' + alumno.valorabonado + '</td>' +
                         '<td>' + alumno.fecha + '</td>' +
-                        '<td>' + alumno.tipoDePago + '</td>' +
+                        '<td>' + alumno.metodopago + '</td>' +
                         '</tr>';
                     $("#alumno").append(row); // Agregar cada fila a la tabla
                 });
@@ -51,7 +62,9 @@ function obtenerMovimientos(dni) {
         },
         error: function (xhr, status, error) {
             console.error("Error en la petición AJAX:", status, error);
-            console.log("Respuesta del servidor:", xhr.responseText);
+            console.log("Respuesta del servidor (HTML):", xhr.responseText); // Muestra el HTML que está causando el error
         }
+        
     });
 }
+
