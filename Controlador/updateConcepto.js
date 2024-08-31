@@ -2,6 +2,7 @@ $(document).ready(function() {
     // Llama a la función inicial para llenar el select con los conceptos
     getConceptoPago();
 
+$('#eliminar').on('click',limpiarForm);
     // Asociar el evento de cambio del select para obtener el valor actual del concepto
     $('#concepto').on('change', function() {
         let conceptoId = $(this).val();
@@ -44,6 +45,8 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(response) {
                     alert(response.message);
+                    limpiarForm();
+
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al actualizar el concepto:', error);
@@ -73,3 +76,11 @@ $(document).ready(function() {
         });
     }
 });
+function limpiarForm(){/*limpia el formulario*/
+    console.log("Limpieza de form");
+    $('#concepto').prop('value','');
+    $('#valorAbonado').prop('value','');
+    $('#anioVigencia').prop('value','');
+     
+   
+}

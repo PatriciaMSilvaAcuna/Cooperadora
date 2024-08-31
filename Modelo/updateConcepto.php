@@ -1,51 +1,42 @@
 <?php
-include_once('conexion.php'); 
+include_once('conexion.php');
 
+// Establecer la conexión con la base de datos
 $mysqli = conexion();
 
-// Obtener el idconcepto de la solicitud POST
+// Obtener los datos de la solicitud POST
 $idconcepto = isset($_POST['idconcepto']) ? intval($_POST['idconcepto']) : 0;
-// Depuración: imprime el idconcepto recibido
-//error_log('ID Concepto recibido: ' . $idconcepto);
+$valorconcepto = isset($_POST['valorconcepto']) ? $_POST['valorconcepto'] : '';
+$aniovigencia = isset($_POST['aniovigencia']) ? intval($_POST['aniovigencia']) : 0;
 
-if ($idconcepto > 0) {
-    // Consulta para obtener el valor del concepto y el año de vigencia para el idadministracion más alto
-    $query = "SELECT valorconcepto, aniovigente
-              FROM administracion 
-              WHERE idconcepto = ? 
-              AND idadministracion = (SELECT MAX(idadministracion) FROM administracion WHERE idconcepto = ?)";
+$response = array();
+
+// Validar que todos los datos necesarios estén presentes
+if ($idconcepto > 0 && $valorconcepto !== '' && $aniovigencia > 0) {
+    // Consulta para insertar un nuevo registro
+    $query = "INSERT INTO administracion (idconcepto, valorconcepto, aniovigente)
+              VALUES (?, ?, ?)";
 
     // Preparar y ejecutar la consulta
     if ($stmt = $mysqli->prepare($query)) {
-        $stmt->bind_param("ii", $idconcepto, $idconcepto);
+        $stmt->bind_param("isi", $idconcepto, $valorconcepto, $aniovigencia);
         if ($stmt->execute()) {
-            $result = $stmt->get_result();
-
-            // Preparar los datos para el JSON
-            $data = array();
-            if ($row = $result->fetch_assoc()) {
-                $data['valorconcepto'] = $row['valorconcepto'];
-                $data['aniovigente'] = $row['aniovigente'];
-            } else {
-                $data['valorconcepto'] = 'No se encontró valor';
-                $data['aniovigente'] = 'No se encontró año';
-            }
-
-            $stmt->close();
+            $response['message'] = 'Inserción exitosa';
         } else {
-            $data['error'] = 'Error al ejecutar la consulta: ' . $mysqli->error;
+            $response['message'] = 'Error en la ejecución de la consulta';
         }
+        $stmt->close();
     } else {
-        $data['error'] = 'Error al preparar la consulta: ' . $mysqli->error;
+        $response['message'] = 'Error en la preparación de la consulta';
     }
-
-    $mysqli->close();
 } else {
-    $data['error'] = 'ID concepto inválido';
+    $response['message'] = 'Datos inválidos o incompletos';
 }
+
+// Cerrar la conexión con la base de datos
+$mysqli->close();
 
 // Enviar la respuesta en formato JSON
 header('Content-Type: application/json');
-echo json_encode($data);
-//var_dump($data);
+echo json_encode($response);
 ?>
