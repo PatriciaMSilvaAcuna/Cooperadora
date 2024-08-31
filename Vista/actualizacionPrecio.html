@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualización de Aranceles</title>
+    <link rel="icon" href="../oldlogo.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./estilo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <script src="../Controlador/cerrarSesion.js"></script>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<header>
+    <div class="Card">
+         <div class="d-flex justify-content-sm-center bg-light">
+            <div class="p-2  flex-fill"><img src="../oldlogo.png" alt="ISFT182" width="4%" class="float-start">
+
+            <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="window.location.href='confirmarCerrarSesion.php'">
+            <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+            </div>
+         </div> 
+       </div> 
+</header>
+<body>
+    <div class="container-fluid text-center h-100 w-50">
+        <div class="card custom-card">
+            <br>
+            <h1 style="color: skyblue;">Actualización Precio de conceptos</h1>
+            
+            <div class="custom-select-wrapper">
+                <select class="form-control form-control-lg" name="concepto" id="concepto">
+                    <option value="" disabled selected>Seleccione Concepto</option>
+                </select>
+            </div>
+            <br>
+            <!-- Campo para el valor del concepto -->
+            <input type="text" class="form-control form-control-lg" name="valorAbonado" id="valorAbonado" placeholder="Nuevo valor" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required>
+            <br>
+            <!-- Campo para el año de vigencia -->
+            <input type="number" class="form-control form-control-lg" name="aniovigencia" id="aniovigencia" placeholder="Año de vigencia" min="2020" max="2200" required>
+            <br>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-dark btn-lg mi-boton" onclick="window.location.href='gestionarConceptos.html'" id="volverBtn">Volver</button>
+                <button type="button" class="btn btn-outline-primary btn-lg mi-boton" id="actualizarBtn">Actualizar Precio</button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../Controlador/updateConcepto.js"></script>
+</body>
+
+<footer class="text-center bg-dark text-white py-3 fixed-bottom">
+    <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
+</footer>
+</html>
