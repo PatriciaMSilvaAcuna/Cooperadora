@@ -1,55 +1,65 @@
 <?php
 
-include_once('conexion.php'); // Nombre del archivo donde conecta a la base de datos
-header('Content-Type: application/json');
+include_once('conexion.php'); 
+header('Content-Type: application/json');// Establece el tipo de contenido como JSON para la respuesta
+
+
 try {
-    updateUsuario();
+    updateUsuario();// Llama a la función que actualiza los datos del usuario
 } catch (Exception $e) {
+    // Captura cualquier excepción y devuelve un mensaje de error en formato JSON
     echo json_encode(['success' => false, 'message' => 'Excepción capturada: ' . $e->getMessage()]);
 }
 
 function updateUsuario() {
+     // Verifica que la solicitud sea del tipo POST
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $mysqli = conexion(); // Conexión a la base de datos desde el archivo conexion.php
-        
+        $mysqli = conexion(); // Obtiene la conexión a la base de datos
+         // Verifica si hubo un error de conexión a la base de datos
         if ($mysqli->connect_error) {
             echo json_encode(['success' => false, 'message' => 'Error de conexión a la base de datos: ' . $mysqli->connect_error]);
             return;
         }
 
-        // Obtener y verificar los datos recibidos por POST
-        $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';
-        $contrasenia = isset($_POST['contrasenia']) ? $_POST['contrasenia'] : '';
+        // Obtiene los datos enviados por POST y asigna valores por defecto si no están presentes
+        $idusuario  = $_POST['idusuario']?? null;
+        $Dni_usuario = $_POST['Dni_usuario'] ?? '';
+        $contrasenia = $_POST['contrasenia'] ?? '';
+        $mailusuario = $_POST['mailusuario'] ?? '';
         $usuario_activo = isset($_POST['usuario_activo']) ? 1 : 0;
-        $Dni_usuario = isset($_POST['Dni_usuario']) ? $_POST['Dni_usuario'] : '';
-        
-        // Validar que el DNI del usuario esté presente
-        if (empty($Dni_usuario)) {
-            echo json_encode(['success' => false, 'message' => 'DNI del usuario no proporcionado.']);
+        $idtipousuario = $_POST['idtipousuario'] ?? '';
+         // Verifica que los campos obligatorios no estén vacíos
+        if (empty($idusuario) || empty($Dni_usuario)) {
+            echo json_encode(['success' => false, 'message' => 'DNI del usuario o ID de usuario no proporcionados.']);
             return;
         }
 
+    
+
         // Preparar la consulta SQL para actualizar los datos del usuario
-        $query = "UPDATE usuario SET usuario = ?, contrasenia = ?, usuario_activo = ? WHERE Dni_usuario = ?";
+        $query = "UPDATE usuario SET dniusuario = ?, contrasenia = ?, mailusuario = ?, usuarioactivo = ?, idtipousuario = ? WHERE idusuario = ?";
         $stmt = $mysqli->prepare($query);
+
         if ($stmt) {
-            $stmt->bind_param("ssis", $usuario, $contrasenia, $usuario_activo, $Dni_usuario);
-            
-            // Ejecutar la consulta y verificar el resultado
+             // Vincula los parámetros con los valores recibidos
+            $stmt->bind_param("issiii", $Dni_usuario, $contrasenia, $mailusuario, $usuario_activo, $idtipousuario, $idusuario);
+            // Ejecuta la consulta y verifica si la operación fue exitosa
             if ($stmt->execute()) {
                 echo json_encode(['success' => true, 'message' => 'Datos actualizados correctamente.']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'No se pudo actualizar los datos.']);
             }
             
-            $stmt->close();
+            $stmt->close();// Cierra la sentencia preparada
         } else {
+            // Registra el error en el log y devuelve un mensaje de error en formato JSON
             error_log('Error al preparar la consulta: ' . $mysqli->error);
             echo json_encode(['success' => false, 'message' => 'Error al preparar la consulta.']);
         }
 
-        $mysqli->close();
+        $mysqli->close();// Cierra la conexión a la base de datos
     } else {
+        // Si la solicitud no es POST, devuelve un mensaje de error en formato JSON
         echo json_encode(['success' => false, 'message' => 'Solicitud inválida.']);
     }
 }
