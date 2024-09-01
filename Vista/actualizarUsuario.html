@@ -23,41 +23,51 @@
         <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="window.location.href='confirmarCerrarSesion.php'">
             <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
             </div>
-         </div> 
-       </div>        
+        </div> 
+        </div>        
 </header>
     <body>
+    
         <div class="container-fluid text-center h-100">
         <div class="card custom-card">
             <br>
-            <h1 style="color: skyblue;">Actualizar Datos del Usuario</h1>
+            <h3 style="color: skyblue;">Buscar Usuario</h3>
+            <br>
+            <form id="buscarForm">
+                <label for="Dni_usuario1">Dni Usuario:</label>
+                <input class="form-control form-control-lg" type="text" id="Dni_usuario1" name="Dni_usuario1" required><br>
+                <button type="submit" class="btn btn-outline-primary btn-lg mi-boton" id="buscarUsuario">Buscar</button>
+            </form>
+            <p id="mensaje"></p>
+            
+            <br>
+            <h3 style="color: skyblue;">Actualizar Datos del Usuario</h3>
             <br>
     
         <div class="formulario">
 
-            <form  method="POST" id="actualizarForm">
-              
-                <input class="formu-input formu-control-lg" type="hidden" id="id" name="id" >
-                <label for="usuario">Usuario:</label>
-                <input class="form-control form-control-lg" type="text" id="usuario" name="usuario" required><br>
+            <form  id="actualizarForm">
+            
+                    <input type="hidden" id="idusuario" name="idusuario">
+                    
+                    <label for="Dni_usuario">Dni Usuario:</label>
+                    <input class="form-control form-control-lg" type="text" id="Dni_usuario" name="Dni_usuario" required>
+                    <label for="contrasenia">Contraseña:</label>
+                    <input class="form-control form-control-lg" type="password" id="contrasenia" name="contrasenia" required>
+                    <label for="mailusuario">Mail del Usuario:</label>
+                    <input class="form-control form-control-lg" type="text" id="mailusuario" name="mailusuario" required>
 
-                <label for="contrasenia">Contraseña:</label>
-                <input class="form-control form-control-lg" type="password" id="contrasenia" name="contrasenia" required ><br>
-
-        <input class="formu-input form-control-lg" type="hidden" id="Dni_usuario" name="Dni_usuario">
-        <div class="forcheck form-control-lg">
-            <label for="estado">Estado:</label>
-            <input class="formu-checkbox" type="checkbox" id="usuario_activo" name="usuario_activo" value="1">
-            <label class="formu-checkbox" for="usuario_activo"data-checked-text="Usuario activo" data-unchecked-text="Usuario Inactivo"></label>
+                    <div class="forcheck form-control-lg">
+                    <label for="usuario_activo">Estado:</label>
+                    <input class="formu-checkbox" type="checkbox" id="usuario_activo" name="usuario_activo" value="1">
+                    <label class="formu-checkbox" for="usuario_activo"data-checked-text="Usuario activo" data-unchecked-text="Usuario Inactivo"></label>
         </div>
-<br>
-<div class="d-flex justify-content-between">
+        <br>
+    <div class="d-flex justify-content-between">
             <button type="button" class="btn btn-outline-dark  btn-lg mi-boton" onclick="window.location.href='gestionarUsuario.html'">Volver</button>
                     <button class="btn btn-outline-primary btn-lg mi-boton" type="submit" id="update">Actualizar</button>
-        
     </form>
-    
-    <p  id="mensaje"></p>
+                <p id="mensaje"></p>
 </div>
 </div>
 <br>
@@ -66,8 +76,9 @@
     <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src = "../Controlador/usuario1.js" defer></script>
 </body>
+<br>
 <footer class="text-center bg-dark text-white py-3 fixed-bottom">
-       <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
+    <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
 </footer>   
 
 </html>
