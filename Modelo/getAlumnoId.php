@@ -1,7 +1,13 @@
 <?php
+session_start(); 
 include_once('conexion.php'); 
 
 $mysqli = conexion();
+
+if (!isset($_SESSION['idusuario'])) {
+    echo json_encode(['error' => 'Usuario no autenticado']);
+    exit();
+}
 
 $dni = $_POST['dni'];
 
@@ -13,10 +19,15 @@ if ($stmt) {
     $stmt->execute();
     $stmt->bind_result($id_alumno);
     $stmt->fetch();
-    echo json_encode($id_alumno);
+    // Verifica que $id_alumno no esté vacío
+    if ($id_alumno) {
+        echo json_encode(['idalumno' => $id_alumno]);
+    } else {
+        echo json_encode(['idalumno' => null]);
+    }
     $stmt->close();
 } else {
-    echo json_encode(null);
+    echo json_encode(['error' => 'Error al preparar la consulta']);
 }
 
 $mysqli->close();

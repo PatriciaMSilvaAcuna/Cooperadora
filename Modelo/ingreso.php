@@ -5,39 +5,39 @@ $documento = $_POST['documento'];
 $contrasena = $_POST['contrasena'];
 $conexion = conexion();
 
-$query = "SELECT * FROM usuario WHERE dniusuario = '$documento' AND contrasenia = '$contrasena' AND usuarioactivo = 1";
-$result = $conexion->query($query);
-
+// Consulta con parámetros para evitar inyecciones SQL
+$query = "SELECT idusuario, idtipousuario FROM usuario WHERE dniusuario = ? AND contrasenia = ? AND usuarioactivo = 1";
+$stmt = $conexion->prepare($query);
+$stmt->bind_param('ss', $documento, $contrasena);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $usuarioData = $result->fetch_assoc();
-     $Id_tipoUsuario = $usuarioData['idtipousuario'];
     
     // Iniciar una nueva sesión o reanudar la existente
     session_start();
 
     // Agregar variables a la sesión
     $_SESSION['usuario'] = $documento;
-    $_SESSION['idusuario'] = $idUsuario;
-    $_SESSION['idtipousuario'] = $Id_tipoUsuario;
+    $_SESSION['idusuario'] = $usuarioData['idusuario'];  // Asegúrate de usar el campo correcto
+    $_SESSION['idtipousuario'] = $usuarioData['idtipousuario'];
 
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
     header("Pragma: no-cache");
 
     // Redirigir al usuario a la página correspondiente
-    if ($Id_tipoUsuario == 0) {
+    if ($usuarioData['idtipousuario'] == 0) {
         header("Location: ../Vista/accesoAceptadoAdmin.html");
-    } elseif ($Id_tipoUsuario == 1) {
+    } elseif ($usuarioData['idtipousuario'] == 1) {
         header("Location: ../Vista/accesoAceptadoOperador.html");
     } else {
-        // Redirigir a una página de error o manejar otro caso
-       
-         header("Location: ../Vista/error.html");
+        header("Location: ../Vista/error.html");
     }
 } else {
-    // Redirigir a una página de error o manejar otro caso
-    
     header("Location: ../Vista/error.html");
 }
 
+$stmt->close();
+$conexion->close();
 ?>

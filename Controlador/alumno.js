@@ -81,53 +81,58 @@ $(document).ready(function() {
             alert('Por favor ingrese un DNI.');
         }
     }
+// Función para registrar el pago
+function setPago() {
+    let valorAbonado = $('#valorAbonado').val();
+    let fecha = $('#fecha').val();
+    let metodoPago = $('#metodoPago').val(); // ID del método de pago
+    let dni = $('#dni').val();
+    let concepto = $('#concepto').val(); // ID del concepto
 
-    // Función para registrar el pago
-    function setPago() {
-        let valorAbonado = $('#valorAbonado').val();
-        let fecha = $('#fecha').val();
-        let metodoPago = $('#metodoPago').val();
-        let dni = $('#dni').val();
-        let concepto = $('#concepto').val();
-
-        if (valorAbonado && fecha && metodoPago && dni && concepto) {
-            // Obtener idalumno basado en el dni ingresado
-            $.ajax({
-                type: 'POST',
-                url: '../Modelo/getAlumnoId.php',
-                data: { dni: dni },
-                dataType: 'json',
-                success: function(idalumno) {
-                    if (idalumno) {
-                        // Si se obtiene el idalumno, realizar la inserción del pago
-                        $.ajax({
-                            type: 'POST',
-                            url: '../Modelo/setPago.php',
-                            data: {
-                                valorAbonado: valorAbonado,
-                                fecha: fecha,
-                                metodoPago: metodoPago,
-                                concepto: concepto,
-                                idalumno: idalumno
-                            },
-                            dataType: 'json',
-                            success: function(response) {
-                                alert(response);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error al registrar el pago:', error);
+    if (valorAbonado && fecha && metodoPago && dni && concepto) {
+        // Obtener idalumno basado en el dni ingresado
+        $.ajax({
+            type: 'POST',
+            url: '../Modelo/getAlumnoId.php',
+            data: { dni: dni },
+            dataType: 'json',
+            success: function(response) {
+                console.log('Response from getAlumnoId.php:', response); // Depuración
+                if (response.idalumno) {
+                    // Si se obtiene el idalumno, realizar la inserción del pago
+                    $.ajax({
+                        type: 'POST',
+                        url: '../Modelo/setPago.php',
+                        data: {
+                            fecha: fecha,
+                            valorAbonado: valorAbonado,
+                            metodoPago: metodoPago,
+                            concepto: concepto,
+                            idalumno: response.idalumno
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                alert(response.message);
+                            } else {
+                                alert(response.message);
                             }
-                        });
-                    } else {
-                        alert('No se encontró un alumno con el DNI ingresado.');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al obtener el ID del alumno:', error);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error al registrar el pago:', xhr.responseText);
+                        }
+                    });
+                } else {
+                    alert('No se encontró un alumno con el DNI ingresado.');
                 }
-            });
-        } else {
-            alert('Por favor complete todos los campos y seleccione un alumno.');
-        }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al obtener el ID del alumno:', xhr.responseText);
+            }
+        });
+    } else {
+        alert('Por favor complete todos los campos y seleccione un alumno.');
     }
+}
+
 });

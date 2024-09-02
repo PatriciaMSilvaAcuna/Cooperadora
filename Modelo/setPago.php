@@ -1,31 +1,37 @@
 <?php
+session_start(); 
+
 include_once('conexion.php'); 
 
 $mysqli = conexion();
 
+if (!isset($_SESSION['idusuario'])) {
+    echo json_encode(['status' => 'error', 'message' => 'Usuario no autenticado']);
+    exit();
+}
+
 $valorAbonado = $_POST['valorAbonado'];
 $fecha = $_POST['fecha'];
-$idUsuario = $_SESSION['idusuario']; 
-$id_metodoDePago = $_POST['metodoPago'];
-$concepto = $_POST['concepto'];
-$id_alumno = $_POST['idalumno'];
+$idmetodopago = $_POST['metodoPago'];
+$idconcepto = $_POST['concepto'];
+$idalumno = $_POST['idalumno']; // ID del alumno obtenido
 
-$query = "INSERT INTO cargapago (valorabonado, fecha, idusuario, idmetodoDePago, idalumno,idconcepto) VALUES (?, ?, ?, ?, ?,?)";
+$idusuario = $_SESSION['idusuario']; // Obtener el ID del usuario desde la sesión
+
+$query = "INSERT INTO cargapago (valorabonado, fecha, idmetodopago, idconcepto, idalumno, idusuario) VALUES (?, ?, ?, ?, ?, ?)";
 $stmt = $mysqli->prepare($query);
 
 if ($stmt) {
-    $stmt->bind_param('ssiiii', $valorAbonado, $fecha, $id_usuario, $id_metodoDePago, $id_alumno, $concepto);
+    $stmt->bind_param('ssiiii', $valorAbonado, $fecha, $idmetodopago, $idconcepto, $idalumno, $idusuario);
     if ($stmt->execute()) {
-        echo json_encode("Pago registrado con éxito");
+        echo json_encode(['status' => 'success', 'message' => 'Pago registrado con éxito']);
     } else {
-        echo json_encode("Error al registrar el pago: " . $stmt->error);
+        echo json_encode(['status' => 'error', 'message' => 'Error al registrar el pago']);
     }
     $stmt->close();
 } else {
-    echo json_encode("Error al preparar la consulta: " . $mysqli->error);
+    echo json_encode(['status' => 'error', 'message' => 'Error al preparar la consulta']);
 }
 
 $mysqli->close();
-
-
 ?>
