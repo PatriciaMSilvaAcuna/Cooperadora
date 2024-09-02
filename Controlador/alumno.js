@@ -5,6 +5,7 @@ $(document).ready(function() {
     function iniciar() {
         getMetodosPago(); // Llama a la función getMetodosPago
         getConceptoPago(); // Llama a la función getConceptoPago
+        $('#eliminar').on('click',limpiarForm);
         $('#getDatosAlumnos').on('click', getDatosAlumnos); // Asocia el evento click al botón getDatosAlumnos
          $('#altaPago').on('click', setPago); // Asocia el evento click al botón altaPago
     }
@@ -114,6 +115,7 @@ function setPago() {
                         success: function(response) {
                             if (response.status === 'success') {
                                 alert(response.message);
+                                limpiarForm();
                             } else {
                                 alert(response.message);
                             }
@@ -133,6 +135,17 @@ function setPago() {
     } else {
         alert('Por favor complete todos los campos y seleccione un alumno.');
     }
+}
+function limpiarForm(){/*limpia el formulario*/
+    console.log("Limpieza de form");
+    $('#dni').prop('value','');
+    $('#fecha').prop('value','');
+    $('#valorAbonado').prop('value','');
+    $('#metodoPago').prop('value','');
+    $('#concepto').prop('value','');
+    $('#alumno').html('');
+   
+   
 }
 
 });
