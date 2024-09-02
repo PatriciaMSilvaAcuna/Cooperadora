@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Obtener los parámetros de la URL
     const params = new URLSearchParams(window.location.search);
-    const Dni_usuario = params.get('Dni_usuario');
-    const usuario = params.get('usuario');
+    const Dni_usuario = params.get('dni');
+    const correo = params.get('correo');
     const contrasenia = params.get('contrasenia');
 
     // Rellenar el formulario con los datos obtenidos
-    const dniInput = document.getElementById('Dni_usuario');
-    const usuarioInput = document.getElementById('usuario');
+    const dniInput = document.getElementById('dni');
+    const correoInput = document.getElementById('correo');
     const contraseniaInput = document.getElementById('contrasenia');
 
 
     if (dniInput) dniInput.value = Dni_usuario;
-    if (usuarioInput) usuarioInput.value = usuario;
+    if (correoInput) correoInput.value = correo;
     if (contraseniaInput) contraseniaInput.value = contrasenia;
 
     const form = document.getElementById('actualizarForm');

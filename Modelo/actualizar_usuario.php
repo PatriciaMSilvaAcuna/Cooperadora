@@ -18,10 +18,10 @@ function updateUsuario() {
         }
 
         // Obtener y verificar los datos recibidos por POST
-        $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';
+        $correo = isset($_POST['correo']) ? $_POST['correo'] : '';
         $contrasenia = isset($_POST['contrasenia']) ? $_POST['contrasenia'] : '';
-        $usuario_activo = isset($_POST['usuario_activo']) ? 1 : 0;
-        $Dni_usuario = isset($_POST['Dni_usuario']) ? $_POST['Dni_usuario'] : '';
+        $usuario_activo = isset($_POST['usuarioactivo']) ? 1 : 0;
+        $Dni_usuario = isset($_POST['dniusuario']) ? $_POST['dniusuario'] : '';
         
         // Validar que el DNI del usuario esté presente
         if (empty($Dni_usuario)) {
@@ -30,7 +30,7 @@ function updateUsuario() {
         }
 
         // Preparar la consulta SQL para actualizar los datos del usuario
-        $query = "UPDATE usuario SET usuario = ?, contrasenia = ?, usuario_activo = ? WHERE Dni_usuario = ?";
+        $query = "UPDATE usuario SET dniusuario = ?, contrasenia = ?, usuarioactivo = ? WHERE Dni_usuario = ?";
         $stmt = $mysqli->prepare($query);
         if ($stmt) {
             $stmt->bind_param("ssis", $usuario, $contrasenia, $usuario_activo, $Dni_usuario);

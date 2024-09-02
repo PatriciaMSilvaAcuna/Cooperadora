@@ -43,7 +43,7 @@
 
 #cierre {
 
-background-color: skyblue;
+background-color: #F6EFD7;
 
 
 }
@@ -83,4 +83,23 @@ background-color: skyblue;
 /* Asegura que el select se alinee correctamente con la flecha */
 .form-control {
     padding-right: 40px; /* Espacio para la flecha */
+}
+#error-page {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+#error-page .error-container {
+    margin-top: 100px;
+}
+
+#error-page h1 {
+    font-size: 36px;
+    color: #0000ff;
+}
+
+#error-page p {
+    font-size: 18px;
+    color: #777;
 }

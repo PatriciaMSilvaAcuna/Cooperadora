@@ -18,7 +18,7 @@ function buscarUsuario(){
             $Dni_usuario = $mysqli->real_escape_string($_POST['Dni_usuario']);
             error_log("DNI recibido: " . $Dni_usuario);
             
-        $query = "SELECT Id_usuario, Usuario, Contrasenia, Dni_usuario FROM usuario WHERE Dni_usuario = ?";
+        $query = "SELECT idusuario, mailusuario, contrasenia, dniusuario FROM usuario WHERE dniusuario = ?";
         $stmt = $mysqli->prepare($query);
         if (!$stmt) {
             $response = ['estado' => 'ER', 'msg' => 'Error al preparar la consulta: ' . $mysqli->error];

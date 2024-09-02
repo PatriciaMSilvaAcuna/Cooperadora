@@ -1,6 +1,7 @@
 <?php
 
 require_once 'conexion.php';
+/*Nombre del archivo donde conecta a la base de datos*/
 
 echo insertAlumno();
 

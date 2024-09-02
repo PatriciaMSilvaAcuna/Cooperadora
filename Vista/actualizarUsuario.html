@@ -38,16 +38,19 @@
             <form  method="POST" id="actualizarForm">
               
                 <input class="formu-input formu-control-lg" type="hidden" id="id" name="id" >
-                <label for="usuario">Usuario:</label>
-                <input class="form-control form-control-lg" type="text" id="usuario" name="usuario" required><br>
+                <label for="usuario">Correo:</label>
+                <input class="form-control form-control-lg" type="text" id="correo" name="correo" required><br>
 
                 <label for="contrasenia">Contraseña:</label>
                 <input class="form-control form-control-lg" type="password" id="contrasenia" name="contrasenia" required ><br>
+               
+               <label for="contrasenia">DNI:</label>
+                <input class="form-control form-control-lg" type="password" id="dni" name="dni" required ><br>
 
-        <input class="formu-input form-control-lg" type="hidden" id="Dni_usuario" name="Dni_usuario">
-        <div class="forcheck form-control-lg">
-            <label for="estado">Estado:</label>
-            <input class="formu-checkbox" type="checkbox" id="usuario_activo" name="usuario_activo" value="1">
+                <div class="forcheck form-control-lg">
+                <label for="estado">Estado:</label>
+                <input class="formu-checkbox" type="checkbox" id="usuario_activo" name="usuario_activo" value="1">
+            
             <label class="formu-checkbox" for="usuario_activo"data-checked-text="Usuario activo" data-unchecked-text="Usuario Inactivo"></label>
         </div>
 <br>

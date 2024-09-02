@@ -1,28 +1,43 @@
 <?php
+include_once('conexion.php'); 
 
-include_once('conexion.php');/*Nombre del archivo donde conecta a la base de datos*/
+$mysqli = conexion();
 
-$function = $_POST['function'];
+// Obtener el idconcepto de la solicitud POST
+$idconcepto = isset($_POST['idconcepto']) ? intval($_POST['idconcepto']) : 0;
 
-if($function == 1) {echo saveNewConcept();}
-else if($function == 2) {echo getConcept();}
-else if($function == 3) {echo updateConcept();}
+if ($idconcepto > 0) {
+    // Consulta para obtener el valor del concepto para el idadministracion más alto
+    $query = "SELECT valorconcepto 
+              FROM administracion 
+              WHERE idconcepto = ? 
+              AND idadministracion = (SELECT MAX(idadministracion) FROM administracion WHERE idconcepto = ?)";
 
+    // Preparar y ejecutar la consulta
+    if ($stmt = $mysqli->prepare($query)) {
+        $stmt->bind_param("ii", $idconcepto, $idconcepto);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-function saveNewConcept()/*Creamos  la funcion que va a guardar nuevos datos a la tabla*/
-{
-    $mysqli = conexion();/*conexion a la base de datos. desde el archivo conexion, que esta adentro de la carpeta modelo*/
+        // Preparar los datos para el JSON
+        $data = array();
+        if ($row = $result->fetch_assoc()) {
+            $data['valorconcepto'] = $row['valorconcepto'];
+        } else {
+            $data['valorconcepto'] = null;
+        }
 
-    $concepto = $_POST['concepto'];
-    $valor = $_POST['valor'];
-    
-   // Llamada al procedimiento almacenado
-    $stmt = $mysqli->prepare("INSERT INTO concepto(Nombre_Cocepto) values (?)");
-    $stmt->bind_param("s", $concepto);
-    
-    if ($stmt->execute()) {
-        return json_encode("El Concepto fue dado de alta correctamente");
+        // Cerrar la declaración y la conexión
+        $stmt->close();
     } else {
-        return json_encode("Hubo un fallo al dar de alta del Concepto");
+        $data['valorconcepto'] = null;
     }
+
+    $mysqli->close();
+} else {
+    $data['valorconcepto'] = null;
 }
+
+// Enviar la respuesta en formato JSON
+echo json_encode($data);
+?>
