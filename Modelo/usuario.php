@@ -7,29 +7,31 @@ $function = $_POST['function'];
 if($function == 1) {echo saveNewUser();}
 else if($function == 2) {echo getUser();}
 else if($function == 3) {echo updateUsuario();}
-
-
-function saveNewUser()/*Creamos  la funcion que va a guardar nuevos datos a la tabla*/
+function saveNewUser()
 {
-    $mysqli = conexion();/*conexion a la base de datos. desde el archivo conexion, que esta adentro de la carpeta modelo*/
+    $mysqli = conexion(); // Conexión a la base de datos desde el archivo conexion en la carpeta modelo.
 
     $dni = $_POST['dni'];
     $contrasenia = $_POST['contrasenia'];
     $mailusuario = $_POST['mailusuario'];
     $tipoUsuario = $_POST['tipoUsuario'];
+    $usuarioactivo = 1; // El usuario siempre estará activo inicialmente.
 
-    // Llamada al procedimiento almacenado
-    $stmt = $mysqli->prepare("CALL insertarUsuario(?, ?, ?, ?, ?)");
-    $usuarioactivo = 1; // Definir el valor como variable
+    // Preparar la consulta SQL para insertar directamente en la tabla 'usuario'
+    $stmt = $mysqli->prepare("INSERT INTO usuario (dniusuario, contrasenia, mailusuario, idtipousuario, usuarioactivo) VALUES (?, ?, ?, ?, ?)");
 
+    // Enlazar parámetros
     $stmt->bind_param("issii", $dni, $contrasenia, $mailusuario, $tipoUsuario, $usuarioactivo);
-   
+
+    // Ejecutar la consulta
     if ($stmt->execute()) {
         return json_encode("El usuario fue dado de alta correctamente");
     } else {
         return json_encode("Hubo un fallo al dar de alta el usuario");
     }
 }
+
+
 
 function getUser(){/*funcion que va a solicitar al servidor una informacion*/
     $mysqli = conexion();/*conexion a la base de datos. desde el archivo conexion, que esta adentro de la carpeta modelo*/
