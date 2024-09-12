@@ -30,11 +30,7 @@ function insertAlumno()
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param("sssssis", $nombre, $apellido, $dni, $deuda, $mail, $idUsuario, $fechaalta);
 
-    if ($stmt->execute()) {
-        echo json_encode("Alumno dado de alta correctamente.");
-    } else {
-        echo json_encode("Error al insertar los datos: " . $mysqli->error);
-    }
+   
 
     $stmt->close();
     $mysqli->close();
