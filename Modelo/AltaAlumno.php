@@ -1,9 +1,10 @@
 <?php
 
-require_once 'conexion.php';
-/*Nombre del archivo donde conecta a la base de datos*/
+include_once('conexion.php');
 
-echo insertAlumno();
+$mysqli = conexion();
+session_start(); // Asegúrate de iniciar la sesión
+echo $_SESSION['idusuario']; // Verifica que el ID de usuario esté disponible
 
 function insertAlumno()
 {
@@ -13,23 +14,32 @@ function insertAlumno()
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $dni = $_POST['dni'];
-    //$deuda = $_POST['deuda'];
+    $deuda = $_POST['deuda'];
+    $mail = $_POST['mail'];
+    $idUsuario = $_SESSION['idusuario'];  // Asegúrate de que la sesión esté iniciada y el idusuario esté disponible.
+    $fechaalta = $_POST['fechaalta'];
 
-    // Preparamos la consulta SQL (usando statement preparados para evitar SQL injection)
-    $query = "INSERT INTO alumno (nombre, apellido, dni) VALUES (?, ?, ?)";
-    
-    // Preparamos la consulta
-    $stmt = $mysqli->prepare($query);
-    
-    // Asignamos los parámetros y ejecutamos la consulta
-    $stmt->bind_param("sss", $nombre, $apellido, $dni);
-    $stmt->execute();
-    
-    // Verificamos si se ejecutó correctamente
-    if ($stmt->affected_rows > 0) {
-        return json_encode("Se ha ingresado un nuevo alumno");
-    } else {
-        return json_encode("No se pudo dar de alta el alumno");
+    // Validamos que los datos existan
+    if (empty($nombre) || empty($apellido) || empty($dni) || empty($mail) || empty($fechaalta)) {
+        echo json_encode("Por favor, completa todos los campos obligatorios.");
+        return;
     }
+
+    // Insertamos los datos del alumno en la base de datos, incluyendo el idusuario
+    $query = "INSERT INTO alumno (nombre, apellido, dni, deuda, mail, idusuario, fechaalta) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("sssssis", $nombre, $apellido, $dni, $deuda, $mail, $idUsuario, $fechaalta);
+
+    if ($stmt->execute()) {
+        echo json_encode("Alumno dado de alta correctamente.");
+    } else {
+        echo json_encode("Error al insertar los datos: " . $mysqli->error);
+    }
+
+    $stmt->close();
+    $mysqli->close();
 }
+
+insertAlumno();
+
 ?>
