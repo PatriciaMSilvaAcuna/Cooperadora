@@ -2,17 +2,17 @@
 class Alumno {
     private $nombre;
     private $apellido;
-    private $valorAbonado;
+    private $valorabonado;
     private $fecha;
-    private $tipoDePago;
+    private $metodopago;
     // private $nombreConcepto;
 
-    public function __construct($nombre, $apellido, $valorAbonado, $fecha, $tipoDePago) {// $nombreConcepto
+    public function __construct($nombre, $apellido, $valorabonado, $fecha, $metodopago) {// $nombreConcepto
         $this->nombre = $nombre;
         $this->apellido = $apellido;
-        $this->valorAbonado = $valorAbonado;
+        $this->valorabonado = $valorabonado;
         $this->fecha = $fecha;
-        $this->tipoDePago = $tipoDePago;
+        $this->metodopago = $metodopago;
         // $this->nombreConcepto = $nombreConcepto;
     }
 
@@ -20,9 +20,9 @@ class Alumno {
         return array(
             'nombre' => $this->nombre,
             'apellido' => $this->apellido,
-            'valorAbonado' => $this->valorAbonado,
+            'valorabonado' => $this->valorabonado,
             'fecha' => $this->fecha,
-            'tipoDePago' => $this->tipoDePago,
+            'metodopago' => $this->metodopago,
             // 'nombreConcepto' => $this->nombreConcepto
         );
     }
