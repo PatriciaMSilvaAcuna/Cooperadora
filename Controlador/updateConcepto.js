@@ -1,6 +1,7 @@
 $(document).ready(function() {
+ 
     // Llama a la función inicial para llenar el select con los conceptos
-    getConceptoPago();
+  getConceptoPago();
 
 $('#eliminar').on('click',limpiarForm);
     // Asociar el evento de cambio del select para obtener el valor actual del concepto
@@ -76,11 +77,9 @@ $('#eliminar').on('click',limpiarForm);
         });
     }
 });
-function limpiarForm(){/*limpia el formulario*/
+function limpiarForm() {
     console.log("Limpieza de form");
-    $('#concepto').prop('value','');
-    $('#valorAbonado').prop('value','');
-    $('#anioVigencia').prop('value','');
-     
-   
+    document.getElementById('concepto').value = '';
+    document.getElementById('valorAbonado').value = '';
+    document.getElementById('aniovigencia').value = '';
 }
