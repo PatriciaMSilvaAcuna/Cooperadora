@@ -21,15 +21,6 @@ function updateUsuario() {
             return;
         }
 
-        // Obtener y verificar los datos recibidos por POST
-        $correo = isset($_POST['correo']) ? $_POST['correo'] : '';
-        $contrasenia = isset($_POST['contrasenia']) ? $_POST['contrasenia'] : '';
-        $usuario_activo = isset($_POST['usuarioactivo']) ? 1 : 0;
-        $Dni_usuario = isset($_POST['dniusuario']) ? $_POST['dniusuario'] : '';
-        
-        // Validar que el DNI del usuario esté presente
-        if (empty($Dni_usuario)) {
-            echo json_encode(['success' => false, 'message' => 'DNI del usuario no proporcionado.']);
         // Obtiene los datos enviados por POST y asigna valores por defecto si no están presentes
         $idusuario  = $_POST['idusuario']?? null;
         $Dni_usuario = $_POST['Dni_usuario'] ?? '';
@@ -40,7 +31,6 @@ function updateUsuario() {
          // Verifica que los campos obligatorios no estén vacíos
         if (empty($idusuario) || empty($Dni_usuario)) {
             echo json_encode(['success' => false, 'message' => 'DNI del usuario o ID de usuario no proporcionados.']);
-
             return;
         }
 
@@ -48,7 +38,6 @@ function updateUsuario() {
 
         // Preparar la consulta SQL para actualizar los datos del usuario
         $query = "UPDATE usuario SET dniusuario = ?, contrasenia = ?, mailusuario = ?, usuarioactivo = ?, idtipousuario = ? WHERE idusuario = ?";
-
         $stmt = $mysqli->prepare($query);
 
         if ($stmt) {
