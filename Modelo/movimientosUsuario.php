@@ -1,47 +1,77 @@
 <?php
 require_once 'conexion.php';
-require_once 'alumno.php';
 
-header('Content-Type: application/json'); // Asegúrate de que la respuesta sea JSON
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Verificar si se ha recibido el DNI por POST
-if (isset($_POST['dni'])) {
+// Establecer el encabezado para devolver JSON
+header('Content-Type: application/json');
+
+// Verificar si los parámetros necesarios han sido proporcionados
+if (isset($_POST['dni'], $_POST['fechaInicio'], $_POST['fechaFin'])) {
     $dni = $_POST['dni'];
+    $fechaInicio = $_POST['fechaInicio'];
+    $fechaFin = $_POST['fechaFin'];
+
+    // Crear la conexión
     $conexion = conexion();
 
-    $sql = "SELECT usuario.dniusuario, alumno.nombre, alumno.apellido, cargapago.valorabonado, cargapago.fecha, metodopago.metodopago 
-            FROM cargapago 
-            INNER JOIN alumno ON cargapago.idalumno = alumno.idalumno 
-            INNER JOIN usuario ON usuario.idusuario = cargapago.idusuario 
-            INNER JOIN metodopago ON cargapago.idmetodopago = metodopago.idmetodopago 
-            WHERE usuario.dniusuario = ?";
+    // Obtener idusuario a partir de dni
+    $sql_idusuario = "SELECT idusuario FROM usuario WHERE dniusuario = ?";
+    $stmt_idusuario = $conexion->prepare($sql_idusuario);
+    $stmt_idusuario->bind_param("i", $dni);
+    $stmt_idusuario->execute();
+    $result_idusuario = $stmt_idusuario->get_result();
     
-    $stmt = $conexion->prepare($sql);
-    
-    if ($stmt) {
-        $stmt->bind_param("s", $dni);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result && $result->num_rows > 0) {
-            $alumnos = array();
-
-            while ($row = $result->fetch_assoc()) {
-                $alumno = new Alumno($row['nombre'], $row['apellido'], $row['valorabonado'], $row['fecha'], $row['metodopago']);
-                $alumnos[] = $alumno->toArray();
-            }
-
-            // Devolver los datos como JSON
-            echo json_encode($alumnos);
-        } else {
-            echo json_encode([]); // Devolver un arreglo vacío si no hay resultados
-        }
+    // Verificar si se encontró el usuario
+    if ($row_idusuario = $result_idusuario->fetch_assoc()) {
+        $idusuario = $row_idusuario['idusuario'];
     } else {
-        // Error al preparar la consulta
-        echo json_encode(['error' => 'Error al preparar la consulta']);
+        echo json_encode(['error' => 'No se encontró el usuario con el DNI proporcionado']);
+        exit;
     }
+
+    // Cerrar statement de idusuario
+    $stmt_idusuario->close();
+
+    // Crear array de resultados
+    $results = ['usuario' => [], 'alumno' => [], 'pagos' => []];
+
+    // Consultar información del usuario
+    $sql_usuario = "SELECT * FROM usuario WHERE idusuario = ?";
+    $stmt_usuario = $conexion->prepare($sql_usuario);
+    $stmt_usuario->bind_param("i", $idusuario);
+    $stmt_usuario->execute();
+    $result_usuario = $stmt_usuario->get_result();
+    $results['usuario'] = $result_usuario->fetch_all(MYSQLI_ASSOC);
+    $stmt_usuario->close();
+
+    // Consultar información del alumno
+    $sql_alumno = "SELECT * FROM alumno WHERE idusuario = ?";
+    $stmt_alumno = $conexion->prepare($sql_alumno);
+    $stmt_alumno->bind_param("i", $idusuario);
+    $stmt_alumno->execute();
+    $result_alumno = $stmt_alumno->get_result();
+    $results['alumno'] = $result_alumno->fetch_all(MYSQLI_ASSOC);
+    $stmt_alumno->close();
+
+    // Consultar información de pagos dentro del rango de fechas
+    $sql_pagos = "SELECT * FROM cargapago WHERE idusuario = ? AND fecha BETWEEN ? AND ?";
+    $stmt_pagos = $conexion->prepare($sql_pagos);
+    $stmt_pagos->bind_param("iss", $idusuario, $fechaInicio, $fechaFin);
+    $stmt_pagos->execute();
+    $result_pagos = $stmt_pagos->get_result();
+    $results['pagos'] = $result_pagos->fetch_all(MYSQLI_ASSOC);
+    $stmt_pagos->close();
+
+    // Devolver los resultados como JSON
+    echo json_encode($results);
+
+    // Cerrar la conexión
+    $conexion->close();
+
 } else {
-    // Si no se recibió el DNI por POST
-    echo json_encode(['error' => 'No se recibió el DNI']);
+    echo json_encode(['error' => 'No se recibieron los parámetros necesarios']);
 }
 ?>

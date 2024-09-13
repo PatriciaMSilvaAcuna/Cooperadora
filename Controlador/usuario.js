@@ -70,8 +70,8 @@ function saveNewUser() {
     
         
     let mailusuario = $('#mailusuario').val().trim();
-    let contrasenia = $('#contrasenia').val().trim();
     let dni = $('#dni').val().trim();
+    let contrasenia = $('#contrasenia').val().trim();
     let tipoUsuario = $('#tipoUsuario').val();
 
      // Verifica si algún campo requerido está vacío
