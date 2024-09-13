@@ -81,7 +81,6 @@ function buscarDatosUsuario(){
 
 
 
-
     function actualizarUsuario()/*funcion para actualizar los datos de un cliente*/
 {
     let formulario = $('#actualizarForm').serialize();
