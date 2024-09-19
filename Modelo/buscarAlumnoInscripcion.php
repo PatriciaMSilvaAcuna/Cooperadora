@@ -1,32 +1,35 @@
 <?php
 
-include_once('conexion.php');//contiene los datos de conexion de la base de datos
+include_once('conexion.php');
 
-$dni = isset($_POST['dni']) ? $_POST['dni'] : null;//informacion que se usa del formulario
+$dni = isset($_POST['dni']) ? $_POST['dni'] : null;
 
-echo getAlumno($dni);//se llama funcion y se pasa por parametro el dni
+echo getAlumno($dni);
 
 function getAlumno($dni) {
-   if($dni !==null){
-
-    $mysqli = conexion();//conecta la base de datos
-
-    $query = "SELECT id_alumno, nombre, apellido, dni FROM alumno WHERE dni = ?";
-    $stmt = $mysqli->prepare($query); 
-    $stmt->bind_param("s", $dni);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
     $data = array();
+    
+    if($dni !== null) {
+        $mysqli = conexion();
 
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
+        $query = "SELECT * FROM alumno WHERE dni = ?";
+        $stmt = $mysqli->prepare($query); 
+        $stmt->bind_param("s", $dni);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        $stmt->close();
+        $mysqli->close();
     }
 
-    $stmt->close();
-    $mysqli->close();
-
-    return json_encode($data);
-   }
+    if (empty($data)) {
+        echo json_encode(array("error" => "Alumno no encontrado"));
+    } else {
+        echo json_encode($data);
+    }
 }
 ?>

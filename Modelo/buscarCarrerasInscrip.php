@@ -1,9 +1,9 @@
 <?php
-include_once('conexion.php'); // Asegúrate de que la ruta sea correcta
+include_once('conexion.php'); 
 
 $mysqli = conexion();
 
-$query = "SELECT id_carrera, carrera FROM carrera"; // Ajusta según tu estructura de tabla
+$query = "SELECT idcarrera, carrera FROM carrera"; // Ajusta según tu estructura de tabla
 $result = $mysqli->query($query);
 
 $metodos = array();

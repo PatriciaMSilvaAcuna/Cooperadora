@@ -1,27 +1,46 @@
 <?php
-
+header('Content-Type: application/json'); 
 include_once('conexion.php'); 
 
-//toma los valores del formulario
-$fecha = $_POST['año-inscrip'];
-$id_alumno = $_POST['id-alumno'];
-$id_carrera = $_POST['carreras'];
+session_start(); 
 
-$query = "INSERT INTO inscripcion (fecha_anual, id_alumno, id_carrera) VALUES (?, ?, ?)";
-$stmt = $mysqli->prepare($query);
+function inscripCarrera() {
+    $mysqli = conexion();
+    
+    // Imprimir datos recibidos para depuración
+    error_log(json_encode($_POST)); // Para verificar los datos recibidos
+    
+    $idalumno = $_POST['idalumno'];
+    $idcarrera = $_POST['idcarrera'];
+    $idusuario = isset($_SESSION['idusuario']) ? $_SESSION['idusuario'] : null;
 
-if ($stmt) {
-    $stmt->bind_param('ssiii', $fecha,$id_alumno,$id_carrera);
-    if ($stmt->execute()) {
-        echo json_encode("Pago registrado con éxito");
-    } else {
-        echo json_encode("Error al registrar el pago: " . $stmt->error);
+    // Validar si todos los campos están presentes
+    if (empty($idalumno) || empty($idcarrera)) {
+        echo json_encode(array("error" => "Faltan datos para la inscripción."));
+        return;
     }
-    $stmt->close();
-} else {
-    echo json_encode("Error al preparar la consulta: " . $mysqli->error);
+
+    $query = "INSERT INTO inscripcion (fechaanual, idalumno, idcarrera, idusuario) VALUES (?, ?, ?, ?)";
+    $stmt = $mysqli->prepare($query);
+
+    if ($stmt) {
+        $año = date('Y');
+        $stmt->bind_param('siii', $año, $idalumno, $idcarrera, $idusuario);
+
+        if ($stmt->execute()) {
+            echo json_encode(array("message" => "Inscripción registrada con éxito"));
+        } else {
+            echo json_encode(array("error" => "Error al registrar la inscripción: " . $stmt->error));
+        }
+
+        $stmt->close();
+    } else {
+        echo json_encode(array("error" => "Error al preparar la consulta: " . $mysqli->error));
+    }
+
+    $mysqli->close();
 }
 
-$mysqli->close();
-
+// Llama a la función
+inscripCarrera();
 ?>

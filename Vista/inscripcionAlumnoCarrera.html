@@ -19,7 +19,7 @@
 <header>
       <div class="Card">
          <div class="d-flex justify-content-sm-center bg-light">
-            <div class="p-2  flex-fill"><img src="../logo.jpg" alt="ISFT182"width="4%" class="float-start">
+            <div class="p-2  flex-fill"><img src="../oldlogo.png" alt="ISFT182"width="4%" class="float-start">
 
             <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="window.location.href='confirmarCerrarSesion.php'">
             <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
@@ -28,7 +28,7 @@
        </div>       
 </header>   
 <body>
-    <div class="container-fluid text-center h-100">
+    <div class="container-fluid text-center h-100 w-50">
         <div class="card custom-card">
             <br>
             <h1 style="color: skyblue;">Inscripción de Alumno a carrera</h1>
@@ -52,16 +52,18 @@
                             <label for="usuario" class="form-label">Año de inscripción</label>
                             <input type="text" class="form-control" id="año-inscrip" name="año-inscrip" required readonly/>
                             <label for="usuario" class="form-label">Número de identificación de alumno</label>
-                            <input type="text" class="form-control" id="id-alumno" name="id-alumno"  required readonly/>
+                            <input type="text" class="form-control" id="idalumno" name="idalumno"  required readonly/>
                             <label for="usuario" class="form-label">Nombre de alumno</label>
                             <input type="text" class="form-control" id="nombre" name="nombre"  required readonly/>
                             <label for="usuario" class="form-label">Apellido de alumno</label>
                             <input type="text" class="form-control" id="apellido" name="apellido" required readonly>
                             <label for="usuario" class="form-label">DNI de alumno</label>
                             <input type="text" class="form-control" id="dni2" name="dni2"  required readonly>
+                            <label for="mail"class="form-label">Correo Electrónico:</label>
+                            <input type="email"class="form-control" id="mail" name="mail" required readonly>
                             <br>
                                 <div class="custom-select-wrapper">
-                                <select class="form-control form-control-lg" name="carreras" id="carreras">
+                                <select class="form-control form-control-lg" name="idcarrera" id="idcarrera">
                                 <option value="" disabled selected>Carreras</option>
                                 </select>
                             <br>
