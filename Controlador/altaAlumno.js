@@ -57,15 +57,18 @@ $(document).ready(function () {
         // Enviamos los datos mediante AJAX al archivo PHP
         $.ajax({
             type: "POST",
-            url: "../Modelo/altaAlumno.php",
+            url: "../Modelo/AltaAlumno.php",
             data: formData,
             dataType: "json",
             success: function (response) {
                 console.log("insertAlumno", response);
-                alert("Alumno dado de Alta!");
-
-                // Llamamos a la función para limpiar el formulario después del alta
-                limpiarForm();
+            
+                if (response.message) {
+                    alert(response.message);  // Muestra el mensaje de éxito
+                    limpiarForm();  // Limpiar el formulario después del alta
+                } else if (response.error) {
+                    alert("Error: " + response.error);  // Muestra el error si lo hay
+                }
             },
             error: function (xhr, status, error) {
                 console.error('Error al obtener los datos del usuario:', xhr.responseText);
