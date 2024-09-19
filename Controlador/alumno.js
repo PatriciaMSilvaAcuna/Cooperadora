@@ -1,53 +1,90 @@
 $(document).ready(function() {
     iniciar(); // Llama a la función iniciar cuando el documento esté listo
 
-     // Función para iniciar el formulario
     function iniciar() {
-        getMetodosPago(); // Llama a la función getMetodosPago
-        getConceptoPago(); // Llama a la función getConceptoPago
-        $('#eliminar').on('click',limpiarForm);
-        $('#getDatosAlumnos').on('click', getDatosAlumnos); // Asocia el evento click al botón getDatosAlumnos
-         $('#altaPago').on('click', setPago); // Asocia el evento click al botón altaPago
-    }
-
-    // Función para obtener los métodos de pago y llenar el select
-    function getMetodosPago() {
-        $.ajax({
-            type: 'POST',
-            url: '../Modelo/getMetodosPago.php', 
-            dataType: 'json', 
-            success: function(data) {
-                let options = '<option value="" disabled selected>Método de pago</option>'; // Opción predeterminada
-                for (let i = 0; i < data.length; i++) {
-                    options += '<option value="' + data[i].idmetodopago + '">' + data[i].metodopago + '</option>';
-                }
-                $('#metodoPago').html(options); // Llena el select con las opciones
-            },
-            error: function(xhr, status, error) {
-                console.error('Error al obtener los métodos de pago:', error); //Mostrar mensaje de error
-            }
-        });
-    }
-    // Función para obtener los conceptos de pago y llenar el select
-    function getConceptoPago() {
-        $.ajax({
-            type: 'POST',
-            url: '../Modelo/getConceptoPago.php', 
-            dataType: 'json', 
-            success: function(data) {
-                let options = '<option value="" disabled selected>Concepto de pago</option>'; // Opción predeterminada
-                for (let i = 0; i < data.length; i++) {
-                    options += '<option value="' + data[i].idconcepto + '">' + data[i].concepto + '</option>';
-                }
-                $('#concepto').html(options); // Llena el select con las opciones
-            },
-            error: function(xhr, status, error) {
-                console.error('Error al obtener los métodos de pago:', error); //Mostrar mensaje de error
-            }
+        getMetodosPago();
+        getConceptoPago();
+        $('#eliminar').on('click', limpiarForm);
+        $('#getDatosAlumnos').on('click', getDatosAlumnos);
+        $('#altaPago').off('click').on('click', function(event) {
+            event.preventDefault(); // Prevenir comportamiento por defecto
+            setPago(); // Llama a la función para realizar el pago
         });
     }
 
-    // Función para comprobar los datos del alumno al hacer clic en el botón
+    function setPago() {
+        let valorAbonado = $('#valorAbonado').val();
+        let fecha = $('#fecha').val();
+        let metodoPago = $('#metodoPago').val();
+        let dni = $('#dni').val();
+        let concepto = $('#concepto').val();
+    
+        if (valorAbonado && fecha && metodoPago && dni && concepto) {
+            $.ajax({
+                type: 'POST',
+                url: '../Modelo/getAlumnoId.php',
+                data: { dni: dni },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.idalumno) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '../Modelo/setPago.php',
+                            data: {
+                                fecha: fecha,
+                                valorAbonado: valorAbonado,
+                                metodoPago: metodoPago,
+                                concepto: concepto,
+                                idalumno: response.idalumno
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status === 'success') {
+                                    alert(response.message); // Mostrar mensaje de éxito
+                                    
+                                    // Limpiar el formulario primero
+                                    limpiarForm();
+
+                                    // Descargar el PDF automáticamente después
+                                    descargarPDF();
+                                } else {
+                                    alert(response.message);
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error al registrar el pago:', xhr.responseText);
+                            }
+                        });
+                    } else {
+                        alert('No se encontró un alumno con el DNI ingresado.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener el ID del alumno:', xhr.responseText);
+                }
+            });
+        } else {
+            alert('Por favor complete todos los campos y seleccione un alumno.');
+        }
+    }
+
+    function descargarPDF() {
+        // Crear un enlace temporal para descargar el PDF
+        var link = document.createElement('a');
+        link.href = '../Modelo/pdf.php'; // Cambia esta ruta según sea necesario
+        link.download = 'comprobante_pago.pdf'; // Nombre del archivo PDF
+        link.click(); // Forzar la descarga del archivo
+    }
+
+    function limpiarForm() {
+        $('#dni').val('');
+        $('#fecha').val('');
+        $('#valorAbonado').val('');
+        $('#metodoPago').val('');
+        $('#concepto').val('');
+        $('#alumno').html('');
+    }
+
     function getDatosAlumnos() {
         let dni = $('#dni').val();
         if (dni) {
@@ -82,70 +119,40 @@ $(document).ready(function() {
             alert('Por favor ingrese un DNI.');
         }
     }
-// Función para registrar el pago
-function setPago() {
-    let valorAbonado = $('#valorAbonado').val();
-    let fecha = $('#fecha').val();
-    let metodoPago = $('#metodoPago').val(); // ID del método de pago
-    let dni = $('#dni').val();
-    let concepto = $('#concepto').val(); // ID del concepto
-
-    if (valorAbonado && fecha && metodoPago && dni && concepto) {
-        // Obtener idalumno basado en el dni ingresado
-        $.ajax({
-            type: 'POST',
-            url: '../Modelo/getAlumnoId.php',
-            data: { dni: dni },
-            dataType: 'json',
-            success: function(response) {
-                console.log('Response from getAlumnoId.php:', response); // Depuración
-                if (response.idalumno) {
-                    // Si se obtiene el idalumno, realizar la inserción del pago
-                    $.ajax({
-                        type: 'POST',
-                        url: '../Modelo/setPago.php',
-                        data: {
-                            fecha: fecha,
-                            valorAbonado: valorAbonado,
-                            metodoPago: metodoPago,
-                            concepto: concepto,
-                            idalumno: response.idalumno
-                        },
-                        dataType: 'json',
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                alert(response.message);
-                                limpiarForm();
-                            } else {
-                                alert(response.message);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error al registrar el pago:', xhr.responseText);
-                        }
-                    });
-                } else {
-                    alert('No se encontró un alumno con el DNI ingresado.');
+        // Función para obtener los métodos de pago y llenar el select
+        function getMetodosPago() {
+            $.ajax({
+                type: 'POST',
+                url: '../Modelo/getMetodosPago.php', 
+                dataType: 'json', 
+                success: function(data) {
+                    let options = '<option value="" disabled selected>Método de pago</option>'; // Opción predeterminada
+                    for (let i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i].idmetodopago + '">' + data[i].metodopago + '</option>';
+                    }
+                    $('#metodoPago').html(options); // Llena el select con las opciones
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener los métodos de pago:', error); //Mostrar mensaje de error
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error al obtener el ID del alumno:', xhr.responseText);
-            }
-        });
-    } else {
-        alert('Por favor complete todos los campos y seleccione un alumno.');
-    }
-}
-function limpiarForm(){/*limpia el formulario*/
-    console.log("Limpieza de form");
-    $('#dni').prop('value','');
-    $('#fecha').prop('value','');
-    $('#valorAbonado').prop('value','');
-    $('#metodoPago').prop('value','');
-    $('#concepto').prop('value','');
-    $('#alumno').html('');
-   
-   
-}
-
+            });
+        }
+        // Función para obtener los conceptos de pago y llenar el select
+        function getConceptoPago() {
+            $.ajax({
+                type: 'POST',
+                url: '../Modelo/getConceptoPago.php', 
+                dataType: 'json', 
+                success: function(data) {
+                    let options = '<option value="" disabled selected>Concepto de pago</option>'; // Opción predeterminada
+                    for (let i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i].idconcepto + '">' + data[i].concepto + '</option>';
+                    }
+                    $('#concepto').html(options); // Llena el select con las opciones
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener los métodos de pago:', error); //Mostrar mensaje de error
+                }
+            });
+        }
 });
