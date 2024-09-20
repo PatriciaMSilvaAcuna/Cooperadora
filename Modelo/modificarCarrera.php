@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 // Obtiene los datos del formulario
 $idcarrera = isset($_POST['idcarrera']) ? $_POST['idcarrera'] : null;
 $carrera = isset($_POST['carrera']) ? $_POST['carrera'] : null;
-$carreraactiva = isset($_POST['carreraactiva']) ? $_POST['carreraactiva'] : null;
+
 
 // Inicializa la respuesta
 $response = array('success' => false, 'message' => 'Error desconocido.');
@@ -18,11 +18,11 @@ if ($idcarrera && $carrera) {
     $mysqli = conexion();
 
     // Prepara la consulta de actualización
-    $query = "UPDATE carrera SET carrera = ?, estado = ? WHERE idcarrera = ?";
+    $query = "UPDATE carrera SET carrera = ? WHERE idcarrera = ?";
     if ($stmt = $mysqli->prepare($query)) {
         // Asocia los parámetros
-        $estado = $carreraactiva ? 1 : 0; // Convierte el valor del checkbox a 1 o 0
-        $stmt->bind_param("ssi", $carrera, $estado, $idcarrera);
+    
+        $stmt->bind_param("si", $carrera, $idcarrera);
 
         // Ejecuta la consulta
         if ($stmt->execute()) {
