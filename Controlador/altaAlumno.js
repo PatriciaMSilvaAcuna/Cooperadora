@@ -7,7 +7,7 @@ $(document).ready(function () {
         let nombre = $('#nombre').val().trim();
         let apellido = $('#apellido').val().trim();
         let dni = $('#dni').val().trim();
-        let deuda = $('#deuda').val().trim();
+        //let deuda = $('#deuda').val().trim();
         let mail = $('#mail').val().trim();
         let fechaalta = $('#fechaalta').val().trim();
 
@@ -20,14 +20,14 @@ $(document).ready(function () {
         }
 
         // Validación de longitud y tipología para el campo de nombre
-        if (!/^[a-zA-Z]{4,20}$/.test(nombre)) {
-            alert('El nombre del alumno debe contener entre 4 y 20 letras.');
+        if (!/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]{4,20}$/.test(nombre)) {
+            alert('El nombre del alumno debe contener entre 4 y 20 letras y puede incluir espacios.');
             return;
-        }
+        }   
 
         // Validación de longitud y tipología para el campo de apellido
-        if (!/^[a-zA-Z]{4,20}$/.test(apellido)) {
-            alert('El apellido del alumno debe contener entre 4 y 20 letras.');
+        if (!/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]{4,20}$/.test(apellido)) {
+        alert('El apellido del alumno debe contener entre 4 y 20 letras y puede incluir espacios.');
             return;
         }
 
@@ -83,7 +83,7 @@ function limpiarForm() {
     $('#nombre').val('');
     $('#apellido').val('');
     $('#dni').val('');
-    $('#deuda').val('');
+    //$('#deuda').val('');
     $('#mail').val('');
     $('#fechaalta').val('');
 }

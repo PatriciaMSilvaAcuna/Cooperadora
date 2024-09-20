@@ -15,11 +15,11 @@ if (!isset($_SESSION['idusuario'])) {
 $nombre = $_POST['nombre'];
 $apellido = $_POST['apellido'];
 $dni = $_POST['dni'];
-$deuda = $_POST['deuda'];
+//$deuda = $_POST['0'];
 $mail = $_POST['mail'];
 $idUsuario = $_SESSION['idusuario'];  // Obtenemos el idusuario de la sesión
 $fechaalta = $_POST['fechaalta'];
-$deuda = 0;
+//$deuda = 0;
 // Validamos que los datos existan
 if (empty($nombre) || empty($apellido) || empty($dni) || empty($mail) || empty($fechaalta)) {
     echo json_encode(["error" => "Por favor, completa todos los campos obligatorios."]);
@@ -27,8 +27,8 @@ if (empty($nombre) || empty($apellido) || empty($dni) || empty($mail) || empty($
 }
 
 // Preparamos la consulta para insertar los datos del alumno
-$query = "INSERT INTO alumno (nombre, apellido, dni, deuda, mail, idusuario, fechaalta) 
-          VALUES ('$nombre', '$apellido', '$dni', '$deuda', '$mail', '$idUsuario', '$fechaalta')";
+$query = "INSERT INTO alumno (nombre, apellido, dni, mail, idusuario, fechaalta) 
+          VALUES ('$nombre', '$apellido', '$dni', '$mail', '$idUsuario', '$fechaalta')";
 
 $result = mysqli_query($mysqli, $query);
 
