@@ -17,7 +17,7 @@ if ($result) {
 }
 
 // Obtener datos del pago
-$sql = "SELECT usuario.dniusuario, alumno.nombre, alumno.apellido, cargapago.valorabonado, cargapago.fecha, metodopago.metodopago 
+$sql = "SELECT alumno.dni, alumno.nombre, alumno.apellido, cargapago.valorabonado, cargapago.fecha, metodopago.metodopago 
         FROM cargapago 
         INNER JOIN alumno ON cargapago.idalumno = alumno.idalumno 
         INNER JOIN usuario ON usuario.idusuario = cargapago.idusuario 
@@ -54,7 +54,7 @@ $pdf->SetFont('Arial', 'B', 12);
 $pdf->SetFillColor(200, 220, 255); // Color de fondo
 $pdf->Cell(40, 10, 'Nombre', 1, 0, 'C', true);
 $pdf->Cell(40, 10, 'Apellido', 1, 0, 'C', true);
-$pdf->Cell(40, 10, 'DNI', 1, 0, 'C', true);
+$pdf->Cell(40, 10, 'DNI', 1, 0, 'C', true); // DNI del alumno
 $pdf->Cell(40, 10, 'Valor Abonado', 1, 0, 'C', true);
 $pdf->Cell(40, 10, 'Fecha', 1, 0, 'C', true);
 $pdf->Cell(40, 10, 'Método de Pago', 1, 1, 'C', true);
@@ -67,7 +67,7 @@ if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $pdf->Cell(40, 10, $row['nombre'], 1, 0, 'C', true);
         $pdf->Cell(40, 10, $row['apellido'], 1, 0, 'C', true);
-        $pdf->Cell(40, 10, $row['dniusuario'], 1, 0, 'C', true);
+        $pdf->Cell(40, 10, $row['dni'], 1, 0, 'C', true); // DNI del alumno
         $pdf->Cell(40, 10, '$' . number_format($row['valorabonado'], 2), 1, 0, 'C', true);
         $pdf->Cell(40, 10, date("d/m/Y", strtotime($row['fecha'])), 1, 0, 'C', true);
         $pdf->Cell(40, 10, $row['metodopago'], 1, 1, 'C', true);
