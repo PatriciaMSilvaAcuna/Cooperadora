@@ -1,6 +1,6 @@
 <?php
 require_once 'conexion.php';
-require('fpdf/fpdf.php');
+require('fpdf.php');
 
 $mysqli = conexion();
 
