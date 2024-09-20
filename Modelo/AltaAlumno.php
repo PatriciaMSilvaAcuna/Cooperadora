@@ -19,7 +19,7 @@ $deuda = $_POST['deuda'];
 $mail = $_POST['mail'];
 $idUsuario = $_SESSION['idusuario'];  // Obtenemos el idusuario de la sesión
 $fechaalta = $_POST['fechaalta'];
-
+$deuda = 0;
 // Validamos que los datos existan
 if (empty($nombre) || empty($apellido) || empty($dni) || empty($mail) || empty($fechaalta)) {
     echo json_encode(["error" => "Por favor, completa todos los campos obligatorios."]);
