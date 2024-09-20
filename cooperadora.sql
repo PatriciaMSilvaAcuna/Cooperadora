@@ -303,3 +303,40 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-08-16 20:09:34
+
+drop trigger if exists actualizar_deuda_alumno 
+
+DELIMITER //
+CREATE TRIGGER actualizar_deuda_alumno
+AFTER INSERT ON inscripcion
+FOR EACH ROW
+BEGIN
+    DECLARE v_valorconcepto DECIMAL(10,2);
+    DECLARE deuda_actual DECIMAL (10,2);
+    DECLARE nueva_deuda DECIMAL(10,2);
+
+    -- Selecciona el valor de valorconcepto desde la tabla administracion
+    SELECT valorconcepto
+    -- guarda el valor obtenido en v_valorconcepto
+    INTO v_valorconcepto
+    FROM administracion
+    WHERE aniovigente = (SELECT MAX(aniovigente) FROM administracion)
+    AND idconcepto = 2;
+   
+   -- traer la deuda del alumno
+   select deuda 
+   into deuda_actual 
+   from alumno
+   where idalumno = NEW.idalumno;
+    -- tenemos al deuda del alumno en variable deuda
+    -- tenemos el idalumno en variable IDALUMNO
+    -- en variable SUMA calculamos la nueva deuda
+   SET nueva_deuda =  deuda_actual + v_valorconcepto;
+
+    -- Actualiza el campo deuda en la tabla alumno para el idalumno insertado en inscripcion
+    UPDATE alumno
+    SET deuda = nueva_deuda
+    WHERE idalumno = NEW.idalumno;
+END//
+DELIMITER 
+

@@ -2,11 +2,16 @@ $(document).ready(function() {
     iniciar();
 
     function iniciar() {
-        $('#buscarcarrera').on('click', function(event) {
-            event.preventDefault(); // Previene la recarga de la página
-            buscarCarrera();
-        });
+        buscarCarrera();
+      // Escuchar cuando se cambia la carrera en el dropdown
+      $('#nombrecarrera').on('change', function() {
+        // Obtener el valor seleccionado (ID de la carrera)
+        let idcarreraSeleccionada = $(this).val();
+        let nombrecarreraSeleccionada = $(this).find('option:selected').text();
 
+        // Llamar a la función para cargar los datos de la carrera seleccionada
+        cargarInputCarrera(idcarreraSeleccionada, nombrecarreraSeleccionada);
+    });
         $('#actualizarForm').on('submit', function(event) {
             event.preventDefault(); // Evita la recarga de la página
             actualizarCarrera(); // Llama a la función para actualizar la carrera
@@ -14,60 +19,37 @@ $(document).ready(function() {
     }
 
     function buscarCarrera() {
-        let carrera = $('#nombrecarrera').val();
-        console.log('Carrera ingresada:', carrera); // Verifica carrera ingresada
-
-        if (carrera === '') {
-            alert('Por favor, complete el campo carrera');
-            return; // Detén el envío si algún campo está vacío
-        } else { 
+        console.log('Iniciando búsqueda de carreras...');
             $.ajax({
                 type: 'POST',
-                data: { nombrecarrera: carrera }, // pasamos la información de la carrera que se capturó del formulario
                 url: '../Modelo/buscarCarrera.php', // petición al archivo PHP
-                dataType: 'JSON',
+                dataType: 'json',
                 success: function(data) {
-                    console.log('Datos recibidos del servidor:', data);
-                    $('#nombrecarrera').val('');
-                    if (data.error) {
-                        // Muestra el mensaje de error si no se encuentra la carrera
-                        alert(data.error);
-                    } else {
-                        // Itera sobre los datos obtenidos si no hay error
-                        for (let i = 0; i < data.length; i++) {
-                            let idcarrera = data[i].idcarrera;
-                            let nombrecarrera = data[i].carrera;
-                            let estado = data[i].estado;
-                            
-                            // Carga los datos en el formulario
-                            cargarInputCarrera(idcarrera, nombrecarrera, estado);
-                        }
+                    console.log('Datos recibidos:', data); // Verifica la estructura de los datos recibidos
+                    let options = '<option value="" disabled selected>Seleccione Carrera</option>';
+                    for (let i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i].idcarrera + '">' + data[i].carrera + '</option>';
                     }
-                },
+                    $('#nombrecarrera').html(options);
+                
+                    },
                 error: function(xhr, status, error) {
-                    console.error('Error al obtener los datos de la carrera:', error);
-                    alert('Error al obtener los datos de la carrera');
+                    console.error('Error al obtener las carreras:', error); //Mostrar mensaje de error
                 }
             });
+            
         }
-    }
 
-    function cargarInputCarrera(idcarrera, nombrecarrera, estado) {
-        console.log('Cargando datos en el formulario:', {
-            idcarrera: idcarrera,
-            nombrecarrera: nombrecarrera,
-            estado: estado,
-        });
-
-        // Establece el valor de los campos de la carrera en el formulario
-        $('#idcarrera').val(idcarrera);
-        $('#carrera').val(nombrecarrera);
-
-        // Asigna el estado del checkbox
-        $('#carreraactiva').prop('checked', estado == 1);
-
-        alert('Datos cargados correctamente.');
-    }
+        function cargarInputCarrera(idcarrera, nombrecarrera) {
+            console.log('Cargando datos en el formulario:', {
+                idcarrera: idcarrera,
+                nombrecarrera: nombrecarrera, 
+            });
+            // Establece el valor de los campos de la carrera en el formulario
+            $('#idcarrera').val(idcarrera);
+            $('#carrera').val(nombrecarrera); // Asegúrate de que el campo del nombre de la carrera sea correcto
+          
+        }
 
     function actualizarCarrera() {
         let formulario = $('#actualizarForm').serialize();
