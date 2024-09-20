@@ -2,6 +2,10 @@ $(document).ready(function () {
     var dni = localStorage.getItem('dni');
     var fechaInicio = localStorage.getItem('fechaInicio');
     var fechaFin = localStorage.getItem('fechaFin');
+    console.log("DNI:", dni);
+    console.log("Fecha Inicio:", fechaInicio);
+    console.log("Fecha Fin:", fechaFin);
+
 
     if (dni && fechaInicio && fechaFin) {
         $.ajax({
@@ -36,20 +40,18 @@ function mostrarDatos(datos) {
     const tablaAlumno = document.querySelector("#tablaAlumno tbody");
     const tablaPagos = document.querySelector("#tablaPagos tbody");
 
-    console.log("Datos de usuario:", datos.usuario);
-    console.log("Datos de alumno:", datos.alumno);
-    console.log("Datos de pagos:", datos.pagos);
+    console.log("Datos recibidos:", datos);
 
     if (tablaUsuario) {
         tablaUsuario.innerHTML = '';
-        if (datos.usuario && datos.usuario.length > 0) {
+        if (datos.usuario && Array.isArray(datos.usuario) && datos.usuario.length > 0) {
             datos.usuario.forEach(usuario => {
                 const fila = document.createElement('tr');
                 fila.innerHTML = `
-                    <td>${usuario.idusuario}</td>
-                    <td>${usuario.MailUsuario}</td>
-                    <td>${usuario.DNI}</td>
-                    <td>${usuario.TipoUsuario}</td>
+                    <td>${usuario.idusuario || 'No disponible'}</td>
+                    <td>${usuario.mailusuario || 'No disponible'}</td>
+                    <td>${usuario.dniusuario || 'No disponible'}</td>
+                    <td>${usuario.idtipousuario || 'No disponible'}</td>
                 `;
                 tablaUsuario.appendChild(fila);
             });
@@ -60,16 +62,16 @@ function mostrarDatos(datos) {
 
     if (tablaAlumno) {
         tablaAlumno.innerHTML = '';
-        if (datos.alumno && datos.alumno.length > 0) {
+        if (datos.alumno && Array.isArray(datos.alumno) && datos.alumno.length > 0) {
             datos.alumno.forEach(alumno => {
                 const fila = document.createElement('tr');
                 fila.innerHTML = `
-                    <td>${alumno.IDAlumno}</td>
-                    <td>${alumno.NombreAlumno}</td>
-                    <td>${alumno.ApellidoAlumno}</td>
-                    <td>${alumno.MailAlumno}</td>
-                    <td>${alumno.Deuda}</td>
-                    <td>${alumno.FechaAlta}</td>
+                    <td>${alumno.idalumno || 'No disponible'}</td>
+                    <td>${alumno.nombre || 'No disponible'}</td>
+                    <td>${alumno.apellido || 'No disponible'}</td>
+                    <td>${alumno.mail || 'No disponible'}</td>
+                    <td>${alumno.deuda || 'No disponible'}</td>
+                    <td>${alumno.fechaalta || 'No disponible'}</td>
                 `;
                 tablaAlumno.appendChild(fila);
             });
@@ -80,16 +82,16 @@ function mostrarDatos(datos) {
 
     if (tablaPagos) {
         tablaPagos.innerHTML = '';
-        if (datos.pagos && datos.pagos.length > 0) {
+        if (datos.pagos && Array.isArray(datos.pagos) && datos.pagos.length > 0) {
             datos.pagos.forEach(pago => {
                 const valorabonado = (typeof pago.ValorAbonado === 'number') ? pago.ValorAbonado.toFixed(2) : '0.00';
                 const fila = document.createElement('tr');
                 fila.innerHTML = `
-                    <td>${pago.IDPago}</td>
-                    <td>${pago.FechaPago}</td>
-                    <td>$${valorabonado}</td>
-                    <td>${pago.MetodoPago}</td>
-                    <td>${pago.Concepto}</td>
+                    <td>${pago.idcargapago || 'No disponible'}</td>
+                    <td>${pago.fecha || 'No disponible'}</td>
+                    <td>$${valorabonado || '0.00'}</td>
+                    <td>${pago.idmetodopago || 'No disponible'}</td>
+                    <td>${pago.idconcepto || 'No disponible'}</td>
                 `;
                 tablaPagos.appendChild(fila);
             });

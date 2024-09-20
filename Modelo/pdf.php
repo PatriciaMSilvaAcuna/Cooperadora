@@ -31,6 +31,14 @@ $result = $stmt->get_result();
 $pdf = new FPDF();
 $pdf->AddPage();
 
+// Agregar imagen en la cabecera
+if (file_exists('../oldlogo.png')) {
+    $pdf->Image('../oldlogo.png', 10, 8, 33); // Cambia la ruta de la imagen
+} else {
+    die('La imagen no se encontró.');
+}
+$pdf->Ln(20); // Espacio después de la imagen
+
 // Título
 $pdf->SetFont('Arial', 'B', 16);
 $pdf->Cell(0, 10, 'Comprobante de Pago', 0, 1, 'C');
@@ -38,25 +46,26 @@ $pdf->Ln(10);
 
 // Encabezados de la tabla
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(40, 10, 'Nombre', 1);
-$pdf->Cell(40, 10, 'Apellido', 1);
-$pdf->Cell(40, 10, 'DNI', 1);
-$pdf->Cell(40, 10, 'Valor Abonado', 1);
-$pdf->Cell(40, 10, 'Fecha', 1);
-$pdf->Cell(40, 10, 'Método de Pago', 1);
-$pdf->Ln();
+$pdf->SetFillColor(200, 220, 255); // Color de fondo
+$pdf->Cell(40, 10, 'Nombre', 1, 0, 'C', true);
+$pdf->Cell(40, 10, 'Apellido', 1, 0, 'C', true);
+$pdf->Cell(40, 10, 'DNI', 1, 0, 'C', true);
+$pdf->Cell(40, 10, 'Valor Abonado', 1, 0, 'C', true);
+$pdf->Cell(40, 10, 'Fecha', 1, 0, 'C', true);
+$pdf->Cell(40, 10, 'Método de Pago', 1, 1, 'C', true);
 
 // Datos de los pagos
 $pdf->SetFont('Arial', '', 12);
+$pdf->SetFillColor(255, 255, 255); // Color de fondo para filas
+
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $pdf->Cell(40, 10, $row['nombre'], 1);
-        $pdf->Cell(40, 10, $row['apellido'], 1);
-        $pdf->Cell(40, 10, $row['dniusuario'], 1);
-        $pdf->Cell(40, 10, '$' . number_format($row['valorabonado'], 2), 1);
-        $pdf->Cell(40, 10, date("d/m/Y", strtotime($row['fecha'])), 1);
-        $pdf->Cell(40, 10, $row['metodopago'], 1);
-        $pdf->Ln();
+        $pdf->Cell(40, 10, $row['nombre'], 1, 0, 'C', true);
+        $pdf->Cell(40, 10, $row['apellido'], 1, 0, 'C', true);
+        $pdf->Cell(40, 10, $row['dniusuario'], 1, 0, 'C', true);
+        $pdf->Cell(40, 10, '$' . number_format($row['valorabonado'], 2), 1, 0, 'C', true);
+        $pdf->Cell(40, 10, date("d/m/Y", strtotime($row['fecha'])), 1, 0, 'C', true);
+        $pdf->Cell(40, 10, $row['metodopago'], 1, 1, 'C', true);
     }
 } else {
     $pdf->Cell(0, 10, 'No se encontraron datos para el último ID de carga de pago.', 0, 1);
@@ -67,6 +76,7 @@ $pdf->SetY(-30);
 $pdf->SetFont('Arial', 'I', 10);
 $pdf->Cell(0, 10, 'Gracias por su pago!', 0, 0, 'C');
 
+// Salida
 $pdf->Output('D', 'comprobante_pago.pdf');
 
 $stmt->close();
