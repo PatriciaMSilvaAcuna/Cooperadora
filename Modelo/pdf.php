@@ -46,7 +46,7 @@ $pdf->Ln(10);
 
 // Agregar el número de comprobante
 $pdf->SetFont('Arial', 'I', 12);
-$pdf->Cell(0, 10, 'Número de Comprobante: ' . $idcargapago, 0, 1, 'C');
+$pdf->Cell(0, 10, 'Numero de Comprobante: ' . $idcargapago, 0, 1, 'C');
 $pdf->Ln(10);
 
 // Encabezados de la tabla
