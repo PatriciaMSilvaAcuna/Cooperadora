@@ -46,17 +46,21 @@ function mostrarDatos(datos) {
         tablaUsuario.innerHTML = '';
         if (datos.usuario && Array.isArray(datos.usuario) && datos.usuario.length > 0) {
             datos.usuario.forEach(usuario => {
+                // Convertimos usuarioactivo en leyenda "ACTIVO" o "INACTIVO"
+                const estadoUsuario = usuario.usuarioactivo === 1 ? 'ACTIVO' : 'INACTIVO';
+                
                 const fila = document.createElement('tr');
                 fila.innerHTML = `
                     <td>${usuario.idusuario || 'No disponible'}</td>
                     <td>${usuario.mailusuario || 'No disponible'}</td>
                     <td>${usuario.dniusuario || 'No disponible'}</td>
-                    <td>${usuario.idtipousuario || 'No disponible'}</td>
+                    <td>${usuario.tipousuario || 'No disponible'}</td>
+                    <td>${estadoUsuario || 'No disponible'}</td>
                 `;
                 tablaUsuario.appendChild(fila);
             });
         } else {
-            tablaUsuario.innerHTML = '<tr><td colspan="4">No se encontraron datos de usuario.</td></tr>';
+            tablaUsuario.innerHTML = '<tr><td colspan="5">No se encontraron datos de usuario.</td></tr>';
         }
     }
 

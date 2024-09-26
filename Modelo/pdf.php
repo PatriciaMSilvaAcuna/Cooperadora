@@ -34,54 +34,70 @@ $pdf->AddPage();
 // Agregar imagen en la cabecera
 if (file_exists('../oldlogo.png')) {
     $pdf->Image('../oldlogo.png', 10, 8, 33); // Cambia la ruta de la imagen
-} else {
-    die('La imagen no se encontró.');
 }
-$pdf->Ln(20); // Espacio después de la imagen
+$pdf->Ln(15); // Espacio después de la imagen
 
-// Título
-$pdf->SetFont('Arial', 'B', 16);
+// Título en negrita y color negro
+$pdf->SetFont('Arial', 'B', 20);
+$pdf->SetTextColor(0, 0, 255); // Color azul
 $pdf->Cell(0, 10, 'Comprobante de Pago', 0, 1, 'C');
-$pdf->Ln(10);
+$pdf->Ln(5); // Reducir espaciado
 
-// Agregar el número de comprobante
+// Número de comprobante en cursiva y color negro
 $pdf->SetFont('Arial', 'I', 12);
-$pdf->Cell(0, 10, 'Numero de Comprobante: ' . $idcargapago, 0, 1, 'C');
-$pdf->Ln(10);
+$pdf->SetTextColor(0, 0, 0);// Negro
 
-// Encabezados de la tabla
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->SetFillColor(200, 220, 255); // Color de fondo
-$pdf->Cell(40, 10, 'Nombre', 1, 0, 'C', true);
-$pdf->Cell(40, 10, 'Apellido', 1, 0, 'C', true);
-$pdf->Cell(40, 10, 'DNI', 1, 0, 'C', true); // DNI del alumno
-$pdf->Cell(40, 10, 'Valor Abonado', 1, 0, 'C', true);
-$pdf->Cell(40, 10, 'Fecha', 1, 0, 'C', true);
-$pdf->Cell(40, 10, 'Método de Pago', 1, 1, 'C', true);
+$pdf->Cell(0, 10, 'Numero de Comprobante: ' . '0001-' . $idcargapago, 0, 1, 'C');
+$pdf->Ln(5); // Reducir espaciado
 
-// Datos de los pagos
-$pdf->SetFont('Arial', '', 12);
-$pdf->SetFillColor(255, 255, 255); // Color de fondo para filas
+// Todo el texto en color negro
+$pdf->SetTextColor(0, 0, 0);
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $pdf->Cell(40, 10, $row['nombre'], 1, 0, 'C', true);
-        $pdf->Cell(40, 10, $row['apellido'], 1, 0, 'C', true);
-        $pdf->Cell(40, 10, $row['dni'], 1, 0, 'C', true); // DNI del alumno
-        $pdf->Cell(40, 10, '$' . number_format($row['valorabonado'], 2), 1, 0, 'C', true);
-        $pdf->Cell(40, 10, date("d/m/Y", strtotime($row['fecha'])), 1, 0, 'C', true);
-        $pdf->Cell(40, 10, $row['metodopago'], 1, 1, 'C', true);
+        // Datos con nombre del campo en negrita y valor en texto normal
+        $pdf->SetFont('Arial', 'B', 12); // Negrita para el nombre del campo
+        $pdf->Cell(40, 10, "Nombre:", 0, 0);
+        $pdf->SetFont('Arial', '', 12); // Texto normal para el valor
+        $pdf->Cell(0, 10, $row['nombre'] . " " . $row['apellido'], 0, 1);
+
+        $pdf->SetFont('Arial', 'B', 12); // Negrita para el nombre del campo
+        $pdf->Cell(40, 10, "DNI:", 0, 0);
+        $pdf->SetFont('Arial', '', 12); // Texto normal para el valor
+        $pdf->Cell(0, 10, $row['dni'], 0, 1);
+
+        $pdf->SetFont('Arial', 'B', 12); // Negrita para el nombre del campo
+        $pdf->Cell(40, 10, "Valor Abonado:", 0, 0);
+        $pdf->SetFont('Arial', '', 12); // Texto normal para el valor
+        $pdf->Cell(0, 10, "$" . number_format($row['valorabonado'], 2), 0, 1);
+
+        $pdf->SetFont('Arial', 'B', 12); // Negrita para el nombre del campo
+        $pdf->Cell(40, 10, "Fecha:", 0, 0);
+        $pdf->SetFont('Arial', '', 12); // Texto normal para el valor
+        $pdf->Cell(0, 10, date("d/m/Y", strtotime($row['fecha'])), 0, 1);
+
+        $pdf->SetFont('Arial', 'B', 12); // Negrita para el nombre del campo
+        $pdf->Cell(40, 10, "Metodo de Pago:", 0, 0);
+        $pdf->SetFont('Arial', '', 12); // Texto normal para el valor
+        $pdf->Cell(0, 10, $row['metodopago'], 0, 1);
+
+        $pdf->Ln(5); // Espacio entre registros
+
+        // Texto de agradecimiento centrado y en cursiva
+        $pdf->SetFont('Arial', 'I', 12);
+        $pdf->Cell(0, 10, '¡Gracias por su pago!', 0, 0, 'C');
     }
 } else {
+    $pdf->SetFont('Arial', 'B', 12); // Negrita en caso de error
     $pdf->Cell(0, 10, 'No se encontraron datos para el último ID de carga de pago.', 0, 1);
 }
 
 // Pie de página
-$pdf->SetY(-30);
+$pdf->SetY(-30); // Ajusta el pie de página más cerca del borde
 $pdf->SetFont('Arial', 'I', 10);
-$pdf->Cell(0, 10, 'Gracias por su pago!', 0, 0, 'C');
+$pdf->Cell(0, 10, 'Este es un comprobante generado automáticamente.', 0, 0, 'C');
 
-// Salida
+// Salida del archivo
 $pdf->Output('D', 'comprobante_pago.pdf');
 
 $stmt->close();

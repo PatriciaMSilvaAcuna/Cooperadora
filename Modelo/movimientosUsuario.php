@@ -39,7 +39,20 @@ if (isset($_POST['dni'], $_POST['fechaInicio'], $_POST['fechaFin'])) {
     $results = ['usuario' => [], 'alumno' => [], 'pagos' => []];
 
     // Consultar información del usuario
-    $sql_usuario = "SELECT * FROM usuario WHERE idusuario = ?";
+    $sql_usuario = "SELECT 
+    usuario.idusuario, 
+    usuario.dniusuario, 
+    usuario.mailusuario, 
+    tipousuario.tipousuario, 
+    usuario.usuarioactivo
+FROM 
+    usuario
+INNER JOIN 
+    tipousuario 
+ON 
+    usuario.idtipousuario = tipousuario.idtipousuario
+WHERE 
+    usuario.idusuario =  ?";
     $stmt_usuario = $conexion->prepare($sql_usuario);
     $stmt_usuario->bind_param("i", $idusuario);
     $stmt_usuario->execute();
