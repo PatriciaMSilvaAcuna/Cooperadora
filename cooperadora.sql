@@ -343,3 +343,32 @@ BEGIN
 END//
 DELIMITER 
 
+DROP TRIGGER IF EXISTS actualizar_deuda_alumno_con_pago;
+
+DELIMITER //
+CREATE TRIGGER actualizar_deuda_alumno_con_pago
+AFTER INSERT ON cargapago
+FOR EACH ROW
+BEGIN
+    DECLARE deuda_actual DECIMAL(10,2);
+    DECLARE nueva_deuda DECIMAL(10,2);
+
+    -- Obtener la deuda actual del alumno
+    SELECT deuda 
+    INTO deuda_actual 
+    FROM alumno
+    WHERE idalumno = NEW.idalumno;
+
+    -- Verificar si el concepto es el deseado (por ejemplo, si idconcepto = 2)
+    IF NEW.idconcepto = 2 THEN
+        -- Restar el valor abonado a la deuda actual
+        SET nueva_deuda = deuda_actual - NEW.valorabonado;
+
+        -- Actualizar la deuda del alumno
+        UPDATE alumno
+        SET deuda = nueva_deuda
+        WHERE idalumno = NEW.idalumno;
+    END IF;
+
+END//
+DELIMITER ;
