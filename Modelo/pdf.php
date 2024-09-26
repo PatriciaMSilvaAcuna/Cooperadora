@@ -95,7 +95,7 @@ if ($result && $result->num_rows > 0) {
 // Pie de página
 $pdf->SetY(-30); // Ajusta el pie de página más cerca del borde
 $pdf->SetFont('Arial', 'I', 10);
-$pdf->Cell(0, 10, 'Este es un comprobante generado automáticamente.', 0, 0, 'C');
+//$pdf->Cell(0, 10, 'Este es un comprobante generado automáticamente.', 0, 0, 'C');
 
 // Salida del archivo
 $pdf->Output('D', 'comprobante_pago.pdf');
