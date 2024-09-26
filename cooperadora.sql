@@ -303,6 +303,9 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-08-16 20:09:34
+-- se agrega campo alumnoactivo 0 inactivo 1 activo
+ALTER TABLE `cooperadora`.`alumno` 
+ADD COLUMN `alumnoactivo` INT(1) NOT NULL AFTER `fechaalta`;
 
 drop trigger if exists actualizar_deuda_alumno 
 
