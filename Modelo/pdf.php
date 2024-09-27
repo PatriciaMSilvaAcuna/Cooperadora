@@ -85,7 +85,7 @@ if ($result && $result->num_rows > 0) {
 
         // Texto de agradecimiento centrado y en cursiva
         $pdf->SetFont('Arial', 'I', 12);
-        $pdf->Cell(0, 10, '¡Gracias por su pago!', 0, 0, 'C');
+        $pdf->Cell(0, 10, ' ¡Gracias por su pago! ', 0, 0, 'C');
     }
 } else {
     $pdf->SetFont('Arial', 'B', 12); // Negrita en caso de error
