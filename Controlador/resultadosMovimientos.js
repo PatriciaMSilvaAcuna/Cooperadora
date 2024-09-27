@@ -6,7 +6,6 @@ $(document).ready(function () {
     console.log("Fecha Inicio:", fechaInicio);
     console.log("Fecha Fin:", fechaFin);
 
-
     if (dni && fechaInicio && fechaFin) {
         $.ajax({
             type: "POST",
@@ -46,7 +45,6 @@ function mostrarDatos(datos) {
         tablaUsuario.innerHTML = '';
         if (datos.usuario && Array.isArray(datos.usuario) && datos.usuario.length > 0) {
             datos.usuario.forEach(usuario => {
-                // Convertimos usuarioactivo en leyenda "ACTIVO" o "INACTIVO"
                 const estadoUsuario = usuario.usuarioactivo === 1 ? 'ACTIVO' : 'INACTIVO';
                 
                 const fila = document.createElement('tr');
@@ -88,14 +86,14 @@ function mostrarDatos(datos) {
         tablaPagos.innerHTML = '';
         if (datos.pagos && Array.isArray(datos.pagos) && datos.pagos.length > 0) {
             datos.pagos.forEach(pago => {
-                const valorabonado = (typeof pago.ValorAbonado === 'number') ? pago.ValorAbonado.toFixed(2) : '0.00';
+                const valorabonado = (typeof pago.valorabonado === 'number') ? pago.valorabonado.toFixed(2) : '0.00';
                 const fila = document.createElement('tr');
                 fila.innerHTML = `
                     <td>${pago.idcargapago || 'No disponible'}</td>
                     <td>${pago.fecha || 'No disponible'}</td>
                     <td>$${valorabonado || '0.00'}</td>
-                    <td>${pago.idmetodopago || 'No disponible'}</td>
-                    <td>${pago.idconcepto || 'No disponible'}</td>
+                    <td>${pago.metodo_pago || 'No disponible'}</td>   <!-- Cambiado para usar metodo_pago -->
+                    <td>${pago.concepto || 'No disponible'}</td>     <!-- Cambiado para usar concepto -->
                 `;
                 tablaPagos.appendChild(fila);
             });

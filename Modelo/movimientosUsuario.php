@@ -39,19 +39,14 @@ if (isset($_POST['dni'], $_POST['fechaInicio'], $_POST['fechaFin'])) {
     $results = ['usuario' => [], 'alumno' => [], 'pagos' => []];
 
     // Consultar información del usuario
-    $sql_usuario = "SELECT 
-    usuario.idusuario, 
-    usuario.dniusuario, 
-    usuario.mailusuario, 
-    tipousuario.tipousuario, 
-    usuario.usuarioactivo
-FROM 
+    $sql_usuario = "SELECT usuario.idusuario, usuario.dniusuario,  usuario.mailusuario,tipousuario.tipousuario, usuario.usuarioactivo
+    FROM 
     usuario
-INNER JOIN 
-    tipousuario 
-ON 
-    usuario.idtipousuario = tipousuario.idtipousuario
-WHERE 
+        INNER JOIN 
+          tipousuario 
+                     ON 
+                   usuario.idtipousuario = tipousuario.idtipousuario
+                  WHERE 
     usuario.idusuario =  ?";
     $stmt_usuario = $conexion->prepare($sql_usuario);
     $stmt_usuario->bind_param("i", $idusuario);
@@ -70,7 +65,26 @@ WHERE
     $stmt_alumno->close();
 
     // Consultar información de pagos dentro del rango de fechas
-    $sql_pagos = "SELECT * FROM cargapago WHERE idusuario = ? AND fecha BETWEEN ? AND ?";
+    $sql_pagos = "SELECT 
+    cp.idcargapago,
+    cp.fecha,
+    cp.valorabonado,
+    c.concepto as concepto,
+    a.idalumno,
+    mp.metodopago AS metodo_pago
+FROM 
+    cargapago cp
+JOIN 
+    usuario u ON cp.idusuario = u.idusuario
+JOIN 
+    metodopago mp ON cp.idmetodopago = mp.idmetodopago
+JOIN    
+    alumno a ON cp.idalumno = a.idalumno
+JOIN 
+    concepto c ON cp.idconcepto = c.idconcepto    
+WHERE 
+    u.idusuario = ? AND cp.fecha BETWEEN ? AND ?;
+";
     $stmt_pagos = $conexion->prepare($sql_pagos);
     $stmt_pagos->bind_param("iss", $idusuario, $fechaInicio, $fechaFin);
     $stmt_pagos->execute();
