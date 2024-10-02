@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (isset($_POST['baja'])) {
         $id_carrera = $_POST['id_carrera'];
         if (!empty($id_carrera)) {
-            $sql = "DELETE FROM carrera WHERE id_carrera = ?";
+            $sql = "DELETE FROM carrera WHERE idcarrera = ?";
             $stmt = $conexion->prepare($sql);
             if ($stmt) {
                 $stmt->bind_param("i", $id_carrera);
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Obtener la lista de carreras
 $carreras = [];
 if ($conexion) {
-    $sql = "SELECT id_carrera, carrera FROM carrera";
+    $sql = "SELECT idcarrera, carrera FROM carrera";
     $resultado = $conexion->query($sql);
     if ($resultado->num_rows > 0) {
         while ($fila = $resultado->fetch_assoc()) {
@@ -64,6 +64,8 @@ if ($conexion) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Carreras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -120,7 +122,7 @@ if ($conexion) {
                     <tbody>
                         <?php foreach ($carreras as $carrera): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($carrera['id_carrera']); ?></td>
+                                <td><?php echo htmlspecialchars($carrera['idcarrera']); ?></td>
                                 <td><?php echo htmlspecialchars($carrera['carrera']); ?></td>
                             </tr>
                         <?php endforeach; ?>
@@ -133,8 +135,8 @@ if ($conexion) {
             </div>
         <?php endif; ?>
 
-        <div class="row mt-5">
-            <!-- Formulario para alta de carrera -->
+       <!--   <div class="row mt-5">
+           Formulario para alta de carrera 
             <div class="col-md-6">
                 <div class="form-container">
                     <h5 class="text-center">Alta de Carrera</h5>
@@ -148,9 +150,9 @@ if ($conexion) {
                         </button>
                     </form>
                 </div>
-            </div>
+            </div>-->
 
-            <!-- Formulario para baja de carrera -->
+        <!-- Formulario para baja de carrera 
             <div class="col-md-6">
                 <div class="form-container">
                     <h5 class="text-center">Baja de Carrera</h5>
@@ -165,11 +167,11 @@ if ($conexion) {
                     </form>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <!-- Botón para volver al índice -->
         <div class="text-center mt-4">
-            <a href="../Vista/consultas.html" class="btn btn-primary btn-custom">
+            <a href="../Vista/gestionarCarreras.html" class="btn btn-primary btn-custom">
                 <i class="fas fa-arrow-left"></i> Volver al índice
             </a>
         </div>
