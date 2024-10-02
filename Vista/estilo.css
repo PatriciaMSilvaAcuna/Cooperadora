@@ -1,3 +1,6 @@
+h1 {
+  color: #9EECFF; /* Color a mis H1 */
+}
 #button {
     background-color: #0A16D8;
     color: #ffffff; /* Color del texto */
@@ -139,4 +142,28 @@ tr:hover {
 
 .table-striped tbody tr:hover {
     background-color: #f1f1f1;
+}
+#altaAlumno .form-control {
+    width: 50%;
+    margin: auto;
+}
+
+#altaAlumno .custom-card {
+    max-width: 600px;
+    margin: auto;
+}
+
+#altaAlumno .mi-boton {
+    width: 45%;
+}
+
+@media (max-width: 576px) {
+    #altaAlumno .form-control {
+        width: 100%;
+    }
+
+    #altaAlumno .mi-boton {
+        width: 100%;
+        margin-top: 10px;
+    }
 }

@@ -39,15 +39,19 @@ if (isset($_POST['dni'], $_POST['fechaInicio'], $_POST['fechaFin'])) {
     $results = ['usuario' => [], 'alumno' => [], 'pagos' => []];
 
     // Consultar información del usuario
-    $sql_usuario = "SELECT usuario.idusuario, usuario.dniusuario,  usuario.mailusuario,tipousuario.tipousuario, usuario.usuarioactivo
-    FROM 
+    $sql_usuario = "SELECT 
+    usuario.idusuario, 
+    usuario.dniusuario,  
+    usuario.mailusuario,
+    tipousuario.tipousuario, 
+    usuario.usuarioactivo
+FROM 
     usuario
-        INNER JOIN 
-          tipousuario 
-                     ON 
-                   usuario.idtipousuario = tipousuario.idtipousuario
-                  WHERE 
-    usuario.idusuario =  ?";
+INNER JOIN 
+    tipousuario ON usuario.idtipousuario = tipousuario.idtipousuario
+WHERE 
+    usuario.idusuario = ?";
+
     $stmt_usuario = $conexion->prepare($sql_usuario);
     $stmt_usuario->bind_param("i", $idusuario);
     $stmt_usuario->execute();
@@ -56,9 +60,21 @@ if (isset($_POST['dni'], $_POST['fechaInicio'], $_POST['fechaFin'])) {
     $stmt_usuario->close();
 
     // Consultar información del alumno
-    $sql_alumno = "SELECT * FROM alumno WHERE idusuario = ?";
+    $sql_alumno = "SELECT 
+    a.idalumno,
+    a.nombre,
+    a.apellido,
+    a.mail,
+    a.deuda,
+    a.fechaalta
+    
+FROM 
+    alumno a 
+WHERE 
+    a.idusuario = ? AND a.fechaalta BETWEEN ? AND ?;
+";
     $stmt_alumno = $conexion->prepare($sql_alumno);
-    $stmt_alumno->bind_param("i", $idusuario);
+    $stmt_alumno->bind_param("iss", $idusuario, $fechaInicio, $fechaFin);
     $stmt_alumno->execute();
     $result_alumno = $stmt_alumno->get_result();
     $results['alumno'] = $result_alumno->fetch_all(MYSQLI_ASSOC);
