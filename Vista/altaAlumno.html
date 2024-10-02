@@ -9,32 +9,7 @@
     <link rel="stylesheet" href="./estilo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <style>
-        .form-control {
-            width: 50%;
-            margin: auto;
-        }
-
-        .custom-card {
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .mi-boton {
-            width: 45%;
-        }
-
-        @media (max-width: 576px) {
-            .form-control {
-                width: 100%;
-            }
-
-            .mi-boton {
-                width: 100%;
-                margin-top: 10px;
-            }
-        }
-    </style>
+    
 </head>
 <body>
     <header>
@@ -52,7 +27,7 @@
     </header>
 
     <div class="container-fluid text-center h-100">
-        <div class="card custom-card">
+        <div class="card custom-card alta-alumno-card">
             <br>
             <h1 style="color: skyblue;">Alta de Alumno</h1>
             <br>
@@ -89,7 +64,8 @@
                 </fieldset>
                 <br>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-outline-dark btn-lg mi-boton" onclick="window.history.back()">Volver</button>
+                    <button type="button" class="btn btn-outline-dark btn-lg mi-boton" id="volverBtn">Volver</button>
+
 
                     <button type="button" class="btn btn-outline-primary btn-lg mi-boton" id="darAlta">Dar de Alta</button>
                 </div>
@@ -100,8 +76,12 @@
 
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="../Controlador/altaAlumno.js"></script>
         <script src="../Controlador/tipoUsuario.js"></script>
+        <script src="../Controlador/altaAlumno.js"></script>
+        
     </div>
 </body>
+<footer class="text-center bg-dark text-white py-3 fixed-bottom">
+       <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
+</footer>   
 </html>
