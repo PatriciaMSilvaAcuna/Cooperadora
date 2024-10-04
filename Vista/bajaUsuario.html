@@ -26,7 +26,7 @@
 
 </header>
 <body>
-   <div class="container-fluid text-center h-100">
+   <div class="container-fluid text-center h-100 w-50">
         <div class="card custom-card">
             <br>
             <h1 style="color: skyblue;"> Baja de Usuario</h1>
@@ -36,7 +36,10 @@
             <button class="btn btn-lg btn-primary" type="button" id="getUser">Comprobar Usuario</button>
             <table id="usuario"></table>
             <td>
-    <button class="btn btn-danger btn-sm" type="button "button id="btnDarDeBaja">Dar de baja</button>
+                <div class="d-flex justify-content-between">
+                 <button type="button" class="btn btn-outline-dark btn-lg mi-boton" id="volverBtn" onclick="window.location.href='gestionarUsuario.html'">Volver</button>
+    <button class="btn btn-outline-danger btn-lg mi-boton" type="button "button id="btnDarDeBaja">Dar de baja</button>
+</div>
             <br>
             
                     
@@ -46,7 +49,7 @@
         </div>
     </div>
     <br>
-    <button type="button" class="btn btn-outline-secondary btn-lg ms-3" onclick="window.location.href='gestionarUsuario.html'">Volver</button>
+  
     <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     
