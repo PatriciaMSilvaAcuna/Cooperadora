@@ -57,24 +57,34 @@
                     <label for="mailusuario">Mail del Usuario:</label>
                     <input class="form-control form-control-lg" type="text" id="mailusuario" name="mailusuario" required>
 
+                    <!-- Nuevo select para elegir el tipo de usuario -->
+                    <label for="idtipousuario">Tipo de Usuario:</label>
+                    <select class="form-control form-control-lg" id="idtipousuario" name="idtipousuario">
+                        <option value="0">Administrador</option>
+                        <option value="1">Operador</option>
+                    </select>
+
                     <div class="forcheck form-control-lg">
-                    <label for="usuario_activo">Estado:</label>
-                    <input class="formu-checkbox" type="checkbox" id="usuario_activo" name="usuario_activo" value="1">
-                    <label class="formu-checkbox" for="usuario_activo"data-checked-text="Usuario activo" data-unchecked-text="Usuario Inactivo"></label>
+                        <label for="usuario_activo">Estado:</label>
+                        <input class="formu-checkbox" type="checkbox" id="usuario_activo" name="usuario_activo" value="1">
+                        <label class="formu-checkbox" for="usuario_activo"data-checked-text="Usuario activo" data-unchecked-text="Usuario Inactivo"></label>
+                    </div>
+
         </div>
         <br>
-    <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between">
             <button type="button" class="btn btn-outline-dark  btn-lg mi-boton" onclick="window.location.href='gestionarUsuario.html'">Volver</button>
-                    <button class="btn btn-outline-primary btn-lg mi-boton" type="submit" id="update">Actualizar</button>
+            <button class="btn btn-outline-primary btn-lg mi-boton" type="submit" id="update">Actualizar</button>
+        </div>
     </form>
-                <p id="mensaje"></p>
+    <p id="mensaje"></p>
 </div>
 </div>
 <br>
 <br>
 
-    <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src = "../Controlador/usuario1.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../Controlador/usuario1.js" defer></script>
 </body>
 <br>
 <footer class="text-center bg-dark text-white py-3 fixed-bottom">
@@ -82,5 +92,3 @@
 </footer>   
 
 </html>
-
-

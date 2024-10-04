@@ -43,9 +43,9 @@ function buscarDatosUsuario(){
                             let contrasenia = data[i].contrasenia;
                             let mailusuario = data[i].mailusuario;
                             let usuario_activo = data[i].usuarioactivo;
-                            
+                            let idtipousuario = data[i].idtipousuario;
                             // Llamamos otra función para cargar los inputs con los datos del usuario
-                            cargarInputUsuario(idusuario, Dni_usuario, contrasenia, mailusuario, usuario_activo);
+                            cargarInputUsuario(idusuario, Dni_usuario, contrasenia, mailusuario, usuario_activo, idtipousuario);
                         }
                     }
                 },
@@ -59,14 +59,15 @@ function buscarDatosUsuario(){
         
     
     
-    function cargarInputUsuario(idusuario, Dni_usuario, contrasenia, mailusuario, usuario_activo) {
+    function cargarInputUsuario(idusuario, Dni_usuario, contrasenia, mailusuario, usuario_activo, idtipousuario) {
         // Muestra los datos que se están cargando en la consola para depuración.
         console.log('Cargando datos en el formulario:', {
             idusuario: idusuario,
             Dni_usuario: Dni_usuario,
             contrasenia: contrasenia,
             mailusuario: mailusuario,
-            usuario_activo: usuario_activo
+            usuario_activo: usuario_activo,
+            idtipousuario: idtipousuario
          }); // verifica los datos que se están cargando
         // Establece el valor de los campos del usuario en el formulario.
         $('#idusuario').val(idusuario);
@@ -74,6 +75,7 @@ function buscarDatosUsuario(){
         $('#contrasenia').val(''); // Dejar el campo de contraseña vacío por seguridad
         $('#mailusuario').val(mailusuario);
         $('#usuario_activo').prop('checked', usuario_activo == 1);
+        $('#idtipousuario').val(idtipousuario);
         // Muestra un mensaje en el elemento con id "mensaje" indicando que los datos se han cargado correctamente.
         alert('Datos cargados correctamente.');
         
