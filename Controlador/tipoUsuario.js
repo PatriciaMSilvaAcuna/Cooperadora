@@ -10,9 +10,9 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.tipoUsuario === 0) {
-                    window.location.href = '../Vista/accesoAceptadoAdmin.html'; 
+                    window.location.href = '../Vista/gestionarAlumno.html'; 
                 } else if (response.tipoUsuario === 1) {
-                    window.location.href = '../Vista/accesoAceptadoOperador.html'; 
+                    window.location.href = '../Vista/gestionarOperador.html'; 
                 } else {
                     window.location.href = '../Vista/error.html'; // Default or error page
                 }
