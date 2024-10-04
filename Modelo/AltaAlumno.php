@@ -27,8 +27,8 @@ if (empty($nombre) || empty($apellido) || empty($dni) || empty($mail) || empty($
 }
 
 // Preparamos la consulta para insertar los datos del alumno
-$query = "INSERT INTO alumno (nombre, apellido, dni, mail, idusuario, fechaalta) 
-          VALUES ('$nombre', '$apellido', '$dni', '$mail', '$idUsuario', '$fechaalta')";
+$query = "INSERT INTO alumno (nombre, apellido, dni, mail, idusuario, fechaalta,alumnoactivo) 
+          VALUES ('$nombre', '$apellido', '$dni', '$mail', '$idUsuario', '$fechaalta',1)";
 
 $result = mysqli_query($mysqli, $query);
 

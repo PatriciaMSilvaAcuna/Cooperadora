@@ -311,35 +311,39 @@ drop trigger if exists actualizar_deuda_alumno
 
 DELIMITER //
 CREATE TRIGGER actualizar_deuda_alumno
-AFTER INSERT ON inscripcion
+AFTER INSERT ON inscripcion -- DESPUES DE UNA INSCRIPCION DE CARRERA
 FOR EACH ROW
 BEGIN
     DECLARE v_valorconcepto DECIMAL(10,2);
     DECLARE deuda_actual DECIMAL (10,2);
     DECLARE nueva_deuda DECIMAL(10,2);
-
-    -- Selecciona el valor de valorconcepto desde la tabla administracion
-    SELECT valorconcepto
-    -- guarda el valor obtenido en v_valorconcepto
-    INTO v_valorconcepto
-    FROM administracion
-    WHERE aniovigente = (SELECT MAX(aniovigente) FROM administracion)
-    AND idconcepto = 2;
-   
-   -- traer la deuda del alumno
-   select deuda 
-   into deuda_actual 
-   from alumno
-   where idalumno = NEW.idalumno;
-    -- tenemos al deuda del alumno en variable deuda
-    -- tenemos el idalumno en variable IDALUMNO
-    -- en variable SUMA calculamos la nueva deuda
-   SET nueva_deuda =  deuda_actual + v_valorconcepto;
-
-    -- Actualiza el campo deuda en la tabla alumno para el idalumno insertado en inscripcion
-    UPDATE alumno
-    SET deuda = nueva_deuda
+    DECLARE ultimo_anio_actualizacion DECIMAL(10,2);
+    DECLARE cantidad_inscripciones DECIMAL(10,2);
+    
+	-- Obtener el último AÑO de inscripcion del alumno
+    SELECT (MAX(fechaanual))
+    INTO ultimo_anio_actualizacion -- GUARDA VALOR 2024
+    FROM inscripcion
     WHERE idalumno = NEW.idalumno;
+    
+    	-- Obtener si posee más de una inscripción en el mismo año
+    SELECT COUNT(*) 
+    INTO cantidad_inscripciones -- GUARDA LA CANTIDAD DE 4
+    FROM inscripcion
+    WHERE idalumno = NEW.idalumno
+    AND fechaanual = ultimo_anio_actualizacion;
+    
+    select valorconcepto
+    INTO v_valorconcepto
+    FROM administracion 
+    where idconcepto=2;   
+    
+    if cantidad_inscripciones = 1 then
+		UPDATE alumno
+		SET deuda = v_valorconcepto
+		WHERE idalumno = NEW.idalumno;
+    END IF;
+    
 END//
 DELIMITER 
 
