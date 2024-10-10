@@ -3,11 +3,15 @@ require_once('conexion.php');
 
 // Crear una nueva conexión a la base de datos
 $conexion = conexion();
+session_start(); // Asegúrate de iniciar la sesión
 
 // Procesar la solicitud POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtener el valor de la nueva carrera
-    $nueva_carrera = $_POST['nueva_carrera'];
+ // Verificar si nueva_carrera está definida y no está vacía
+    if (isset($_POST['nueva_carrera']) && !empty($_POST['nueva_carrera'])) {
+        $nueva_carrera = $_POST['nueva_carrera'];
+        
+        // Imprimir la carrera ingresada en los logs de PHP
+        error_log("Carrera ingresada: " . $nueva_carrera);
 
     // Verificar si el campo de nueva carrera no está vacío
     if (!empty($nueva_carrera)) {
@@ -42,7 +46,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Enviar respuesta de error si no se usa el método POST
     echo json_encode(array("status" => "error", "message" => "Método no permitido."));
 }
-
-// Cerrar la conexión a la base de datos
-$conexion->close();
+}
 ?>

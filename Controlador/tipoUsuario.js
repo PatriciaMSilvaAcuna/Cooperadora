@@ -1,5 +1,7 @@
 $(document).ready(function() {
     $('#volverBtn').click(function() {
+        redirectBasedOnUserType()});
+     $('#logoImage').click(function() {
         redirectBasedOnUserType();
     });
 

@@ -1,6 +1,7 @@
 $(document).ready(function() {
     // Vincular el evento click al botón Dar de Alta
-    $('#darAlta').on('click', function() {
+    $('#darAlta').on('click', function(event) {
+         event.preventDefault(); 
         console.log('Botón Dar de Alta clickeado');
         altacarrera();
     });

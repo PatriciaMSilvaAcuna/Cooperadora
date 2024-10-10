@@ -319,6 +319,7 @@ BEGIN
     DECLARE nueva_deuda DECIMAL(10,2);
     DECLARE ultimo_anio_actualizacion DECIMAL(10,2);
     DECLARE cantidad_inscripciones DECIMAL(10,2);
+	DECLARE idmaximo DECIMAL(10,2);
     
 	-- Obtener el último AÑO de inscripcion del alumno
     SELECT (MAX(fechaanual))
@@ -333,10 +334,17 @@ BEGIN
     WHERE idalumno = NEW.idalumno
     AND fechaanual = ultimo_anio_actualizacion;
     
+	SELECT max(idadministracion)
+	INTO idmaximo
+	FROM administracion
+    WHERE aniovigente = (SELECT MAX(aniovigente) FROM administracion)
+    AND idconcepto = 2;
+	
     select valorconcepto
     INTO v_valorconcepto
     FROM administracion 
-    where idconcepto=2;   
+    where idconcepto=2
+	and idadministracion = idmaximo;   
     
     if cantidad_inscripciones = 1 then
 		UPDATE alumno
