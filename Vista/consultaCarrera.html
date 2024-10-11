@@ -95,7 +95,7 @@
 
         function fetchCarreras() {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '../Modelo/listar_carreras.php', true);
+            xhr.open('GET', '../Modelo/lista_de_carreras.php', true);
             xhr.onload = function() {
                 if (this.status === 200) {
                     if (this.responseText.includes('<option')) {
