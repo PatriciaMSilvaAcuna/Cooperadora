@@ -67,53 +67,69 @@ function updateUsuario()/*funcion que va a modificar los datos que
     })
 }
 function saveNewUser() {
-    
-        
     let mailusuario = $('#mailusuario').val().trim();
     let dni = $('#dni').val().trim();
     let contrasenia = $('#contrasenia').val().trim();
     let tipoUsuario = $('#tipoUsuario').val();
 
-     // Verifica si algún campo requerido está vacío
+    // Verifica si algún campo requerido está vacío
     if (mailusuario === '' || contrasenia === '' || dni === '') {
         alert('Por favor, completa todos los campos obligatorios.');
         return; // Detén el envío si algún campo está vacío
     }
+
     // Validación de formato de correo electrónico
-     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mailusuario)) {
-     alert('Formato no válido para correo electrónico.');
-     return;
-}
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mailusuario)) {
+        alert('Formato no válido para correo electrónico.');
+        return;
+    }
+
     // Validación de longitud para el campo de contraseña
     if (contrasenia.length < 4) {
         alert('La contraseña debe tener al menos 4 caracteres.');
         return;
     }
+
+    // Validación del DNI
     if (!/^\d{7,8}$/.test(dni)) {
-    alert('El DNI debe contener entre 7 y 8 dígitos numéricos.');
-    return
+        alert('El DNI debe contener entre 7 y 8 dígitos numéricos.');
+        return;
+    }
 
-}
-
-    let data = $('#formulario').serialize();
-    console.log("Respuesta del servidor:", data); // Imprime la respuesta en la consola
-
-    data += "&function=+1";
-
+    // Verificar si el DNI ya existe
     $.ajax({
         type: 'POST',
         url: '../Modelo/usuario.php',
-        data: data,
+        data: { dni: dni, function: 'checkDNI' }, // Cambia 'checkDNI' por la función que uses en el servidor para verificar el DNI
         dataType: 'JSON',
         success: function(response) {
-          console.log("saveNewUser",response);
-          alert("Usuario dado de alta");
-         // document.getElementById('mensaje').textContent = "Usuario dado de alta"; 
-           // getUser();
-         limpiarForm();
+            if (response.exists) {
+                alert('El DNI ya está registrado.');
+                return; // Detén el proceso si el DNI ya existe
+            } else {
+                // Si el DNI no existe, procede a guardar el nuevo usuario
+                let data = $('#formulario').serialize();
+                data += "&function=+1";
+
+                $.ajax({
+                    type: 'POST',
+                    url: '../Modelo/usuario.php',
+                    data: data,
+                    dataType: 'JSON',
+                    success: function(response) {
+                        console.log("saveNewUser", response);
+                        alert("Usuario dado de alta");
+                        limpiarForm();
+                    }
+                });
+            }
+        },
+        error: function() {
+            alert('DNI ya registrado, Favor Verifique e Intentalo nuevamente.');
         }
-    })
+    });
 }
+
 function getUser() {
     let dni = $('#dni').val(); // Obtener el DNI ingresado
 

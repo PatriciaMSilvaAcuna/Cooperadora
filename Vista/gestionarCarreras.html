@@ -8,108 +8,26 @@
     <link rel="stylesheet" type="text/css" href="./estilo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Gestionar Carreras</title>
-    <style>
-        /* Estilos personalizados */
-        body {
-            background-color: #f8f9fa; /* Fondo suave */
-            font-family: 'Arial', sans-serif;
-        }
+    
+    </head>
+    <header>
+    <div class="Card">
+         <div class="d-flex justify-content-sm-center bg-light">
 
-        header {
-            background-color: #343a40;
-            padding: 20px;
-        }
+            <div class="p-2  flex-fill">
+                <a href= "#" id="logoImage"> 
+                    <img src="../oldlogo.png" alt="LogoInstitucional" width="4%" class="float-start" id="logoImage"></a>
 
-        header img {
-            margin-right: 20px;
-        }
 
-        header button {
-            border-radius: 30px;
-            background-color: #17a2b8;
-            color: white;
-            transition: background-color 0.3s ease;
-        }
 
-        header button:hover {
-            background-color: #138496;
-        }
-
-        h1 {
-            color: #007bff;
-            font-weight: bold;
-        }
-
-        .custom-card {
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            margin-top: 50px;
-        }
-
-        .custom-card button {
-            width: 250px;
-            margin: 10px;
-            border-radius: 50px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .custom-card button:hover {
-            background-color: #007bff;
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .btn-outline-primary {
-            border: 2px solid #007bff;
-            color: #007bff;
-        }
-
-        .btn-outline-secondary {
-            border-radius: 50px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: #6c757d;
-            color: white;
-            transform: scale(1.05);
-        }
-
-        footer {
-            background-color: #343a40;
-            color: white;
-            padding: 20px;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
-        /* Centrando los botones */
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh; /* 
-        }
-
-    </style>
-</head>
-<header>
-    <div class="d-flex align-items-center justify-content-between bg-dark text-white">
-        <div class="p-2">
-            <img src="../oldlogo.png" alt="LogoInstitucional" width="60" class="float-start">
-        </div>
-        <button type="button" class="btn btn-outline-primary btn-lg me-4" onclick="window.location.href='confirmarCerrarSesion.php'">
-            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-        </button>
-    </div>
+            <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="window.location.href='confirmarCerrarSesion.php'">
+            <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+            </div>
+         </div> 
+       </div> 
 </header>
 <body>
-	<div class="container-fluid text-center h-100 button-container">
+	<div class="container-fluid text-center h-100">
         <div class="card custom-card">
             <h1>Gestión Carreras</h1>
             
@@ -124,10 +42,11 @@
     <div class="text-center mt-3">
         <button type="button" class="btn btn-outline-secondary btn-lg" onclick="window.location.href='accesoAceptadoAdmin.html'">Volver</button>
     </div>
-</body>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<footer class="text-center">
+</body>
+<footer class="text-center bg-dark text-white py-3 fixed-bottom">
     <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
 </footer>
 </html>
