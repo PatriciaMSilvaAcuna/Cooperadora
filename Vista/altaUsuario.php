@@ -17,7 +17,9 @@ require 'verificar_sesion.php';
 <header>
       <div class="Card">
          <div class="d-flex justify-content-sm-center bg-light">
-            <div class="p-2  flex-fill"><img src="../oldlogo.png" alt="ISFT182"width="4%" class="float-start">
+            <div class="p-2  flex-fill">
+ <a href= "#" id="logoImage"> 
+                    <img src="../oldlogo.png" alt="LogoInstitucional" width="4%" class="float-start" id="logoImage"></a>
 
             <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="cerrarSesion()">
             <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
@@ -62,7 +64,8 @@ require 'verificar_sesion.php';
     </div>
  <br>
     <table id = "usuarios" border = "3"></table>
-     
+             <script src="../Controlador/botonIcono.js"></script>
+
 <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src = "../Controlador/usuario.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
