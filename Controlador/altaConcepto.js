@@ -21,6 +21,28 @@ function saveNewConcept() {
         return; // Detén el envío si algún campo está vacío
     }
 
+    // Validar el formato de "concepto" (solo letras y espacios)
+    const conceptoRegex = /^[a-zA-Z\s]+$/;
+    if (!conceptoRegex.test(concepto)) {
+        alert('El concepto solo debe contener letras y espacios.');
+        return;
+    }
+
+    // Validar el formato de "valor" (debe ser un número positivo)
+    const valorNum = parseFloat(valor);
+    if (isNaN(valorNum) || valorNum <= 0) {
+        alert('El valor debe ser un número positivo.');
+        return;
+    }
+
+    // Validar el formato de "año" (debe ser un número en el rango 1900 - año actual)
+    const currentYear = new Date().getFullYear();
+    const anioNum = parseInt(anio);
+    if (isNaN(anioNum) || anioNum < 2000 || anioNum > currentYear) {
+        alert('El año debe ser un número entre 2000 y el año actual.');
+        return;
+    }
+
     // Serializa los datos del formulario
     let data = $('#formulario').serialize();
     // Añade la función al conjunto de datos
