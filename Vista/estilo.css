@@ -171,3 +171,7 @@ tr:hover {
     max-width: 600px; /* Ancho específico para esta card */
     margin: auto; /* Centrado */
  }
+.card {
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}

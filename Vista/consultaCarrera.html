@@ -9,53 +9,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="./estilo.css">
     <script src="../Controlador/cerrarSesion.js"></script>     
-    <style>
-        body {
-            background-color: #343a40; /* Fondo oscuro */
-            color: white; /* Texto por defecto en blanco */
-        }
-        .custom-card {
-            background-color: #212529; /* Fondo más oscuro para la tarjeta */
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            color: white; /* Asegurar que el texto dentro de la tarjeta sea blanco */
-        }
-        header {
-            background-color: #007bff;
-            padding: 15px;
-        }
-        header img {
-            margin-right: 20px;
-        }
-        .btn-logout {
-            background-color: #dc3545;
-            color: white;
-        }
-        footer {
-            background-color: #343a40;
-            color: white;
-        }
-        .table-container {
-            margin-top: 30px;
-        }
-        table th {
-            color: white; /* Texto de los encabezados de la tabla en blanco */
-        }
-    </style>
+     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+   <meta http-equiv="Pragma" content="no-cache">
+   <meta http-equiv="Expires" content="0">  
 </head>
 
 <body>
     <header>
-        <div class="container d-flex justify-content-between align-items-center">
-            <img src="../oldlogo.png" alt="LogoInstitucional" width="4%">
-            <button type="button" class="btn btn-logout btn-lg" onclick="window.location.href='confirmarCerrarSesion.php'">
-                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-            </button>
-        </div>
+        <div class="Card">
+         <div class="d-flex justify-content-sm-center bg-light">
+            <div class="p-2  flex-fill"><img src="../oldlogo.png" alt="LogoInstitucional"width="4%" class="float-start">
+
+            <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="window.location.href='confirmarCerrarSesion.php'">
+            <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+            </div>
+         </div> 
+       </div>
     </header>    
 
-    <div class="container text-center mt-5">
+    <div class="container-fluid text-center h-100 w-50">
         <div class="card custom-card">
             <h1 class="mb-4">Consultas por Carrera</h1>
             
@@ -70,7 +42,7 @@
             <!-- Mostrar recaudación por alumno -->
             <div class="table-container">
                 <table class="table table-bordered table-striped mt-4" id="recaudacionTabla">
-                    <thead class="table-dark">
+                    <thead class="table-white">
                         <tr>
                             <th>ID Alumno</th>
                             <th>Total Pagado ($)</th>
@@ -87,114 +59,14 @@
     <div class="text-center mt-3">
         <button type="button" class="btn btn-outline-secondary btn-lg" onclick="window.location.href='accesoAceptadoAdmin.html'">Volver</button>
     </div>
-
-    <!-- Cargar carreras y realizar consulta con AJAX -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchCarreras();
-        });
-
-        function fetchCarreras() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '../Modelo/lista_de_carreras.php', true);
-            xhr.onload = function() {
-                if (this.status === 200) {
-                    if (this.responseText.includes('<option')) {
-                        document.getElementById('carreras').innerHTML += this.responseText;
-                    } else {
-                        console.error('Error al cargar las carreras:', this.responseText);
-                        alert('No se pudieron cargar las carreras. Por favor, verifica tu sesión.');
-                    }
-                } else {
-                    console.error('Error en la solicitud AJAX:', this.status);
-                }
-            };
-            xhr.onerror = function() {
-                console.error('Error en la conexión AJAX.');
-            };
-            xhr.send();
-        }
-
-        function consultarRecaudacion(carreraSeleccionada) {
-            if (carreraSeleccionada) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '../Modelo/consultar_recaudacion_carrera.php?idcarrera=' + carreraSeleccionada, true);
-                xhr.onload = function() {
-                    if (this.status === 200) {
-                        try {
-                            var respuesta = JSON.parse(this.responseText);
-                            
-                            if (respuesta.error) {
-                                console.error('Error en la respuesta PHP:', respuesta.error);
-                                alert('Error al obtener los datos: ' + respuesta.error);
-                                limpiarTabla();
-                                return;
-                            }
-
-                            var data = respuesta.data;
-                            actualizarTabla(data);
-                        } catch (e) {
-                            console.error('Error al parsear JSON:', e);
-                            console.error('Respuesta recibida:', this.responseText);
-                        }
-                    }
-                };
-                xhr.onerror = function() {
-                    console.error('Error en la conexión AJAX.');
-                };
-                xhr.send();
-            } else {
-                limpiarTabla();
-            }
-        }
-
-        function actualizarTabla(data) {
-            var tbody = document.querySelector('#recaudacionTabla tbody');
-            tbody.innerHTML = ''; // Limpiar la tabla antes de actualizar
-
-            if (data.length === 0) {
-                var tr = document.createElement('tr');
-                var td = document.createElement('td');
-                td.setAttribute('colspan', '2');
-                td.classList.add('text-center');
-                td.textContent = 'No hay datos disponibles para la carrera seleccionada.';
-                tr.appendChild(td);
-                tbody.appendChild(tr);
-                return;
-            }
-
-            data.forEach(function(item) {
-                var tr = document.createElement('tr');
-
-                var tdIdAlumno = document.createElement('td');
-                tdIdAlumno.textContent = item.idalumno; // Muestra el ID del alumno
-                tr.appendChild(tdIdAlumno);
-
-                var tdTotalPagado = document.createElement('td');
-                tdTotalPagado.textContent = '$' + parseFloat(item.total_pagado).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                tr.appendChild(tdTotalPagado);
-
-                tbody.appendChild(tr);
-            });
-        }
-
-        function limpiarTabla() {
-            var tbody = document.querySelector('#recaudacionTabla tbody');
-            tbody.innerHTML = '';
-        }
-
-        // Añadir evento onchange al select de carreras
-        document.getElementById('carreras').addEventListener('change', function() {
-            var carreraSeleccionada = this.value;
-            consultarRecaudacion(carreraSeleccionada);
-        });
-    </script>
+     <script src="../Controlador/consultaCarrera.js"></script>
+ 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>   
 </body>
 
-<footer class="text-center py-3 mt-5">
+<footer class="text-center bg-dark text-white py-3 position-fixed fixed-bottom">
     <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
 </footer>    
 </html>
