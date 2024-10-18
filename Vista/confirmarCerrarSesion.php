@@ -20,7 +20,10 @@ require 'verificar_sesion.php';
 <header>
      <div class="Card">
          <div class="d-flex justify-content-sm-center bg-light">
-            <div class="p-2  flex-fill"><img src="../oldlogo.png" alt="ISFT182"width="4%" class="float-start">
+            <div class="p-2  flex-fill">
+              <a href= "#" id="logoImage"> 
+                    <img src="../oldlogo.png" alt="LogoInstitucional" width="4%" class="float-start" id="logoImage"></a>
+
 
             </div>
          </div> 
@@ -50,6 +53,8 @@ require 'verificar_sesion.php';
 </div>
 </div>
 </div>
+                <script src="../Controlador/botonIcono.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="../Controlador/cerrarSesion.js"></script>        
