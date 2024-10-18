@@ -1,5 +1,5 @@
 $(document).ready(function () {
-   // $('#volverBtn').click(function() {
+    $('#volverBtn').click(function() {
         redirectBasedOnUserType();
     });
 
