@@ -46,5 +46,5 @@ session_start(); // Asegúrate de iniciar la sesión
     // Enviar respuesta de error si no se usa el método POST
     echo json_encode(array("status" => "error", "message" => "Método no permitido."));
 }
-}
+
 ?>
