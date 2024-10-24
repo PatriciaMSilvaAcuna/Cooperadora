@@ -7,6 +7,11 @@ $function = $_POST['function'];
 if($function == 1) {echo saveNewUser();}
 else if($function == 2) {echo getUser();}
 else if($function == 3) {echo updateUsuario();}
+else if($function == 'checkDNI') { 
+    echo checkDNI();
+}
+
+
 function saveNewUser()
 {
     $mysqli = conexion(); // Conexión a la base de datos desde el archivo conexion en la carpeta modelo.
@@ -91,3 +96,19 @@ function updateUsuario()/*funcion que va a modificar los datos que contiene actu
     }
 }
 
+function checkDNI() {
+    $mysqli = conexion(); // Conexión a la base de datos.
+
+    $dni = $_POST['dni']; // Obtén el DNI enviado desde el AJAX.
+
+    // Consulta para verificar si el DNI ya está registrado.
+    $stmt = $mysqli->prepare("SELECT COUNT(*) FROM usuario WHERE dniusuario = ?");
+    $stmt->bind_param("s", $dni);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    // Devolvemos un JSON con el resultado.
+    return json_encode(array('exists' => $count > 0));
+}
