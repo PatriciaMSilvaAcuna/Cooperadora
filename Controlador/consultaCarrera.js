@@ -60,7 +60,7 @@
 
         function actualizarTabla(data) {
             var tbody = document.querySelector('#recaudacionTabla tbody');
-            tbody.innerHTML = ''; // Limpiar la tabla antes de actualizar
+            tbody.innerHTML = ''; // Limpia la tabla antes de actualizar
 
             if (data.length === 0) {
                 var tr = document.createElement('tr');
@@ -76,9 +76,9 @@
             data.forEach(function(item) {
                 var tr = document.createElement('tr');
 
-                var tdIdAlumno = document.createElement('td');
-                tdIdAlumno.textContent = item.idalumno; // Muestra el ID del alumno
-                tr.appendChild(tdIdAlumno);
+                var tdIdCarrera = document.createElement('td');
+                tdIdCarrera.textContent = item.idcarrera; // Muestra el ID de la carrera seleccionada
+                tr.appendChild(tdIdCarrera);
 
                 var tdTotalPagado = document.createElement('td');
                 tdTotalPagado.textContent = '$' + parseFloat(item.total_pagado).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});

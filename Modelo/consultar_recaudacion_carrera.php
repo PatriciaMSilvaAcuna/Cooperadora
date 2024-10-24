@@ -12,13 +12,12 @@ if (isset($_GET['idcarrera'])) {
     $idcarrera = intval($_GET['idcarrera']); // Asegurarse de que sea entero
 
     // Consulta para obtener el total pagado por cada alumno para una carrera específica
-    $sql = "SELECT i.idalumno, SUM(cp.valorabonado) AS total_pagado
-            FROM inscripcion i
-            INNER JOIN cargapago cp ON i.idalumno = cp.idalumno
-            WHERE i.idcarrera = ? 
-              AND cp.idconcepto IN (2, 3, 4)
-            GROUP BY i.idalumno
-            ORDER BY total_pagado DESC";
+    $sql = "SELECT i.idcarrera, SUM(cp.valorabonado) AS total_recaudado
+        FROM inscripcion i
+        INNER JOIN cargapago cp ON i.idalumno = cp.idalumno
+        WHERE i.idcarrera = ?
+          AND cp.idconcepto IN (2, 3, 4)
+        GROUP BY i.idcarrera";
 
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
@@ -36,8 +35,8 @@ if (isset($_GET['idcarrera'])) {
         $data = [];
         while ($row = $result->fetch_assoc()) {
             $data[] = [
-                'idalumno' => $row['idalumno'],
-                'total_pagado' => number_format(floatval($row['total_pagado']), 2, '.', '')
+                'idcarrera' => $row['idcarrera'],
+                'total_pagado' => number_format(floatval($row['total_recaudado']), 2, '.', '')
             ];
         }
 
