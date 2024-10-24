@@ -35,7 +35,7 @@ require 'verificar_sesion.php';
    <br>
      <div class="container-fluid">
     <div class="row justify-content-center">
-   <div class="Card col-md-6">
+   <div class="Card col-md-4 rounded-4">
    
    
      <div class="card border-primary mb-3 mt-3" id="cierre">
