@@ -1,24 +1,21 @@
 $(document).ready(function() {
- 
     // Llama a la función inicial para llenar el select con los conceptos
-  getConceptoPago();
+    getConceptoPago();
 
-$('#eliminar').on('click',limpiarForm);
+    $('#eliminar').on('click', limpiarForm);
+    
     // Asociar el evento de cambio del select para obtener el valor actual del concepto
     $('#concepto').on('change', function() {
         let conceptoId = $(this).val();
         if (conceptoId) {
-            // Enviar una solicitud AJAX para obtener el valor actual del concepto
             $.ajax({
                 type: 'POST',
                 url: '../Modelo/getConceptoValor.php',
-                data: {
-                    idconcepto: conceptoId
-                },
+                data: { idconcepto: conceptoId },
                 dataType: 'json',
                 success: function(response) {
-                    $('#valorAbonado').val(response.valorconcepto || ''); // Mostrar el valor actual en el input
-                    $('#aniovigencia').val(response.aniovigente || ''); // Mostrar el año actual en el input
+                    $('#valorAbonado').val(response.valorconcepto || '');
+                    $('#aniovigencia').val(response.aniovigente || '');
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al obtener el valor del concepto:', error);
@@ -32,9 +29,16 @@ $('#eliminar').on('click',limpiarForm);
         let conceptoId = $('#concepto').val();
         let nuevoValor = $('#valorAbonado').val();
         let anioVigencia = $('#aniovigencia').val();
+        
+        // Validar el formato de "año"
+        const currentYear = new Date().getFullYear();
+        const anioNum = parseInt(anioVigencia);
+        if (isNaN(anioNum) || anioNum < 2000 || anioNum > currentYear) {
+            alert('El año debe ser un número entre 2000 y el año actual.');
+            return;
+        }
 
         if (conceptoId && nuevoValor && anioVigencia) {
-            // Enviar una solicitud AJAX para actualizar el precio del concepto
             $.ajax({
                 type: 'POST',
                 url: '../Modelo/updateConcepto.php',
@@ -47,7 +51,6 @@ $('#eliminar').on('click',limpiarForm);
                 success: function(response) {
                     alert(response.message);
                     limpiarForm();
-
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al actualizar el concepto:', error);
@@ -77,6 +80,7 @@ $('#eliminar').on('click',limpiarForm);
         });
     }
 });
+
 function limpiarForm() {
     console.log("Limpieza de form");
     document.getElementById('concepto').value = '';
