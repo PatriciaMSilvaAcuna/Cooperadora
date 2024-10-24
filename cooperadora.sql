@@ -76,6 +76,8 @@ LOCK TABLES `alumno` WRITE;
 /*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
 UNLOCK TABLES;
 
+ALTER TABLE `cooperadora`.`alumno` 
+CHANGE COLUMN `dni` `dni` INT(11) UNSIGNED NOT NULL ;
 --
 -- Table structure for table `cargapago`
 --
