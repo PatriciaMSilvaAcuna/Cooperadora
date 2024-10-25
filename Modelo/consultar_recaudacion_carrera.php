@@ -11,12 +11,21 @@ $conn = conexion(); // Obtener conexión
 if (isset($_GET['idcarrera'])) {
     $idcarrera = intval($_GET['idcarrera']); // Asegurarse de que sea entero
 
-    // Consulta para obtener el total pagado por cada alumno para una carrera específica
-    $sql = "SELECT i.idcarrera, SUM(cp.valorabonado) AS total_recaudado
+    // Consulta para sumar todos los pagos, pero solo sumar la cuota social (concepto = 2) una vez para la primera carrera del alumno
+    $sql = "
+        SELECT i.idcarrera, SUM(cp.valorabonado) AS total_recaudado
         FROM inscripcion i
         INNER JOIN cargapago cp ON i.idalumno = cp.idalumno
         WHERE i.idcarrera = ?
-          AND cp.idconcepto IN (2, 3, 4)
+        AND (cp.idconcepto != 2 -- Sumar todos los conceptos excepto la cuota social
+        OR (cp.idconcepto = 2 
+            AND i.idinscripcion IN (
+                -- Solo sumar la cuota social para la primera inscripción del alumno
+                SELECT MIN(i2.idinscripcion)
+                FROM inscripcion i2
+                WHERE i2.idalumno = i.idalumno
+            )
+        ))
         GROUP BY i.idcarrera";
 
     $stmt = $conn->prepare($sql);
