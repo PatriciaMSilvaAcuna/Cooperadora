@@ -20,6 +20,21 @@ function inscripCarrera() {
         return;
     }
 
+    // Verificar si el alumno ya está inscrito en la misma carrera
+    $queryCheck = "SELECT * FROM inscripcion WHERE idalumno = ? AND idcarrera = ?";
+    $stmtCheck = $mysqli->prepare($queryCheck);
+    $stmtCheck->bind_param('ii', $idalumno, $idcarrera);
+    $stmtCheck->execute();
+    $resultCheck = $stmtCheck->get_result();
+
+    if ($resultCheck->num_rows > 0) {
+        echo json_encode(array("error" => "El alumno ya está inscrito en esta carrera."));
+        $stmtCheck->close();
+        $mysqli->close();
+        return;
+    }
+
+    // Preparar la inserción si no está inscrito
     $query = "INSERT INTO inscripcion (fechaanual, idalumno, idcarrera, idusuario) VALUES (?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
 
@@ -38,6 +53,7 @@ function inscripCarrera() {
         echo json_encode(array("error" => "Error al preparar la consulta: " . $mysqli->error));
     }
 
+    $stmtCheck->close();
     $mysqli->close();
 }
 
