@@ -77,7 +77,10 @@ LOCK TABLES `alumno` WRITE;
 UNLOCK TABLES;
 
 ALTER TABLE `cooperadora`.`alumno` 
-CHANGE COLUMN `dni` `dni` INT(11) UNSIGNED NOT NULL ;
+CHANGE COLUMN `dni` `dni` INT(11) NOT NULL ,
+ADD UNIQUE INDEX `dni_UNIQUE` (`dni` ASC);
+;
+
 --
 -- Table structure for table `cargapago`
 --
