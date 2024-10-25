@@ -299,7 +299,7 @@ INSERT INTO `usuario` VALUES (1,40333222,'1234','martin@gmail.com',0,1);
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 ALTER TABLE `cooperadora`.`usuario` 
-ADD UNIQUE INDEX `dniusuario_UNIQUE` (`dniusuario` ASC) VISIBLE;
+ADD UNIQUE INDEX `dniusuario_UNIQUE` (`dniusuario` ASC);
 ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
