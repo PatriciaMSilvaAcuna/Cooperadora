@@ -15,20 +15,28 @@ if (!isset($_SESSION['idusuario'])) {
 $nombre = $_POST['nombre'];
 $apellido = $_POST['apellido'];
 $dni = $_POST['dni'];
-//$deuda = $_POST['0'];
 $mail = $_POST['mail'];
 $idUsuario = $_SESSION['idusuario'];  // Obtenemos el idusuario de la sesión
 $fechaalta = $_POST['fechaalta'];
-//$deuda = 0;
+
 // Validamos que los datos existan
 if (empty($nombre) || empty($apellido) || empty($dni) || empty($mail) || empty($fechaalta)) {
     echo json_encode(["error" => "Por favor, completa todos los campos obligatorios."]);
     exit;
 }
 
+// Verificar si el DNI ya existe en la base de datos
+$query = "SELECT * FROM alumno WHERE dni = '$dni'";
+$result = mysqli_query($mysqli, $query);
+
+if (mysqli_num_rows($result) > 0) {
+    echo json_encode(["error" => "El DNI ya existe en la base de datos."]);
+    exit;
+}
+
 // Preparamos la consulta para insertar los datos del alumno
-$query = "INSERT INTO alumno (nombre, apellido, dni, mail, idusuario, fechaalta,alumnoactivo) 
-          VALUES ('$nombre', '$apellido', '$dni', '$mail', '$idUsuario', '$fechaalta',1)";
+$query = "INSERT INTO alumno (nombre, apellido, dni, mail, idusuario, fechaalta, alumnoactivo) 
+          VALUES ('$nombre', '$apellido', '$dni', '$mail', '$idUsuario', '$fechaalta', 1)";
 
 $result = mysqli_query($mysqli, $query);
 
