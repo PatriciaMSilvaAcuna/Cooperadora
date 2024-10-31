@@ -93,14 +93,17 @@ $(document).ready(function() {
     }
 
     function getDatosAlumnos() {
-        let dni = $('#dni').val();
-        if (dni) {
-            $.ajax({
-                type: 'POST',
-                url: '../Modelo/getAlumno.php',
-                data: { dni: dni },
-                dataType: 'json',
-                success: function(data) {
+    let dni = $('#dni').val();
+    $('#mensajeNoDatos').hide(); // Ocultar el mensaje antes de realizar la búsqueda
+
+    if (dni) {
+        $.ajax({
+            type: 'POST',
+            url: '../Modelo/getAlumno.php',
+            data: { dni: dni },
+            dataType: 'json',
+            success: function(data) {
+                if (data.length > 0) {
                     let tabla = "<tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>DNI</th><th>Deuda</th></tr>";
                     for (let i = 0; i < data.length; i++) {
                         let id = data[i].idalumno;
@@ -117,16 +120,21 @@ $(document).ready(function() {
                             "</tr>";
                     }
                     $('#alumno').html(tabla);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al obtener los datos del alumno:', error); //Mostrar mensaje de error
+                } else {
+                    // Muestra la leyenda si no hay datos
+                    $('#mensajeNoDatos').show();
+                    $('#alumno').html(''); // Limpia cualquier tabla previa
                 }
-            });
-        } else {
-            alert('Por favor ingrese un DNI.');
-        }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al obtener los datos del alumno:', error);
+            }
+        });
+    } else {
+        alert('Por favor ingrese un DNI.');
     }
-        // Función para obtener los métodos de pago y llenar el select
+}
+    // Función para obtener los métodos de pago y llenar el select
         function getMetodosPago() {
             $.ajax({
                 type: 'POST',

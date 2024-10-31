@@ -10,7 +10,8 @@ $result = $mysqli->query($query);
 
 if ($result) {
     $row = $result->fetch_assoc();
-    $idcargapago = $row['idcargapago'];
+   // Completa el idcargapago con ceros a la izquierda hasta 6 dígitos
+    $idcargapago = str_pad($row['idcargapago'], 6, '0', STR_PAD_LEFT);
 } else {
     echo json_encode(['error' => 'No se pudo obtener el último ID de carga de pago.']);
     exit();
@@ -47,7 +48,8 @@ $pdf->Ln(5); // Reducir espaciado
 $pdf->SetFont('Arial', 'I', 12);
 $pdf->SetTextColor(0, 0, 0);// Negro
 
-$pdf->Cell(0, 10, 'Numero de Comprobante: ' . '0001-' . $idcargapago, 0, 1, 'C');
+
+$pdf->Cell(0, 10, 'Numero de Comprobante: 0001-' . $idcargapago, 0, 1, 'C');
 $pdf->Ln(5); // Reducir espaciado
 
 // Todo el texto en color negro
@@ -77,7 +79,7 @@ if ($result && $result->num_rows > 0) {
         $pdf->Cell(0, 10, date("d/m/Y", strtotime($row['fecha'])), 0, 1);
 
         $pdf->SetFont('Arial', 'B', 12); // Negrita para el nombre del campo
-        $pdf->Cell(40, 10, "Metodo de Pago:", 0, 0);
+        $pdf->Cell(40, 10, "Método de Pago:", 0, 0);
         $pdf->SetFont('Arial', '', 12); // Texto normal para el valor
         $pdf->Cell(0, 10, $row['metodopago'], 0, 1);
 
@@ -85,7 +87,8 @@ if ($result && $result->num_rows > 0) {
 
         // Texto de agradecimiento centrado y en cursiva
         $pdf->SetFont('Arial', 'I', 12);
-        $pdf->Cell(0, 10, ' ¡Gracias por su pago! ', 0, 0, 'C');
+        
+        $pdf->Cell(0, 10, utf8_decode('¡Gracias por su pago!'), 0, 0, 'C');
     }
 } else {
     $pdf->SetFont('Arial', 'B', 12); // Negrita en caso de error
