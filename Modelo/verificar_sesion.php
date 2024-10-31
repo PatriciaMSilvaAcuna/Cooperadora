@@ -1,14 +1,19 @@
 <?php
-// Inicia la sesión si no está iniciada
+// Inicializa la sesión
 session_start();
 
-// Verifica si el usuario no está autenticado
-if (!isset($_SESSION['usuario'])) {
-    // Si no está autenticado, redirige a la página de inicio de sesión con un mensaje de error
-    header("Location: ../index.html");
-    exit(); // Asegura que el script se detenga después de la redirección
+// Establecer un array para almacenar el estado de la sesión
+$response = array();
+
+// Verifica si hay una sesión activa
+if (isset($_SESSION['usuario'])) { // Cambia 'usuario_id' por la variable de sesión que estés usando
+    $response['sesionActiva'] = true; // La sesión está activa
+} else {
+    $response['sesionActiva'] = false; // La sesión no está activa
 }
 
-// Agregar var_dump para verificar las variables de sesión
-var_dump($_SESSION);
+// Configura los encabezados para que se pueda acceder desde JavaScript
+header('Content-Type: application/json'); // Establece el tipo de contenido a JSON
+echo json_encode($response); // Devuelve la respuesta en formato JSON
+exit; // Asegúrate de que no se ejecute más código después de esto
 ?>
