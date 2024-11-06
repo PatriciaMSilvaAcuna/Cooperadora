@@ -12,10 +12,12 @@ function inscripCarrera() {
     
     $idalumno = $_POST['idalumno'];
     $idcarrera = $_POST['idcarrera'];
+    $año = $_POST['año-inscrip']; // Captura el año desde el formulario
     $idusuario = isset($_SESSION['idusuario']) ? $_SESSION['idusuario'] : null;
 
+    
     // Validar si todos los campos están presentes
-    if (empty($idalumno) || empty($idcarrera)) {
+    if (empty($idalumno) || empty($idcarrera) || empty($año)) {
         echo json_encode(array("error" => "Faltan datos para la inscripción."));
         return;
     }
@@ -39,7 +41,7 @@ function inscripCarrera() {
     $stmt = $mysqli->prepare($query);
 
     if ($stmt) {
-        $año = date('Y');
+    
         $stmt->bind_param('siii', $año, $idalumno, $idcarrera, $idusuario);
 
         if ($stmt->execute()) {

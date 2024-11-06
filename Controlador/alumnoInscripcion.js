@@ -18,7 +18,7 @@ function nuevaInscrip() {
     let inscripcionCarrera = $('#inscripcionCarrera').serialize();
     let idalumno = $('#idalumno').val();
     let anual = $('#año-inscrip').val();
-    let dni = $('#dni').val(); // Supongo que tienes este campo en tu formulario
+    let dni = $('#dni').val(); // 
     let mail = $('#mail').val(); // Validación de email
     let idcarrera = $('#idcarrera').val();
 
@@ -142,23 +142,33 @@ function nuevaInscrip() {
     }
 
     // Función que carga los datos del alumno en el formulario
-    function cargaInput(nombre, apellido, dni, idalumno, mail) {
-        console.log('Cargando datos en el formulario:', {
-           nombre: nombre,
-           apellido: apellido,
-           dni: dni,
-           idalumno: idalumno,
-           mail: mail // Incluimos el mail en el log
-        });
+   function cargaInput(nombre, apellido, dni, idalumno, mail) {
+    console.log('Cargando datos en el formulario:', {
+        nombre: nombre,
+        apellido: apellido,
+        dni: dni,
+        idalumno: idalumno,
+        mail: mail
+    });
 
-        $("#nombre").val(nombre);
-        $("#apellido").val(apellido);
-        $("#dni2").val(dni);
-        $("#idalumno").val(idalumno);
-        $("#mail").val(mail); // Nuevo campo para el mail
-        $("#año-inscrip").val(new Date().getFullYear()); // Coloca el año actual
-        alert('Alumno Encontrado.');
-    }
+    $("#nombre").val(nombre);
+    $("#apellido").val(apellido);
+    $("#dni2").val(dni);
+    $("#idalumno").val(idalumno);
+    $("#mail").val(mail);
+
+    // Obtener el año actual y el siguiente
+    const añoActual = new Date().getFullYear();
+    const añoSiguiente = añoActual + 1;
+
+    // Llenar el desplegable de año
+    $("#año-inscrip").empty().append(`
+        <option value="" disabled selected>Seleccionar año</option>
+        <option value="${añoActual}">${añoActual}</option>
+        <option value="${añoSiguiente}">${añoSiguiente}</option>
+    `);
+    alert('Alumno Encontrado.');
+}
 });
 function limpiarFormulario() {
     // Selecciona el formulario y lo reinicia

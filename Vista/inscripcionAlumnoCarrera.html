@@ -49,8 +49,15 @@
                     <form id="inscripcionCarrera">
                         <b><legend class="text-primary">Resultado de busqueda</legend></b>
                         <div class="mb-3">
+                        <div class="custom-select-wrapper">
                             <label for="usuario" class="form-label">Año de inscripción</label>
-                            <input type="text" class="form-control" id="año-inscrip" name="año-inscrip" required readonly/>
+                            <select class="form-control" id="año-inscrip" name="año-inscrip" required>
+                            <option value="" disabled selected>Seleccionar año</option>
+
+                            </select>
+                            <br>
+                            </div>
+                         
                             <label for="usuario" class="form-label">Número de identificación de alumno</label>
                             <input type="text" class="form-control" id="idalumno" name="idalumno"  required readonly/>
                             <label for="usuario" class="form-label">Nombre de alumno</label>
@@ -63,8 +70,9 @@
                             <input type="email"class="form-control" id="mail" name="mail" required readonly>
                             <br>
                                 <div class="custom-select-wrapper">
+                                 <label for="usuario" class="form-label">Carrera</label>   
                                 <select class="form-control form-control-lg" name="idcarrera" id="idcarrera">
-                                <option value="" disabled selected>Carreras</option>
+                                <option value="" disabled selected>Seleccione Carrera</option>
                                 </select>
                             <br>
                         </div>

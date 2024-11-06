@@ -32,9 +32,10 @@ $(document).ready(function() {
         
         // Validar el formato de "año"
         const currentYear = new Date().getFullYear();
+        const nextYear = currentYear + 1;  // Año siguiente
         const anioNum = parseInt(anioVigencia);
-        if (isNaN(anioNum) || anioNum < 2000 || anioNum > currentYear) {
-            alert('El año debe ser un número entre 2000 y el año actual.');
+        if (isNaN(anioNum) || anioNum < 2000 || anioNum > nextYear) {
+            alert('El año debe ser un número entre 2000 como máximo el año siquiente al actual.');
             return;
         }
 

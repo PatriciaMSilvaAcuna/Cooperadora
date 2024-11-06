@@ -79,7 +79,7 @@ if ($result && $result->num_rows > 0) {
         $pdf->Cell(0, 10, date("d/m/Y", strtotime($row['fecha'])), 0, 1);
 
         $pdf->SetFont('Arial', 'B', 12); // Negrita para el nombre del campo
-        $pdf->Cell(40, 10, "Método de Pago:", 0, 0);
+        $pdf->Cell(40, 10, utf8_decode("Método de Pago:"), 0, 0);
         $pdf->SetFont('Arial', '', 12); // Texto normal para el valor
         $pdf->Cell(0, 10, $row['metodopago'], 0, 1);
 
