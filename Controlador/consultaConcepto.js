@@ -1,6 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
     cargarConceptos();
+    
+    const btnConsultar = document.getElementById('btnConsultar');
+    if (btnConsultar) {
+        btnConsultar.addEventListener('click', function() {
+            const idConcepto = document.getElementById('conceptos').value;
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+            consultarRecaudacion(idConcepto, fechaInicio, fechaFin);
+        });
+    } else {
+        console.error('El botón de consulta no se encuentra en el DOM');
+    }
 });
+
 
 function cargarConceptos() {
     fetch('../Modelo/lista_de_conceptos.php')
@@ -16,9 +29,10 @@ function cargarConceptos() {
         .catch(error => console.error('Error en la conexión:', error));
 }
 
-function consultarRecaudacion(idConcepto) {
-    if (idConcepto) {
-        fetch(`../Modelo/consultar_recaudacion_concepto.php?idconcepto=${idConcepto}`)
+function consultarRecaudacion(idConcepto, fechaInicio, fechaFin) {
+    if (idConcepto && fechaInicio && fechaFin) {
+        // Modifica la URL para incluir fechaInicio y fechaFin
+        fetch(`../Modelo/consultar_recaudacion_concepto.php?idconcepto=${idConcepto}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
@@ -31,6 +45,7 @@ function consultarRecaudacion(idConcepto) {
             })
             .catch(error => console.error('Error en la conexión:', error));
     } else {
+        alert('Por favor, selecciona un concepto y un rango de fechas.');
         limpiarTabla();
     }
 }
@@ -65,7 +80,3 @@ function actualizarTabla(datos) {
 function limpiarTabla() {
     document.querySelector('#recaudacionTabla tbody').innerHTML = '';
 }
-
-document.getElementById('conceptos').addEventListener('change', function() {
-    consultarRecaudacion(this.value);
-});

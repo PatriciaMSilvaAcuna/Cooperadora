@@ -19,7 +19,7 @@
     <div class="Card">
          <div class="d-flex justify-content-sm-center bg-light">
             <div class="p-2  flex-fill">
-<a href= "#" id="logoImage"> 
+                    <a href= "#" id="logoImage"> 
                     <img src="../oldlogo.png" alt="LogoInstitucional" width="4%" class="float-start" id="logoImage"></a>
 
             <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="window.location.href='confirmarCerrarSesion.php'">
@@ -30,7 +30,7 @@
 </header>
 
 <body>
-    <div class="container-fluid text-center h-100 w-50">
+    <div class="container-fluid text-center h-100 w-50 mb-5">
         <div class="card custom-card">
             <h1 style="color: skyblue;">Consultas por Concepto</h1>
             
@@ -44,7 +44,19 @@
                 </select>
                 </div>
         
-            
+             <div class="row mt-4">
+                <div class="col-6">
+                    <label for="fechaInicio" class="form-label h5">Fecha de inicio:</label>
+                    <input type="date" id="fechaInicio" class="form-control form-control-lg" placeholder="Fecha de inicio">
+                </div>
+                <div class="col-6">
+                    <label for="fechaFin" class="form-label h5">Fecha de fin:</label>
+                    <input type="date" id="fechaFin" class="form-control form-control-lg" placeholder="Fecha de fin">
+                </div>
+            </div>
+
+
+
             <table class="table table-bordered table-striped mt-4" id="recaudacionTabla">
                 <thead>
                     <tr>
@@ -53,13 +65,21 @@
                     </tr>
                 </thead>
                 <tbody></tbody>
+               
             </table>
-        </div>
+             <button id="btnDescargarExcel" class="btn btn-success mt-3">Descargar en CSV</button>
 
-        <button class="btn btn-outline-secondary mt-3 btn-lg" onclick="window.location.href='gestionarConceptos.html'">Volver</button>
+        </div>
+         <br>
+        <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-dark btn-lg mi-boton" onclick="window.location.href='gestionarConceptos.html'" id="volverBtn">Volver</button>
+                <button type="button" class="btn btn-outline-primary btn-lg mi-boton" id="btnConsultar">Consultar</button>
+            </div>
     </div>
    </div>
-
+</div>
+    <br>
+    <br>
     <footer class="text-center bg-dark text-white py-3 position-fixed fixed-bottom">
         <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
     </footer>

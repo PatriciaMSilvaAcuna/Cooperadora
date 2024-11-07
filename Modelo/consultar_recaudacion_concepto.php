@@ -3,12 +3,15 @@ header('Content-Type: application/json; charset=utf-8');
 include_once('conexion.php');
 $conn = conexion();
 
-if (isset($_GET['idconcepto'])) {
+if (isset($_GET['idconcepto']) && isset($_GET['fechaInicio']) && isset($_GET['fechaFin'])) {
     $idconcepto = intval($_GET['idconcepto']);
+    $fechaInicio = $_GET['fechaInicio'];
+    $fechaFin = $_GET['fechaFin'];
 
     $sql = "SELECT idconcepto, SUM(valorabonado) AS total_recaudado 
             FROM cargapago 
             WHERE idconcepto = ? 
+            AND fecha BETWEEN ? AND ? 
             GROUP BY idconcepto";
 
     $stmt = $conn->prepare($sql);
@@ -17,7 +20,7 @@ if (isset($_GET['idconcepto'])) {
         exit;
     }
 
-    $stmt->bind_param("i", $idconcepto);
+    $stmt->bind_param("iss", $idconcepto, $fechaInicio, $fechaFin);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -32,7 +35,8 @@ if (isset($_GET['idconcepto'])) {
     echo json_encode(['data' => $data]);
     $stmt->close();
 } else {
-    echo json_encode(['error' => 'No se recibió el ID del concepto.']);
+    echo json_encode(['error' => 'Faltan parámetros: idconcepto, fechaInicio o fechaFin.']);
 }
+
 $conn->close();
 ?>
