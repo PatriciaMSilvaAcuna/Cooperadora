@@ -1,7 +1,7 @@
 <?php
-include_once('conexion.php');
+include_once('conexion.php');// Incluye el archivo de conexión a la base de datos, que contiene las credenciales de acceso
 
-// Establecer la conexión con la base de datos
+// Crea una conexión a la base de datos usando la función conexion()
 $mysqli = conexion();
 
 // Obtener los datos de la solicitud POST
@@ -9,6 +9,7 @@ $idconcepto = isset($_POST['idconcepto']) ? intval($_POST['idconcepto']) : 0;
 $valorconcepto = isset($_POST['valorconcepto']) ? $_POST['valorconcepto'] : '';
 $aniovigencia = isset($_POST['aniovigencia']) ? intval($_POST['aniovigencia']) : 0;
 
+// Inicializa un arreglo vacío para almacenar la respuesta que se enviará en formato JSON.
 $response = array();
 
 // Validar que todos los datos necesarios estén presentes

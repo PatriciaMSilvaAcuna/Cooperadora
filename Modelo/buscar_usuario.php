@@ -6,6 +6,7 @@ $Dni_usuario = isset($_POST['Dni_usuario']) ? $_POST['Dni_usuario'] : null;//inf
 
 echo getUsuario($Dni_usuario);//se llama funcion y se pasa por parametro el dni
 
+// Funcion que obtiene los datos del Usuario
 function getUsuario($Dni_usuario) {
     if($Dni_usuario !==null){
     $mysqli = conexion();//conecta la base de datos

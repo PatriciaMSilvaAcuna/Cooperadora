@@ -3,7 +3,7 @@
 
 header('Content-Type: text/html; charset=utf-8'); // Asegura que el contenido se muestre correctamente
 
-include_once('conexion.php');
+include_once('conexion.php');// Incluye el archivo de conexión a la base de datos, que contiene las credenciales de acceso
 
 session_start(); // Iniciar sesión
 
@@ -29,5 +29,6 @@ if ($result->num_rows > 0) {
     echo "<option value=''>No hay carreras disponibles</option>";
 }
 
+// Cierra la conexion con la BBDD.
 $conn->close();
 ?>

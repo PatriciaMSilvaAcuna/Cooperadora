@@ -1,5 +1,7 @@
 <?php
-include_once('conexion.php'); // 
+include_once('conexion.php'); // Archivo de conexión a la base de datos
+// Funcion que maneja la "baja" del usuario.
+// Cambia estado activo(1) a no-activo(0).
 
 function bajaUsuario($userId)
 {

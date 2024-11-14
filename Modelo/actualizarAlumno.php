@@ -9,7 +9,7 @@ try {
     // Captura cualquier excepción y devuelve un mensaje de error en formato JSON
     echo json_encode(['success' => false, 'message' => 'Excepción capturada: ' . $e->getMessage()]);
 }
-
+// Función que actualiza Alumno
 function updateAlumno() {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $mysqli = conexion();
@@ -27,7 +27,7 @@ function updateAlumno() {
             return;
         }
 
-        // Actualizar sin modificar la fecha de alta
+ // Actualiza sin modificar la fecha de alta
         $query = "UPDATE alumno SET nombre = ?, apellido = ?, dni = ?, deuda = ?, mail = ?, alumnoactivo = ? WHERE idalumno = ?";
         $stmt = $mysqli->prepare($query);
 

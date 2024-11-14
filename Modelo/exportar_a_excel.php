@@ -1,7 +1,12 @@
 
 <?php
+// Define que la respuesta será JSON y establece el conjunto de caracteres en UTF-8
 header('Content-Type: application/json; charset=utf-8');
+
+// Incluye el archivo de conexión a la base de datos
 include_once('conexion.php');
+
+// Establece la conexión a la base de datos
 $conn = conexion();
 
 if (isset($_GET['idconcepto'], $_GET['fechaInicio'], $_GET['fechaFin'])) {
@@ -19,15 +24,19 @@ if (isset($_GET['idconcepto'], $_GET['fechaInicio'], $_GET['fechaFin'])) {
         JOIN concepto c ON cp.idconcepto = c.idconcepto
         WHERE cp.idconcepto = ? AND cp.fecha BETWEEN ? AND ?
     ";
-
+    // Prepara la consulta SQL
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
+        // Si hay un error al preparar la consulta, devuelve un mensaje de error en JSON y termina el script
         echo json_encode(['error' => 'Error en la preparación de la consulta.']);
         exit;
     }
-
+     // Vincula los parametros
     $stmt->bind_param("iss", $idConcepto, $fechaInicio, $fechaFin);
+    // Ejecuta la consulta SQL
     $stmt->execute();
+
+    // Obtiene el resultado de la consulta.
     $result = $stmt->get_result();
 
     // Nombre del archivo CSV
@@ -58,9 +67,12 @@ if (isset($_GET['idconcepto'], $_GET['fechaInicio'], $_GET['fechaFin'])) {
 
     // Cerrar el archivo CSV
     fclose($output);
+    // Cierra la consulta
     $stmt->close();
 } else {
     echo json_encode(['error' => 'Faltan parámetros de consulta.']);
 }
+
+// Cierra la conexión a la BBDD
 $conn->close();
 ?>

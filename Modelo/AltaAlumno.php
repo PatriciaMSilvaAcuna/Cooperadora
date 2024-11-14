@@ -3,7 +3,7 @@
 include_once('conexion.php');
 
 $mysqli = conexion();
-session_start(); // Asegúrate de iniciar la sesión
+session_start(); //  inicio la sesión
 
 // Verifica si el idusuario está disponible
 if (!isset($_SESSION['idusuario'])) {
@@ -25,7 +25,7 @@ if (empty($nombre) || empty($apellido) || empty($dni) || empty($mail) || empty($
     exit;
 }
 
-// Verificar si el DNI ya existe en la base de datos
+// Verifica si el DNI ya existe en la base de datos
 $query = "SELECT * FROM alumno WHERE dni = '$dni'";
 $result = mysqli_query($mysqli, $query);
 

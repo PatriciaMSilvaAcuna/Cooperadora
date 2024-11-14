@@ -1,8 +1,8 @@
 <?php
 session_start(); 
-include_once('conexion.php'); 
+include_once('conexion.php'); // Incluye el archivo de conexión a la base de datos, que contiene las credenciales de acceso
 
-$mysqli = conexion();
+$mysqli = conexion();// Crea una conexión a la base de datos usando la función conexion()
 
 if (!isset($_SESSION['idusuario'])) {
     echo json_encode(['status' => 'error', 'message' => 'Usuario no autenticado']);
@@ -17,6 +17,8 @@ $idconcepto = $_POST['concepto'];
 $idalumno = $_POST['idalumno']; 
 $idusuario = $_SESSION['idusuario']; 
 
+
+// Define la consulta SQL que inserta el pago en la respectiva tabla.
 $query = "INSERT INTO cargapago (valorabonado, fecha, idmetodopago, idconcepto, idalumno, idusuario) VALUES (?, ?, ?, ?, ?, ?)";
 $stmt = $mysqli->prepare($query);
 
@@ -33,5 +35,6 @@ if ($stmt) {
     echo json_encode(['status' => 'error', 'message' => 'Error al preparar la consulta']);
 }
 
+// Cierra la conexion a la BBDD.
 $mysqli->close();
 ?>

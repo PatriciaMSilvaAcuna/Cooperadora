@@ -1,6 +1,7 @@
 <?php
-include_once('conexion.php'); 
+include_once('conexion.php');// Incluye el archivo de conexión a la base de datos, que contiene las credenciales de acceso 
 
+// Crea una conexión a la base de datos usando la función conexion()
 $mysqli = conexion();
 
 // Obtener el idconcepto de la solicitud POST

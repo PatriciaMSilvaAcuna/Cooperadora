@@ -37,12 +37,16 @@
             <input type="text" class="form-control form-control-lg" name="dni" id="dni" placeholder="DNI del Usuario" maxlength="20" required>
             <br>
             <button class="btn btn-lg btn-primary" type="button" id="getUser">Comprobar Usuario</button>
-            <table id="usuario"></table>
-            <td>
-                <div class="d-flex justify-content-between">
-                 <button type="button" class="btn btn-outline-dark btn-lg mi-boton" id="volverBtn" onclick="window.location.href='gestionarUsuario.html'">Volver</button>
-    <button class="btn btn-outline-danger btn-lg mi-boton" type="button "button id="btnDarDeBaja">Dar de baja</button>
-</div>
+            <div class="table-responsive">
+            <table id="usuario" class="table table-striped table-bordered"></table>
+        
+
+            </div>    
+            <div class="d-flex justify-content-between">
+                 
+           <button type="button" class="btn btn-outline-dark btn-lg mi-boton" id="volverBtn" onclick="window.location.href='gestionarUsuario.html'">Volver</button>
+          <button class="btn btn-outline-danger btn-lg mi-boton" type="button "button id="btnDarDeBaja">Dar de baja</button>
+         </div>
             <br>
             
                 </form>

@@ -15,10 +15,10 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $usuarioData = $result->fetch_assoc();
     
-    // Iniciar una nueva sesión o reanudar la existente
+// Inicia una nueva sesión o reanudar la existente
     session_start();
 
-    // Agregar variables a la sesión
+// Agrega variables a la sesión
     $_SESSION['usuario'] = $documento;
     $_SESSION['idusuario'] = $usuarioData['idusuario'];  // Asegúrate de usar el campo correcto
     $_SESSION['idtipousuario'] = $usuarioData['idtipousuario'];
@@ -26,7 +26,7 @@ if ($result->num_rows > 0) {
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
     header("Pragma: no-cache");
 
-    // Redirigir al usuario a la página correspondiente
+// Redirige al usuario a la página correspondiente
     if ($usuarioData['idtipousuario'] == 0) {
         header("Location: ../Vista/accesoAceptadoAdmin.html");
     } elseif ($usuarioData['idtipousuario'] == 1) {

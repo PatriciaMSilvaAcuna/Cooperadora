@@ -1,10 +1,13 @@
 <?php
 
-include_once('conexion.php');//contiene los datos de conexion de la base de datos
+include_once('conexion.php');// Incluye el archivo de conexión a la base de datos, que contiene las credenciales de acceso
 
 $dnialumno = isset($_POST['dnialumno']) ? $_POST['dnialumno'] : null;//informacion que se usa del formulario
 
 echo getAlumno($dnialumno);//se llama funcion y se pasa por parametro el dni
+
+
+// Funcion que obtiene los datos del alumno, con el dni como parametro
 
 function getAlumno($dnialumno) {
     if($dnialumno !==null){

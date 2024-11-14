@@ -27,8 +27,12 @@ function getUsuario($dni)/*Creamos  la funcion getUsuario que va a solicitar los
     {/*Recorre la matriz resultado de manera asociativa y se guarda en el array tipo usuario*/
         $usuario[] = $row;
     }
+
+    // Cierra la consulta preparada.
     $stmt->close();
-    $mysqli->close();
+
+    // Cierra la cenxion a la BBDD.
+   $mysqli->close();
 
     return json_encode($usuario);/*convierte los datos a formato json*/
 

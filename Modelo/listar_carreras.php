@@ -1,7 +1,8 @@
 <?php
-session_start();
+session_start(); // Inicia sesion para el manejo de variables de sesion
 require_once('conexion.php');
 
+// esblece una nueva conexion a la BBDD.
 $conexion = conexion();
 
 // Procesar solicitudes de alta y baja

@@ -12,20 +12,20 @@ if (!isset($_POST['function']) || $_POST['function'] !== 'saveNewConcept') {
 echo saveNewConcept();
 
 function saveNewConcept() {
-    // Conectar a la base de datos
+    // Conecta a la base de datos
     $mysqli = conexion();
 
-    // Verificar si la conexión fue exitosa
+    // Verifica si la conexión fue exitosa
     if ($mysqli->connect_error) {
         return json_encode(array("error" => "Error de conexión: " . $mysqli->connect_error));
     }
 
-    // Obtener datos del formulario
+    // Obtengo datos del formulario
     $concepto = $_POST['concepto'];
     $valor = $_POST['valor'];
     $anio = $_POST['anio'];
 
-    // Iniciar una transacción
+    // Inicio una transacción
     $mysqli->begin_transaction();
 
     try {
@@ -38,18 +38,18 @@ function saveNewConcept() {
             throw new Exception("Error en la preparación de la consulta para concepto: " . $mysqli->error);
         }
 
-        // Enlazar el parámetro
+        // Enlaza el parámetro
         $stmt_concepto->bind_param("s", $concepto);
 
-        // Ejecutar la consulta
+        // Ejecuta la consulta
         if (!$stmt_concepto->execute()) {
             throw new Exception("Error al insertar en la tabla concepto: " . $stmt_concepto->error);
         }
 
-        // Obtener el idconcepto del último registro insertado
+        // Obtengo el idconcepto del último registro insertado
         $idconcepto = $stmt_concepto->insert_id;
 
-        // Cerrar la declaración de concepto
+        // Cierro la declaración de concepto
         $stmt_concepto->close();
 
         // Llamada a la consulta para insertar en la tabla administracion
@@ -61,18 +61,18 @@ function saveNewConcept() {
             throw new Exception("Error en la preparación de la consulta para administracion: " . $mysqli->error);
         }
 
-        // Enlazar los parámetros
+        // Enlaza los parámetros
         $stmt_admin->bind_param("sii", $valor, $anio, $idconcepto);
 
-        // Ejecutar la consulta
+        // Ejecuta la consulta
         if (!$stmt_admin->execute()) {
             throw new Exception("Error al insertar en la tabla administracion: " . $stmt_admin->error);
         }
 
-        // Cerrar la declaración de administracion
+        // Cierra la declaración de administracion
         $stmt_admin->close();
 
-        // Confirmar la transacción
+        // Confirma la transacción
         $mysqli->commit();
         
         return json_encode(array("success" => "El Concepto fue dado de alta correctamente."));
@@ -82,7 +82,7 @@ function saveNewConcept() {
         $mysqli->rollback();
         return json_encode(array("error" => $e->getMessage()));
     } finally {
-        // Cerrar la conexión
+        // Cierra la conexión
         $mysqli->close();
     }
 }

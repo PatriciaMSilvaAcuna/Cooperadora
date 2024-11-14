@@ -20,7 +20,8 @@ function getTipoUsuario()/*Creamos  la funcion getUsuario que va a solicitar los
     {/*Recorre la matriz resultado de manera asociativa y se guarda en el array tipo usuario*/
         $tipoUsuario[] = $row;
     }
-
+    
+    // Cierra la conexion a la BBDD.
     $mysqli->close();
 
     return json_encode($tipoUsuario);/*convierte los datos a formato json*/

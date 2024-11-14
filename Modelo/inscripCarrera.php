@@ -1,8 +1,9 @@
 <?php
 header('Content-Type: application/json'); 
-include_once('conexion.php'); 
+include_once('conexion.php'); // Incluye el archivo de conexión a la base de datos, que contiene las credenciales de acceso
 
-session_start(); 
+session_start(); // Inicio sesion para el manejo de las variables de sesion.
+
 
 function inscripCarrera() {
     $mysqli = conexion();
@@ -56,6 +57,8 @@ function inscripCarrera() {
     }
 
     $stmtCheck->close();
+
+    // Cierra la conexion a la BBDD.
     $mysqli->close();
 }
 
