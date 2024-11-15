@@ -11,16 +11,22 @@
     <meta http-equiv="Expires" content="0">
     <title>Cooperadora</title>
 </head>
-<div class="col-12">
-<body class="body width:100 h-100">
+<body class="body col-12">
 
-<div class="container-fluid">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-md-6 d-flex justify-content-center align-items-center">
-            <img src="oldlogo.png" class="img-fluid" alt="Logo Institucional">
+<div class="container-fluid vh-100 d-flex align-items-center">
+    <div class="row w-100">
+        
+        <!-- Columna del Logo -->
+        <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <img src="oldlogo.png" alt="Logo Institucional" class="img-fluid mb-2" style="max-width: 100%; height: auto;">
+            <a href="pdf-Manual/Sistema Cooperadora ISFT 182 - Manual de Usuario.pdf" target="_blank" download="Manual de usuario" class="text-decoration-none text-primary d-flex align-items-center mt-2">
+                <img src="manual.png" alt="Manual" width="25" class="me-2"> Manual de Usuario
+            </a>
         </div>
-        <div class="col-md-6 d-flex justify-content-center align-items-center">
-            <div class="card container p-5 my-5 bg-light text-primary" id="card" style="width: 500px;">
+
+        <!-- Columna del Formulario -->
+        <div class="col-md-6 d-flex align-items-center">
+            <div class="card container p-4 bg-light text-primary" id="card" style="max-width: 500px;">
                 <div class="card-body">
                     <form action="Modelo/ingreso.php" method="post" id="ingreso" class="text-center">
                         <h1 class="card-title">Bienvenido</h1>
@@ -32,31 +38,22 @@
                             <input type="text" class="form-control form-control-lg" name="documento" id="documento" placeholder="Documento" pattern="[a-zA-Z0-9]{4,20}" maxlength="20" required>
                         </div>
                         <br>
-                        <div class="input-group mb-3 ">
+                        <div class="input-group mb-3">
                             <span class="input-group-text bg-primary">
                                 <img src="pass.png" alt="Contraseña" width="20">
                             </span>
-                            <input type="password" class="form-control form-control-lg" name="contrasena" id="contrasena" placeholder="Contraseña"  maxlength="100" required>
+                            <input type="password" class="form-control form-control-lg" name="contrasena" id="contrasena" placeholder="Contraseña" maxlength="100" required>
                         </div>
                         <br>
-                        
-                        <br><br>
                         <input type="submit" class="btn btn-lg btn-secondary" id="button" value="Iniciar sesión">
                     </form>
-         </div>
-         </div>    
-         </div>   
-        <div class="text-center mt-3">
-    <a href="pdf-Manual/Sistema Cooperadora ISFT 182 - Manual de Usuario.pdf" target="_blank" download="Manual de usuario" class="d-flex align-items-left justify-content-center float-start">
-        <img src="manual.png" alt="Manual" width="30" class="me-2">
-        Manual de Usuario
-    </a>
-
+                </div>
             </div>
+        </div>
 
+    </div>
+</div>
 
-</div>
-</div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
