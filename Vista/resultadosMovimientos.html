@@ -81,19 +81,25 @@
                 <!-- Aquí se agregarán las filas dinámicamente -->
             </tbody>
         </table>
-
-        <div style="display: flex; justify-content: center;">
-            <button class="btn btn-outline-dark btn-lg" onclick="window.history.back()">Volver</button>
+        <!-- Botón para Descargar CSV -->
+         <div class="d-flex justify-content-sm-center">
+         
+            <button class="btn btn-outline-dark  mi-boton btn-lg" onclick="window.history.back()">Volver</button>
+           
+        
+            <button class="btn btn-outline-success  mi-boton btn-lg" onclick="downloadCSV()">Descargar CSV</button>
         </div>
+        
     </div>
+    
     <br>
     <br>
     <br>
     <footer class="text-center bg-dark text-white py-3 fixed-bottom">
         <p>© 2024 Cooperadora. Todos los derechos reservados.</p>
     </footer>
-     <script src="../Controlador/verificarSesion.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="../Controlador/verificarSesion.js"></script>
     <script src="../Controlador/resultadosMovimientos.js"></script>
 </body>
 </html>

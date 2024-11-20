@@ -18,7 +18,7 @@ $(document).ready(function() {
 
         if (dnialumno === '') {
             alert('Por favor, complete el campo DNI');
-            return; // Detén el envío si algún campo está vacío
+            return; // Detiene el envío si algún campo está vacío
         } else { 
             $.ajax({
                 type: 'POST', // El tipo de petición va a ser POST

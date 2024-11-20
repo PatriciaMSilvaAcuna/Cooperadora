@@ -104,13 +104,13 @@ function nuevaInscrip() {
             return;
         }
 
-        // Validar que el DNI solo contenga números y que tenga una longitud adecuada
+        // Valida que el DNI solo contenga números y que tenga una longitud adecuada
         if (!/^\d+$/.test(dni) || dni.length < 7 || dni.length > 8) {
             alert('El DNI ingresado no es válido. Debe contener solo números y tener entre 7 y 8 dígitos.');
             return;
         }
 
-        // Realizar la búsqueda del alumno si pasa las validaciones
+        // Realiza la búsqueda del alumno si pasa las validaciones
         $.ajax({
             type : 'POST',
             data: { dni: dni },

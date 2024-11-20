@@ -1,4 +1,4 @@
-
+// Se ejecuta cuando el DOM está completamente cargado
 $(document).ready(function() {
 
     iniciar();//se llama a la función iniciar cuando el documento se encuentra OK
@@ -59,7 +59,7 @@ function buscarDatosUsuario(){
         
     
     
-    function cargarInputUsuario(idusuario, Dni_usuario, contrasenia, mailusuario, usuario_activo, idtipousuario) {
+function cargarInputUsuario(idusuario, Dni_usuario, contrasenia, mailusuario, usuario_activo, idtipousuario) {
         // Muestra los datos que se están cargando en la consola para depuración.
         console.log('Cargando datos en el formulario:', {
             idusuario: idusuario,
@@ -82,8 +82,8 @@ function buscarDatosUsuario(){
     }
 
 
-
-    function actualizarUsuario()/*funcion para actualizar los datos de un cliente*/
+/*funcion para actualizar los datos de un cliente*/
+function actualizarUsuario()
 {
     let formulario = $('#actualizarForm').serialize();
     let idusuario = $('#idusuario').val();
@@ -112,6 +112,7 @@ function buscarDatosUsuario(){
     });
 }
 
+// Función para limpiar el formulario de conceptos
 function limpiarForm() {
     $('#actualizarForm')[0].reset();
 }
