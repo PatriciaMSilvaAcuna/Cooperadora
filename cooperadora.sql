@@ -392,3 +392,52 @@ BEGIN
 
 END//
 DELIMITER ;
+
+DROP procedure IF EXISTS resetDeuda;
+DELIMITER //
+CREATE PROCEDURE resetDeuda()
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE batchSize INT DEFAULT 1000;
+    DECLARE minId INT;
+    DECLARE maxId INT;
+    DECLARE currentYear INT;
+
+    -- Obtener el año actual
+    SET currentYear = YEAR(CURDATE());
+
+    -- Obtener el rango inicial de IDs de alumnos con inscripciones anteriores al año vigente
+    SELECT MIN(a.idalumno) INTO minId 
+    FROM alumno a
+    WHERE EXISTS (
+        SELECT 1
+        FROM inscripcion i
+        WHERE a.idalumno = i.idalumno
+        AND i.fechaanual < currentYear
+    );
+
+    SELECT MAX(a.idalumno) INTO maxId 
+    FROM alumno a
+    WHERE EXISTS (
+        SELECT 1
+        FROM inscripcion i
+        WHERE a.idalumno = i.idalumno
+        AND i.fechaanual < currentYear
+    );
+
+    WHILE minId IS NOT NULL AND minId <= maxId DO
+        -- Actualizar deudas del lote actual
+        UPDATE alumno
+        SET deuda = 0
+        WHERE idalumno IN (
+            SELECT DISTINCT i.idalumno
+            FROM inscripcion i
+            WHERE i.fechaanual < currentYear
+        ) AND idalumno >= minId AND idalumno < minId + batchSize;
+
+        -- Mover al siguiente lote
+        SET minId = minId + batchSize;
+    END WHILE;
+    
+END //
+DELIMITER ;
