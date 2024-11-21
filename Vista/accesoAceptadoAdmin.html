@@ -18,15 +18,15 @@
 <header>
 	  <div class="Card">
          <div class="d-flex justify-content-sm-center bg-light">
-            <div class="p-2  flex-fill"><img src="../oldlogo.png" alt="LogoInstitucional"width="4%" class="float-start">
+            <div class="p-2  flex-fill"><img src="../oldlogo.png" alt="LogoInstitucional"width="4%" class="float-start" id="logoImage">
 
            
              <a href="#" onclick="redirigir(); return false;">
-                  <img src="../config.png" alt="Configuracion" width="4%"id="configuracionImagen" >
+               <img src="../config.png" alt="Configuracion" width="4%"id="configuracionImagen" >
                </a>
             
 
-            <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end" onclick="window.location.href='confirmarCerrarSesion.php'">
+            <button type="button" class="btn btn-outline-primary btn-lg ms-auto float-end"  onclick="window.location.href='confirmarCerrarSesion.php'">
             <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
             </div>
             </div> 
@@ -48,7 +48,8 @@
  </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>   
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>  
+<script src="../Controlador/botonIcono.js"></script>
 <script src="../Controlador/cerrarSesion.js"></script> 
 <script src="../Controlador/verificarSesion.js"></script>
 <script src="../Controlador/configuracion.js"></script>

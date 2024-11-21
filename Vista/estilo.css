@@ -224,13 +224,35 @@ tr:hover {
             background-color: #f3f3f3;
             border: 1px solid #ccc;
             height: 30px;
-        }
+   }
         .progress {
             width: 0;
             height: 100%;
             background-color: green;
-        }
+  }
         .status {
             margin-top: 20px;
-        }
+}
 
+/* Efecto en la imagen del logo */
+#logoImage {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+#logoImage:hover {
+    transform: scale(1.1);  /* Aumenta ligeramente el tamaño */
+    filter: brightness(1.2); /* Hace la imagen más brillante */
+    cursor: pointer;  /* Cambia el cursor a un puntero indicando que es clickeable */
+}
+/* Fijar la imagen en su lugar */
+#configuracionImagen {
+    transition: transform 0.5s ease; /* Para un giro suave */
+    /* No necesitamos animación por defecto, solo transición en hover */
+    pointer-events: auto; /* Habilita la interacción con el gif */
+}
+
+/* Efecto de rotación cuando el mouse pasa sobre la imagen */
+#configuracionImagen:hover {
+    transform: rotate(360deg);  /* Gira la imagen 360 grados */
+    cursor: pointer;  /* Cambia el cursor para indicar que es clickeable */
+}

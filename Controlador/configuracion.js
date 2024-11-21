@@ -3,19 +3,24 @@ function redirigir() {
     window.location.href = 'configuracion.html'; 
 
 }
-// resetear.js
 document.addEventListener('DOMContentLoaded', function() {
-// Función que maneja el evento de hacer clic en el botón de "Resetear"
-document.getElementById("resetear").addEventListener("click", function() {
-    // Muestra un mensaje de confirmación
-    var confirmacion = confirm("¡Advertencia! Estás a punto de poner la deuda de TODOS los alumnos a 0. ¿Estás seguro de que deseas continuar?");
+    // Solo intentar agregar el event listener si el botón existe en el DOM
+    const resetearButton = document.getElementById('resetear');
     
-    if (confirmacion) {
-        // Si el usuario confirma, realizamos la petición AJAX para resetear la deuda
-        resetearDeuda();
+    // Comprobar si el botón existe en el DOM antes de agregar el evento
+    if (resetearButton) {
+        resetearButton.addEventListener('click', function() {
+            // Muestra un mensaje de confirmación
+            var confirmacion = confirm("¡Advertencia! Estás a punto de poner la deuda de TODOS los alumnos a 0. ¿Estás seguro de que deseas continuar?");
+            if (confirmacion) {
+                resetearDeuda();  // Llama a la función que hace el reset
+            }
+        });
+    } else {
+        console.error("El botón con id 'resetear' no se encontró en el DOM.");
     }
 });
-});
+
 function resetearDeuda() {
     console.time("resetearDeuda");
     console.log("Iniciando solicitud AJAX para resetear deuda...");
@@ -44,17 +49,7 @@ function resetearDeuda() {
         timeout: 5000 // Establece un límite de tiempo para la solicitud (5 segundos)
     });
 }
-const imagenConfig = document.getElementById('configuracionImagen');
 
-    // Cambia la imagen a la versión animada cuando el mouse está encima
-    imagenConfig.addEventListener('mouseover', () => {
-        imagenConfig.src = '../config.gif';
-    });
-
-    // Vuelve a la versión estática cuando el mouse sale
-    imagenConfig.addEventListener('mouseout', () => {
-        imagenConfig.src = '../config.png';
-    });
  $(document).ready(function() {
             $('#resetButton').click(function() {
                 resetDeuda();
