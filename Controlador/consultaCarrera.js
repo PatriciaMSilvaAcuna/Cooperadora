@@ -38,6 +38,14 @@ function fetchCarreras() {
             xhr.send();
 }
 
+document.getElementById('carreras').addEventListener('change', function() {
+    var carreraSeleccionada = this.value;  // Obtiene el valor del select
+    console.log('Carrera seleccionada:', carreraSeleccionada);  // Muestra el valor seleccionado en consola
+
+    // Llama a la función para consultar la recaudación de la carrera seleccionada
+    consultarRecaudacion(carreraSeleccionada);
+});
+
 // Función para consultar la recaudación de una carrera seleccionada
 function consultarRecaudacion(carreraSeleccionada) {
             // Si se ha seleccionado una carrera, realiza la consulta AJAX
@@ -61,10 +69,15 @@ function consultarRecaudacion(carreraSeleccionada) {
                                 return;
                             }
                              // Si la respuesta es válida, obtiene los datos de la recaudación
-                            var data = respuesta.data;
+                           var data = respuesta.detalles;
 
                             // Llama a la función para actualizar la tabla con los datos recibidos
                             actualizarTabla(data);
+
+                            //  muestra el total en algún lugar de la interfaz
+                            if (respuesta.total) {
+                         document.getElementById('totalRecaudado').textContent = 'Total recaudado: $' + respuesta.total;
+}
                         } catch (e) {
                             // Si ocurre un error al parsear el JSON, muestra un mensaje de error
                             console.error('Error al parsear JSON:', e);
@@ -84,41 +97,50 @@ function consultarRecaudacion(carreraSeleccionada) {
             }
 }
 
-// Función para actualizar la tabla con los datos de la recaudación
+// Función para actualizar la tabla con los datos de la recaudación detallada
 function actualizarTabla(data) {
-             // Obtiene el cuerpo de la tabla donde se mostrarán los datos
-            var tbody = document.querySelector('#recaudacionTabla tbody');
-            tbody.innerHTML = ''; // Limpia la tabla antes de actualizar con nuevos datos
+    var tbody = document.querySelector('#recaudacionTabla tbody');
+    tbody.innerHTML = ''; // Limpiar la tabla antes de agregar los nuevos datos
 
+    // Si no hay datos, muestra un mensaje indicando que no hay recaudación disponible
+    if (data.length === 0) {
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        td.setAttribute('colspan', '5'); // Hace que la celda ocupe 5 columnas
+        td.classList.add('text-center'); // Centra el texto en la celda
+        td.textContent = 'No hay datos disponibles para la carrera seleccionada.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+    }
 
-            // Si no hay datos, muestra un mensaje indicando que no hay recaudación disponible
-            if (data.length === 0) {
-                var tr = document.createElement('tr');
-                var td = document.createElement('td');
-                td.setAttribute('colspan', '2'); // Hace que la celda ocupe dos columnas
-                td.classList.add('text-center'); // Centra el texto en la celda
-                td.textContent = 'No hay datos disponibles para la carrera seleccionada.';
-                tr.appendChild(td);
-                tbody.appendChild(tr);
-                return;
-            }
-            // Si hay datos, crea una fila para cada elemento en el arreglo
-                data.forEach(function(item) {
-                var tr = document.createElement('tr');
+    // Si hay datos, crea una fila para cada registro individual
+    data.forEach(function(item) {
+        var tr = document.createElement('tr');
+var tdCarrera = document.createElement('td');
+        tdCarrera.textContent = item.carrera || 'N/A';
+        tr.appendChild(tdCarrera);
 
-                 // Crea la celda para mostrar el ID de la carrera
-                var tdIdCarrera = document.createElement('td');
-                tdIdCarrera.textContent = item.idcarrera; // Muestra el ID de la carrera seleccionada
-                tr.appendChild(tdIdCarrera);
+        var tdAlumno = document.createElement('td');
+        tdAlumno.textContent = item.alumno || 'N/A';
+        tr.appendChild(tdAlumno);
 
-                var tdTotalPagado = document.createElement('td');
-                tdTotalPagado.textContent = '$' + parseFloat(item.total_pagado).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}); // Muestra siempre dos decimales
-                tr.appendChild(tdTotalPagado);
+        var tdConcepto = document.createElement('td');
+        tdConcepto.textContent = item.concepto || 'N/A';
+        tr.appendChild(tdConcepto);
 
-                // Agrega la fila a la tabla
-                tbody.appendChild(tr);
-            });
- }
+        var tdValorAbonado = document.createElement('td');
+        tdValorAbonado.textContent = '$' + parseFloat(item.valorabonado).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        tr.appendChild(tdValorAbonado);
+
+        var tdFecha = document.createElement('td');
+        tdFecha.textContent = item.fecha || 'N/A';
+        tr.appendChild(tdFecha);
+
+        tbody.appendChild(tr);
+    });
+}
+
 
 // Función para limpiar la tabla (cuando no hay datos o se selecciona una carrera sin datos)
 function limpiarTabla() {
@@ -134,4 +156,45 @@ function limpiarTabla() {
             consultarRecaudacion(carreraSeleccionada);
         
 
+});
+// Función para convertir la tabla en formato CSV
+function convertirATablaCSV() {
+    var tabla = document.querySelector('#recaudacionTabla');
+    var filas = tabla.querySelectorAll('tr');
+    var csvContenido = 'Carrera,Nombre,Apellido,Concepto,Valor Abonado,Fecha\n'; // Cabecera del CSV
+    
+    // Recorrer las filas de la tabla
+    filas.forEach(function(fila) {
+        var celdas = fila.querySelectorAll('td');
+        var filaCSV = [];
+
+        // Recorrer las celdas de cada fila y agregar a la filaCSV
+        celdas.forEach(function(celda) {
+            filaCSV.push('"' + celda.textContent.trim() + '"');
+        });
+
+        // Si la fila contiene datos (ignorar la fila de cabecera)
+        if (filaCSV.length > 0) {
+            csvContenido += filaCSV.join(',') + '\n';
+        }
+    });
+    
+    return csvContenido;
+}
+// Función para descargar el archivo CSV
+function descargarCSV() {
+    var csv = convertirATablaCSV(); // Convertir la tabla a CSV
+      console.log(csv); // Aquí verificas el contenido generado
+
+    // Crear un enlace temporal para la descarga del archivo CSV
+    var enlace = document.createElement('a');
+    enlace.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv); // Codificar el contenido CSV
+    enlace.target = '_blank';
+    enlace.download = 'recaudacion.csv'; // Nombre del archivo CSV
+    enlace.click(); // Simular clic para iniciar la descarga
+}
+
+// Agregar evento al botón de descarga CSV
+document.getElementById('descargarCSV').addEventListener('click', function() {
+    descargarCSV();
 });

@@ -58,14 +58,23 @@
                         <!-- Datos dinámicos se insertarán aquí -->
                     </tbody>
                 </table>
+                <div>
+    <h3 id="totalRecaudado">Total recaudado: $0.00</h3>
+</div>
+
             </div>
-        </div>
-    </div>
+        
     
-    <div class="text-center mt-3">
-        <button type="button" class="btn btn-outline-secondary btn-lg" onclick="window.location.href='gestionarCarreras.html'">Volver</button>
+    
+    <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-outline-secondary btn-lg mi-boton" onclick="window.location.href='gestionarCarreras.html'">Volver</button>
+    
+    <button type="button" class="btn btn-outline-success btn-lg mi-boton" id="descargarCSV">Descargar CSV</button>
     </div>
-            
+  
+</div>
+</div>
+
     <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
     <script src="../Controlador/botonIcono.js"></script>

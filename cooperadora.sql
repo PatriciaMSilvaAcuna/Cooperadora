@@ -441,3 +441,62 @@ BEGIN
     
 END //
 DELIMITER ;
+DELIMITER $$
+
+CREATE PROCEDURE obtener_recaudacion_carrera(
+    IN idcarrera INT
+)
+BEGIN
+    -- Consulta para los detalles
+    SELECT 
+        c.carrera, 
+        CONCAT(a.nombre, ' ', a.apellido) AS alumno, 
+        co.concepto, 
+        cp.valorabonado, 
+        cp.fecha
+    FROM 
+        inscripcion i
+    INNER JOIN 
+        cargapago cp ON i.idalumno = cp.idalumno
+    INNER JOIN 
+        alumno a ON a.idalumno = cp.idalumno
+    INNER JOIN 
+        carrera c ON c.idcarrera = i.idcarrera
+    INNER JOIN 
+        concepto co ON co.idconcepto = cp.idconcepto
+    WHERE 
+        i.idcarrera = idcarrera
+    AND 
+        (cp.idconcepto != 2  -- Excluir cuota social
+        OR (cp.idconcepto = 2 
+            AND i.idinscripcion IN (
+                SELECT MIN(i2.idinscripcion)
+                FROM inscripcion i2
+                WHERE i2.idalumno = i.idalumno
+            )
+        ))
+    ORDER BY 
+        cp.fecha;
+
+    -- Consulta para el total
+    SELECT 
+        SUM(cp.valorabonado) AS total_recaudado
+    FROM 
+        inscripcion i
+    INNER JOIN 
+        cargapago cp ON i.idalumno = cp.idalumno
+    WHERE 
+        i.idcarrera = idcarrera
+    AND 
+        (cp.idconcepto != 2
+        OR (cp.idconcepto = 2 
+            AND i.idinscripcion IN (
+                SELECT MIN(i2.idinscripcion)
+                FROM inscripcion i2
+                WHERE i2.idalumno = i.idalumno
+            )
+        ));
+END$$
+
+DELIMITER ;
+
