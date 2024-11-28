@@ -38,7 +38,7 @@ function getAlumno($dnialumno) {
         return json_encode($data);
     } else {
         // Retorna un mensaje de error si no se encuentran resultados
-        return json_encode(array('error' => 'No se encontró un usuario con ese DNI.'));
+        return json_encode(array('error' => 'No se encontró alumno con ese DNI.'));
     }
     }
 }

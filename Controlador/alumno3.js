@@ -49,8 +49,8 @@ $(document).ready(function() {
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('Error al obtener los datos del usuario:', error);
-                    alert('Error al obtener los datos del usuario.');
+                    console.error('Error al obtener los datos del alumno:', error);
+                    alert('Error al obtener los datos del alumno.');
                 }
             });
         }
@@ -97,7 +97,7 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Error al actualizar el usuario:', status, error);
+                console.error('Error al actualizar el alumno:', status, error);
                 alert('Error al actualizar los datos. Estado: ' + status + ', Error: ' + error);
             }
         });

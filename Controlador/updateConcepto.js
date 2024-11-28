@@ -45,7 +45,7 @@ $(document).ready(function() {
 
         // Verifica si el año ingresado es válido (entre 2000 y el siguiente año)
         if (isNaN(anioNum) || anioNum < 2000 || anioNum > nextYear) {
-            alert('El año debe ser un número entre 2000 como máximo el año siquiente al actual.');
+            alert('El año debe ser un número entre 2000  y como máximo el año siquiente al actual.');
             return; // Si no es válido, se detiene la ejecución
         }
 
