@@ -441,6 +441,7 @@ BEGIN
     
 END //
 DELIMITER ;
+-- SP Consulta de recaudacion
 DELIMITER $$
 
 CREATE PROCEDURE obtener_recaudacion_carrera(
