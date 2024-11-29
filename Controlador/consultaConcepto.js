@@ -1,125 +1,110 @@
-// Se ejecuta cuando el DOM está completamente cargado
-document.addEventListener('DOMContentLoaded', function() {
-    // Llama a la función para cargar los conceptos al iniciar la página
+$(document).ready(function() {
+    // Cargar conceptos al iniciar
     cargarConceptos();
     
-    // Obtiene el botón de consulta por su id
-    const btnConsultar = document.getElementById('btnConsultar');
+    // Manejar clic en botón consultar
+    $('#btnConsultar').on('click', function() {
+        const idConcepto = $('#conceptos').val();
+        const fechaInicio = $('#fechaInicio').val();
+        const fechaFin = $('#fechaFin').val();
 
-    // Verifica si el botón de consulta existe en el DOM antes de añadirle un event listener
-    if (btnConsultar) {
-        // Añade un evento click al botón de consulta
-        btnConsultar.addEventListener('click', function() {
-            // Obtiene los valores seleccionados de los campos de formulario
-            const idConcepto = document.getElementById('conceptos').value;
-            const fechaInicio = document.getElementById('fechaInicio').value;
-            const fechaFin = document.getElementById('fechaFin').value;
+        // Validar que todos los campos estén completos
+        if (!idConcepto || !fechaInicio || !fechaFin) {
+            alert('Por favor, complete todos los campos antes de consultar.');
+            return;
+        }
 
-            // Llama a la función para consultar la recaudación con los parámetros seleccionados
-            consultarRecaudacion(idConcepto, fechaInicio, fechaFin);
-        });
-    } else {
-        console.error('El botón de consulta no se encuentra en el DOM');
-    }
+        // Validar que la fecha de inicio no sea mayor que la fecha fin
+        if (fechaInicio > fechaFin) {
+            alert('La fecha de inicio no puede ser posterior a la fecha fin.');
+            return;
+        }
 
-    // Obtiene el botón de descarga Excel por su id
-    const btnDescargarExcel = document.getElementById('btnDescargarExcel');
+        consultarRecaudacion(idConcepto, fechaInicio, fechaFin);
+    });
 
-    // Verifica si el botón de descarga existe en el DOM antes de añadirle un event listener
-    if (btnDescargarExcel) {
-        // Añade un evento click al botón de descarga
-        btnDescargarExcel.addEventListener('click', function() {
-            // Obtiene los valores seleccionados de los campos de formulario
-            const idConcepto = document.getElementById('conceptos').value;
-            const fechaInicio = document.getElementById('fechaInicio').value;
-            const fechaFin = document.getElementById('fechaFin').value;
+    // Manejar clic en botón descargar Excel
+    $('#btnDescargarExcel').on('click', function() {
+        const idConcepto = $('#conceptos').val();
+        const fechaInicio = $('#fechaInicio').val();
+        const fechaFin = $('#fechaFin').val();
 
-            // Verifica que se hayan seleccionado los parámetros necesarios
-            if (idConcepto && fechaInicio && fechaFin) {
-                // Construye la URL para el archivo PHP con los parámetros seleccionados
-                const url = `../Modelo/exportar_a_excel.php?idconcepto=${idConcepto}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
+        if (!idConcepto || !fechaInicio || !fechaFin) {
+            alert('Por favor, complete todos los campos antes de descargar.');
+            return;
+        }
 
-                // Crea un enlace temporal para forzar la descarga del archivo
-                const link = document.createElement('a');
-                link.href = url;
-                link.target = '_blank'; // Opcional: abre en una nueva pestaña
-                link.download = ''; // Descarga el archivo con el nombre definido en el servidor
-                document.body.appendChild(link); // Agrega el enlace al DOM
-                link.click(); // Simula un clic en el enlace
-                document.body.removeChild(link); // Elimina el enlace después de la descarga
-            } else {
-                // Si faltan parámetros, muestra una alerta
-                alert('Por favor, selecciona un concepto y un rango de fechas para descargar el Excel.');
-            }
-        });
-    } else {
-        console.error('El botón de descarga Excel no se encuentra en el DOM');
-    }
+        const url = `../Modelo/exportar_a_excel.php?idconcepto=${idConcepto}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
+        window.location.href = url;
+    });
 });
 
-// Función para cargar los conceptos en el select
 function cargarConceptos() {
-    fetch('../Modelo/lista_de_conceptos.php')
-        .then(response => response.text())
-        .then(data => {
-            if (data.includes('<option')) {
-                document.getElementById('conceptos').innerHTML += data;
-            } else {
-                console.error('Error al cargar los conceptos:', data);
-                alert('No se pudieron cargar los conceptos. Verifique su sesión.');
-            }
-        })
-        .catch(error => console.error('Error en la conexión:', error));
-}
-
-// Función para consultar la recaudación de un concepto dentro de un rango de fechas
-function consultarRecaudacion(idConcepto, fechaInicio, fechaFin) {
-    if (idConcepto && fechaInicio && fechaFin) {
-        fetch(`../Modelo/consultar_recaudacion_concepto.php?idconcepto=${idConcepto}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error('Error en la consulta:', data.error);
-                    alert('Error: ' + data.error);
-                    limpiarTabla();
-                    return;
-                }
-                actualizarTabla(data.data);
-            })
-            .catch(error => console.error('Error en la conexión:', error));
-    } else {
-        alert('Por favor, selecciona un concepto y un rango de fechas.');
-        limpiarTabla();
-    }
-}
-
-// Función para actualizar la tabla con los datos de la recaudación
-function actualizarTabla(datos) {
-    const tbody = document.querySelector('#recaudacionTabla tbody');
-    tbody.innerHTML = '';
-    if (datos.length === 0) {
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 2;
-        td.textContent = 'No hay datos disponibles para el concepto seleccionado.';
-        td.classList.add('text-center');
-        tr.appendChild(td);
-        tbody.appendChild(tr);
-        return;
-    }
-    datos.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${item.idconcepto}</td>
-            <td>$${parseFloat(item.total_recaudado).toLocaleString('es-AR', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}</td>`;
-        tbody.appendChild(tr);
+    $.ajax({
+        url: '../Modelo/lista_de_conceptos.php',
+        type: 'GET',
+        success: function(response) {
+            $('#conceptos').append(response);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar conceptos:', error);
+            alert('Error al cargar los conceptos. Por favor, intente nuevamente.');
+        }
     });
 }
 
-// Función para limpiar la tabla
+function consultarRecaudacion(idConcepto, fechaInicio, fechaFin) {
+    $.ajax({
+        url: '../Modelo/consultar_recaudacion_concepto.php',
+        type: 'GET',
+        data: {
+            idconcepto: idConcepto,
+            fechaInicio: fechaInicio,
+            fechaFin: fechaFin
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.error) {
+                alert('Error: ' + response.error);
+                limpiarTabla();
+                return;
+            }
+            actualizarTabla(response.data);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error en la consulta:', error);
+            alert('Error al realizar la consulta. Por favor, intente nuevamente.');
+            limpiarTabla();
+        }
+    });
+}
+
+function actualizarTabla(datos) {
+    const tbody = $('#recaudacionTabla tbody');
+    tbody.empty();
+    
+    if (!datos || datos.length === 0) {
+        tbody.append(`
+            <tr>
+                <td colspan="2" class="text-center">No hay datos disponibles para el concepto seleccionado.</td>
+            </tr>
+        `);
+        return;
+    }
+
+    datos.forEach(function(item) {
+        tbody.append(`
+            <tr>
+                <td>${item.idconcepto}</td>
+                <td>$${parseFloat(item.total_recaudado).toLocaleString('es-AR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}</td>
+            </tr>
+        `);
+    });
+}
+
 function limpiarTabla() {
-    document.querySelector('#recaudacionTabla tbody').innerHTML = '';
+    $('#recaudacionTabla tbody').empty();
 }
